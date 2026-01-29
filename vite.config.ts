@@ -6,6 +6,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
+    base: '/GetIN/',
     server: {
       port: 3000,
       host: '0.0.0.0',
@@ -43,6 +44,7 @@ export default defineConfig(({ mode }) => {
           ]
         },
         workbox: {
+          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
           globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
           runtimeCaching: [
             {
