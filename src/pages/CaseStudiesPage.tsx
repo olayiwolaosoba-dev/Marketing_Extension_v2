@@ -5,7 +5,7 @@ import IndustryFocus from '../components/case-studies/IndustryFocus';
 import CaseStudyGrid from '../components/case-studies/CaseStudyGrid';
 import MarketingOSExplainer from '../components/marketing-os/MarketingOSExplainer';
 import VideoGallery from '../components/media/VideoGallery';
-import ResourceCenter from '../components/resources/ResourceCenter';
+import ResourceCenter from '../components/Resources/ResourceCenter';
 import AuditCTA from '../components/cta/AuditCTA';
 import EngagementModels from '../components/engagement/EngagementModels';
 import Testimonials from '../components/common/Testimonials';
