@@ -3,6 +3,50 @@ import { motion } from 'framer-motion';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+// Partner Logos
+import tlcomLogo from '../assets/partners/tlcom.png';
+import flourishLogo from '../assets/partners/flourish.png';
+import dcgLogo from '../assets/partners/dcg.png';
+
+const VIDEO_IDS = [
+  "M7lc1UVf-VE", // Google Developers
+  "bJzb-RuUcMU", // Product Launch
+  "LXb3EKWsInQ", // Tech/Growth
+  "5qap5aO4i9A", // Lofi Girl (Relaxing)
+];
+
+const RandomVideoPlayer = () => {
+  const [videoId, setVideoId] = React.useState("");
+
+  React.useEffect(() => {
+    const randomId = VIDEO_IDS[Math.floor(Math.random() * VIDEO_IDS.length)];
+    setVideoId(randomId);
+  }, []);
+
+  if (!videoId) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1 }}
+      className="relative aspect-video rounded-2xl overflow-hidden bg-bg-gray group shadow-2xl border border-white/10"
+    >
+      <iframe
+        width="100%"
+        height="100%"
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=0&controls=1&rel=0`}
+        title="YouTube video player"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        className="absolute inset-0 w-full h-full"
+      ></iframe>
+    </motion.div>
+  );
+};
+
 const Hero: React.FC = () => {
   return (
     <section className="relative min-h-screen bg-bg-dark pt-32 pb-20 overflow-hidden clipped-bottom">
@@ -50,47 +94,33 @@ const Hero: React.FC = () => {
             </div>
 
             {/* Metrics Desktop (Staggered Grid) */}
+            {/* Metrics Desktop (Staggered Grid) */}
             <div className="mt-20 hidden lg:grid grid-cols-2 gap-8">
               <div className="p-8 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm hover:border-primary/40 transition-colors duration-300 group">
-                <h4 className="text-4xl font-display font-bold text-white mb-2 group-hover:text-primary transition-colors">95%</h4>
-                <p className="text-white/60 text-sm">client retention rate across all managed accounts</p>
+                <h4 className="text-4xl font-display font-bold text-white mb-2 group-hover:text-primary transition-colors">$100M+</h4>
+                <p className="text-white/60 text-sm">Pipeline Influenced Across fintech, infra, and B2B SaaS.</p>
               </div>
               <div className="p-8 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm hover:border-primary/40 transition-colors duration-300 group">
-                <h4 className="text-4xl font-display font-bold text-white mb-2 group-hover:text-primary transition-colors">+40%</h4>
-                <p className="text-white/60 text-sm">avg. increase in qualified pipeline in first 6 months</p>
+                <h4 className="text-4xl font-display font-bold text-white mb-2 group-hover:text-primary transition-colors">2–4×</h4>
+                <p className="text-white/60 text-sm">Qualified Pipeline Growth Measured across multi-market launches.</p>
               </div>
             </div>
           </motion.div>
 
           {/* Right Column: Sticky Media & Logos */}
           <div className="lg:sticky lg:top-32">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="relative aspect-video rounded-2xl overflow-hidden bg-bg-gray group"
-            >
-              <img
-                src="https://picsum.photos/seed/marketing/800/600"
-                alt="Marketing Dashboard"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/80 to-transparent flex flex-col justify-end p-8">
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-lg shadow-primary/20">
-                  <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[12px] border-l-white border-b-[8px] border-b-transparent ml-1" />
-                </div>
-              </div>
-            </motion.div>
+            {/* Random YouTube Video Player */}
+            <RandomVideoPlayer />
 
             {/* Partner Logos */}
+            {/* Partner Logos */}
             <div className="mt-10">
-              <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-6">Designing products for startups backed by</p>
-              <div className="flex flex-wrap items-center gap-10 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                <div className="text-white font-display text-xl font-bold">Techstars</div>
-                <div className="text-white font-display text-xl font-bold">Y Combinator</div>
-                <div className="text-white font-display text-xl font-bold">Swiss Association</div>
-                <div className="text-white text-xs font-bold">AND MORE</div>
+              <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em] mb-6">Embedded marketing teams for companies backed by world-class investors</p>
+              <div className="flex flex-wrap items-center gap-10 opacity-80 grayscale">
+                <img src={flourishLogo} alt="Flourish Ventures" className="h-6 w-auto object-contain opacity-90" />
+                <img src={tlcomLogo} alt="TLcom Capital" className="h-6 w-auto object-contain opacity-90" />
+                <img src={dcgLogo} alt="Digital Currency Group" className="h-6 w-auto object-contain opacity-90" />
+                <span className="text-white/30 text-[10px] font-bold self-center tracking-widest pl-2 border-l border-white/10">AND MORE</span>
               </div>
             </div>
           </div>

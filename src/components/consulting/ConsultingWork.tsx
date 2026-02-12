@@ -2,37 +2,24 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { caseStudies } from '../../data/caseStudies';
 
 const ConsultingWork: React.FC = () => {
-    const studies = [
-        {
-            id: 1,
-            client: "PayBridge",
-            category: "Fintech",
-            title: "Scaling Cross-Border Liquidity",
-            result: "+120% MQLs in 90 Days",
-            image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=800&h=1000",
-            link: "/case-studies"
-        },
-        {
-            id: 2,
-            client: "Lumify",
-            category: "HealthTech",
-            title: "Optimizing Patient Onboarding",
-            result: "CAC Reduced by 35%",
-            image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800&h=1000",
-            link: "/case-studies"
-        },
-        {
-            id: 3,
-            client: "OpenStream",
-            category: "SaaS",
-            title: "Remote Engineering Collaboration",
-            result: "3x Pipeline Velocity",
-            image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800&h=1000",
-            link: "/case-studies"
-        }
-    ];
+    // Force reload
+    const selectedIds = ['1', '3', '6']; // Zone, Smartcomply, SabiTrack
+    const studies = caseStudies
+        .filter(study => selectedIds.includes(study.id))
+        .map(study => ({
+            id: study.id,
+            client: study.client,
+            category: study.vertical === 'saas' ? 'SaaS' :
+                study.vertical === 'regtech' ? 'RegTech' :
+                    study.vertical.charAt(0).toUpperCase() + study.vertical.slice(1),
+            title: study.title.includes('—') ? study.title.split('—')[1].trim() : study.title,
+            result: study.outcome,
+            image: study.image,
+            link: study.path || '/case-studies'
+        }));
 
     return (
         <section className="py-24 bg-white">

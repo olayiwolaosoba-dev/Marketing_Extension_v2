@@ -18,7 +18,7 @@ import CaseStudies from './components/CaseStudies';
 import IndustriesTabs from './components/IndustriesTabs';
 import TeamSection from './components/TeamSection';
 import WhyChooseUs from './components/WhyChooseUs';
-import Testimonials from './components/Testimonials';
+import TrustMosaic from './components/TrustMosaic';
 import Awards from './components/Awards';
 import ContactSection from './components/ContactSection';
 import MarketingConsulting from './components/MarketingConsulting';
@@ -79,6 +79,10 @@ import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
 import RequestAccess from './pages/Auth/RequestAccess';
 import ForgotPassword from './pages/Auth/ForgotPassword';
+import AboutPage from './pages/AboutPage';
+import CareersPage from './pages/CareersPage';
+import LifePage from './pages/LifePage';
+import AiPage from './pages/AiPage';
 import StrategyCall from './pages/StrategyCall';
 import CaseStudiesPage from './pages/CaseStudiesPage';
 import MarketingConsultingPage from './pages/MarketingConsultingPage';
@@ -93,6 +97,18 @@ import AuditWizard from './pages/audit/AuditWizard';
 import AuditResults from './pages/audit/AuditResults';
 import ContentStudioPage from './pages/services/ContentStudio';
 import MartechAIPage from './pages/services/MartechAI';
+import ZoneCaseStudy from './pages/work/ZoneCaseStudy';
+import CryptoDigitalAssetsPage from './pages/work/CryptoDigitalAssetsPage';
+import RegTechCybersecurityPage from './pages/work/RegTechCybersecurityPage';
+import B2BSaaSServicesPage from './pages/work/B2BSaaSServicesPage';
+import ProfessionalServicesPage from './pages/work/ProfessionalServicesPage';
+import VeryPayCaseStudy from './pages/work/VeryPayCaseStudy';
+import SmartcomplyCaseStudy from './pages/work/SmartcomplyCaseStudy';
+import MercurieCaseStudy from './pages/work/MercurieCaseStudy';
+import QuidaxCaseStudy from './pages/work/QuidaxCaseStudy';
+import SabiTrackCaseStudy from './pages/work/SabiTrackCaseStudy';
+import TamyConsultingCaseStudy from './pages/work/TamyConsultingCaseStudy';
+import PaymentsFintechInfraPage from './pages/work/PaymentsFintechInfraPage';
 
 
 const App: React.FC = () => {
@@ -140,11 +156,17 @@ const App: React.FC = () => {
                 <IndustriesTabs />
                 <TeamSection />
                 <WhyChooseUs />
-                <Testimonials />
+                <TrustMosaic />
                 <Awards />
                 <ContactSection />
               </PublicLayout>
             } />
+
+            {/* About & Careers Routes */}
+            <Route path="/about" element={<PublicLayout><AboutPage /></PublicLayout>} />
+            <Route path="/careers" element={<PublicLayout><CareersPage /></PublicLayout>} />
+            <Route path="/about/life-at-marketing-extension" element={<PublicLayout><LifePage /></PublicLayout>} />
+            <Route path="/about/how-we-use-ai" element={<PublicLayout><AiPage /></PublicLayout>} />
 
             {/* Audit Routes */}
             <Route path="/audit" element={<AuditWizard />} />
@@ -163,7 +185,24 @@ const App: React.FC = () => {
             <Route path="/services/martech/training-enablement" element={<PublicLayout><TrainingEnablementPage /></PublicLayout>} />
             <Route path="/services/content-studio" element={<PublicLayout><ContentStudioPage /></PublicLayout>} />
             <Route path="/services/martech-ai" element={<PublicLayout><MartechAIPage /></PublicLayout>} />
+            <Route path="/services/martech/training-enablement" element={<PublicLayout><TrainingEnablementPage /></PublicLayout>} />
+            <Route path="/services/content-studio" element={<PublicLayout><ContentStudioPage /></PublicLayout>} />
+            <Route path="/services/martech-ai" element={<PublicLayout><MartechAIPage /></PublicLayout>} />
             <Route path="/case-studies" element={<PublicLayout><CaseStudiesPage /></PublicLayout>} />
+
+            {/* Case Studies Detail Pages */}
+            <Route path="/work/zone-regulated-blockchain-payments" element={<PublicLayout><ZoneCaseStudy /></PublicLayout>} />
+            <Route path="/work/verypay-multi-country-marketing-bench" element={<PublicLayout><VeryPayCaseStudy /></PublicLayout>} />
+            <Route path="/work/smartcomply-full-funnel-growth-engine" element={<PublicLayout><SmartcomplyCaseStudy /></PublicLayout>} />
+            <Route path="/work/mercurie-launch-pr-narrative" element={<PublicLayout><MercurieCaseStudy /></PublicLayout>} />
+            <Route path="/work/quidax-don-jazzy-crypto-education" element={<PublicLayout><QuidaxCaseStudy /></PublicLayout>} />
+            <Route path="/work/sabitrack-investor-ready-foundation" element={<PublicLayout><SabiTrackCaseStudy /></PublicLayout>} />
+            <Route path="/work/tamy-consulting-growth-engine" element={<PublicLayout><TamyConsultingCaseStudy /></PublicLayout>} />
+            <Route path="/work/payments-fintech-infra" element={<PublicLayout><PaymentsFintechInfraPage /></PublicLayout>} />
+            <Route path="/work/crypto-digital-assets" element={<PublicLayout><CryptoDigitalAssetsPage /></PublicLayout>} />
+            <Route path="/work/regtech-cybersecurity" element={<PublicLayout><RegTechCybersecurityPage /></PublicLayout>} />
+            <Route path="/work/b2b-saas-services" element={<PublicLayout><B2BSaaSServicesPage /></PublicLayout>} />
+            <Route path="/work/professional-services-consulting" element={<PublicLayout><ProfessionalServicesPage /></PublicLayout>} />
 
             {/* Services */}
             <Route path="/marketing-consulting" element={<PublicLayout><MarketingConsulting /></PublicLayout>} />

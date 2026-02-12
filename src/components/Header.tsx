@@ -26,8 +26,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
     { label: 'Our Work', id: 'our-work', path: '/case-studies', noMega: true },
     { label: 'Why Us', id: 'why-us' },
     { label: 'Resources', id: 'resources' },
-    { label: 'Pricing', id: 'pricing', path: '/pricing', noMega: true },
-    { label: 'Insights', id: 'insights', path: '/insights', noMega: true },
+    { label: 'About Us', id: 'about', path: '/about', noMega: true },
   ];
 
   const closeMenu = () => {
@@ -104,7 +103,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             {location.pathname.startsWith('/academy') ? (
               <div className="flex items-center gap-6">
                 <Link to="/auth/login" className={`text-sm font-bold ${isLightMode ? 'text-text-muted hover:text-text-dark' : 'text-white/80 hover:text-white'} transition-colors`}>
-                  Client Sign In
+                  Sign In
                 </Link>
                 <Link to="/academy/sign-in" className="px-6 py-2.5 rounded-full font-bold text-sm bg-primary text-white hover:bg-primary-dark shadow-lg transition-all duration-300">
                   Student Sign In
@@ -112,7 +111,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               </div>
             ) : (
               <Link to="/auth/login" className={`px-6 py-2.5 rounded-full font-bold text-sm flex items-center gap-2 transition-all duration-300 ${isLightMode ? 'bg-text-dark text-white hover:bg-primary shadow-lg' : 'bg-white text-text-dark hover:bg-primary hover:text-white shadow-lg'}`}>
-                Client Sign In
+                Sign In
               </Link>
             )}
           </div>
@@ -213,22 +212,50 @@ const ServicesMega = ({ onNavigate, closeMenu }: { onNavigate: (page: string) =>
       id: 'marketing-consulting',
       path: '/services/marketing-consulting',
       label: 'Marketing Consulting',
-      items: ['GTM & Launch Strategy', 'Campaign Strategy', 'Audience Research', 'Brand Narrative'],
+      items: [
+        { label: 'GTM & Launch Strategy', path: '/services/marketing-consulting' },
+        { label: 'Campaign Strategy', path: '/services/marketing-consulting' },
+        { label: 'Audience Research', path: '/services/marketing-consulting' },
+        { label: 'Brand Narrative', path: '/services/marketing-consulting' }
+      ],
       img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800'
     },
     {
       id: 'contentplus',
       path: '/contentplus',
       label: 'ContentPlus',
-      items: ['Creative Design Services', 'Specialized Production', 'Copywriting', 'AI Services'],
+      items: [
+        { label: 'Creative Design Services', path: '/contentplus' },
+        { label: 'Specialized Production', path: '/contentplus' },
+        { label: 'Copywriting', path: '/contentplus' },
+        { label: 'AI Services', path: '/contentplus' }
+      ],
       img: 'https://images.unsplash.com/photo-1542435503-956c469947f6?auto=format&fit=crop&q=80&w=800'
     },
     {
       id: 'martech-studio',
       path: '/services/martech',
       label: 'Martech Studio',
-      items: ['Web & Product Experiences', 'Marketing Automation', 'Analytics & Integration', 'AI-First Systems'],
+      items: [
+        { label: 'Web & Product Experiences', path: '/services/martech' },
+        { label: 'Marketing Automation', path: '/services/martech' },
+        { label: 'Analytics & Integration', path: '/services/martech' },
+        { label: 'AI-First Systems', path: '/services/martech' }
+      ],
       img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800'
+    },
+    {
+      id: 'industry-verticals',
+      path: '#',
+      label: 'Industry Verticals',
+      items: [
+        { label: 'Payments & Fintech', path: '/work/payments-fintech-infra' },
+        { label: 'Crypto & Digital Assets', path: '/work/crypto-digital-assets' },
+        { label: 'RegTech & Cybersecurity', path: '/work/regtech-cybersecurity' },
+        { label: 'B2B SaaS Services', path: '/work/b2b-saas-services' },
+        { label: 'Professional Services', path: '/work/professional-services-consulting' }
+      ],
+      img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800'
     },
   ];
 
@@ -239,15 +266,18 @@ const ServicesMega = ({ onNavigate, closeMenu }: { onNavigate: (page: string) =>
       <div className="border-r border-gray-100 pr-12 flex flex-col gap-2">
         <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-4">Core Pillars</p>
         {pillars.map(p => (
-          <Link
+          <button
             key={p.id}
-            to={p.path}
             onMouseEnter={() => setActiveTab(p.id)}
-            onClick={closeMenu}
+            onClick={() => {
+              if (p.path !== '#') {
+                // Optionally navigate when clicking the tab, mostly used for hover though
+              }
+            }}
             className={`text-left py-3 px-4 rounded-xl font-display font-bold text-lg transition-all ${activeTab === p.id ? 'bg-bg-gray text-primary translate-x-2' : 'text-text-muted hover:text-text-dark'}`}
           >
             {p.label}
-          </Link>
+          </button>
         ))}
       </div>
 
@@ -255,17 +285,19 @@ const ServicesMega = ({ onNavigate, closeMenu }: { onNavigate: (page: string) =>
         <h3 className="text-3xl font-display font-bold mb-8 text-text-dark">{active.label}</h3>
         <ul className="grid grid-cols-1 gap-4">
           {active.items.map(item => (
-            <li key={item} className="flex items-center gap-3 group">
-              <Link to={active.path} onClick={closeMenu} className="flex items-center gap-3 w-full">
+            <li key={item.label} className="flex items-center gap-3 group">
+              <Link to={item.path} onClick={closeMenu} className="flex items-center gap-3 w-full">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition-colors" />
-                <span className="text-lg font-medium text-text-muted group-hover:text-text-dark transition-colors">{item}</span>
+                <span className="text-lg font-medium text-text-muted group-hover:text-text-dark transition-colors">{item.label}</span>
               </Link>
             </li>
           ))}
         </ul>
-        <Link to={active.path} onClick={closeMenu} className="mt-10 flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all uppercase tracking-widest text-xs">
-          Explore {active.label} <ArrowRight size={14} />
-        </Link>
+        {active.path !== '#' && (
+          <Link to={active.path} onClick={closeMenu} className="mt-10 flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all uppercase tracking-widest text-xs">
+            Explore {active.label} <ArrowRight size={14} />
+          </Link>
+        )}
       </div>
 
       <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-bg-gray shadow-xl">

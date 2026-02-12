@@ -10,74 +10,79 @@ const Testimonials: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
           <div>
             <p className="text-text-muted text-xs font-bold uppercase tracking-widest mb-6">Client Feedback</p>
-            <h2 className="text-4xl md:text-6xl font-display font-bold leading-tight">
-              <span className="text-primary">5.0</span> average score on <br />G2, Clutch & Trustpilot
+            <h2 className="text-4xl md:text-5xl font-display font-bold leading-tight text-text-dark">
+              Trusted by leaders building in regulated market
             </h2>
           </div>
-          <div className="flex gap-4">
-             <div className="p-4 bg-bg-gray rounded-xl flex items-center gap-2">
-               <span className="text-2xl font-bold font-display">Clutch</span>
-               <div className="flex text-primary">
-                 {[1,2,3,4,5].map(i => <Star key={i} size={14} fill="currentColor" />)}
-               </div>
-             </div>
-             <div className="p-4 bg-bg-gray rounded-xl flex items-center gap-2">
-               <span className="text-2xl font-bold font-display">G2</span>
-               <div className="flex text-primary">
-                 {[1,2,3,4,5].map(i => <Star key={i} size={14} fill="currentColor" />)}
-               </div>
-             </div>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="px-5 py-4 bg-bg-gray rounded-xl flex items-center gap-3">
+              <span className="text-sm font-bold font-display text-text-dark">Payments & Fintech</span>
+              <div className="flex text-primary">
+                {[1, 2, 3, 4, 5].map(i => <Star key={i} size={14} fill="currentColor" />)}
+              </div>
+            </div>
+            <div className="px-5 py-4 bg-bg-gray rounded-xl flex items-center gap-3">
+              <span className="text-sm font-bold font-display text-text-dark">RegTech & Security</span>
+              <div className="flex text-primary">
+                {[1, 2, 3, 4, 5].map(i => <Star key={i} size={14} fill="currentColor" />)}
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Card 1: Payments / Infra */}
           <div className="bg-bg-gray p-10 rounded-[32px] flex flex-col group cursor-pointer overflow-hidden relative">
-             <div className="flex items-center gap-4 mb-8">
-               <div className="w-12 h-12 rounded-full overflow-hidden">
-                 <img src="https://picsum.photos/seed/alex/100/100" alt="Avatar" />
-               </div>
-               <div>
-                 <p className="font-bold text-text-dark">Alex Friedman</p>
-                 <p className="text-xs text-text-muted">CEO at Open Path</p>
-               </div>
-             </div>
-             <p className="text-xl font-display font-medium text-text-dark leading-relaxed mb-10 italic">
-               "The team is extremely communicative and their work is exceptional. I've never worked with a squad so talented while also being competitively priced."
-             </p>
-             <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors pointer-events-none" />
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=100&h=100" alt="CEO" className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p className="font-bold text-text-dark">CEO</p>
+                <p className="text-xs text-text-muted">Regulated Payments Infrastructure</p>
+              </div>
+            </div>
+            <p className="text-lg font-display font-medium text-text-dark leading-relaxed mb-8 italic">
+              "They didn’t just deliver assets, they built our marketing operating system. Strategy, execution, and measurement finally moved as one."
+            </p>
+            <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors pointer-events-none" />
           </div>
 
-          <div className="bg-bg-gray p-10 rounded-[32px] flex flex-col group cursor-pointer relative overflow-hidden">
-             <div className="flex items-center gap-4 mb-8">
-               <div className="w-12 h-12 rounded-full overflow-hidden">
-                 <img src="https://picsum.photos/seed/craig/100/100" alt="Avatar" />
-               </div>
-               <div>
-                 <p className="font-bold text-text-dark">Craig Tortolani</p>
-                 <p className="text-xs text-text-muted">CPO at Dekryption</p>
-               </div>
-             </div>
-             <div className="relative rounded-2xl overflow-hidden aspect-video bg-bg-dark mt-auto">
-                <img src="https://picsum.photos/seed/vtest/400/300" className="w-full h-full object-cover opacity-50" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Play className="text-white" size={40} fill="currentColor" />
-                </div>
-             </div>
+          {/* Card 2: Crypto / Consumer */}
+          <div className="bg-bg-gray p-8 rounded-[32px] flex flex-col group cursor-pointer relative overflow-hidden">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100&h=100" alt="Marketing Lead" className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p className="font-bold text-text-dark">Marketing Lead</p>
+                <p className="text-xs text-text-muted">Crypto Exchange</p>
+              </div>
+            </div>
+            <p className="text-lg font-display font-medium text-text-dark leading-relaxed mb-6 italic">
+              "They helped us build a campaign platform that felt culturally real and still performed. We gained adoption without compromising trust or credibility."
+            </p>
+            <div className="mt-auto pt-6 border-t border-gray-200/60">
+              <button className="text-sm font-bold text-primary flex items-center gap-2 group-hover:gap-3 transition-all">
+                See how the campaign was built <Play size={14} fill="currentColor" />
+              </button>
+            </div>
           </div>
 
+          {/* Card 3: RegTech / Cybersecurity */}
           <div className="bg-bg-gray p-10 rounded-[32px] flex flex-col group cursor-pointer overflow-hidden relative">
-             <div className="flex items-center gap-4 mb-8">
-               <div className="w-12 h-12 rounded-full overflow-hidden">
-                 <img src="https://picsum.photos/seed/kevin/100/100" alt="Avatar" />
-               </div>
-               <div>
-                 <p className="font-bold text-text-dark">Kevin Alvarez</p>
-                 <p className="text-xs text-text-muted">Founder at Predictive</p>
-               </div>
-             </div>
-             <p className="text-xl font-display font-medium text-text-dark leading-relaxed mb-10 italic">
-               "Their ability to translate rough concepts into high-fidelity demand engines was very impressive. Simple elegance meets high performance."
-             </p>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100&h=100" alt="Founder" className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p className="font-bold text-text-dark">Founder</p>
+                <p className="text-xs text-text-muted">RegTech & Cybersecurity Group</p>
+              </div>
+            </div>
+            <p className="text-lg font-display font-medium text-text-dark leading-relaxed mb-8 italic">
+              "Marketing Extension brought structure to chaos, message clarity, GTM focus, and an execution cadence we could sustain. It changed how the business thinks about marketing."
+            </p>
           </div>
         </div>
       </div>

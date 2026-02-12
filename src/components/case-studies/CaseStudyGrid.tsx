@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowUpRight, Filter, ChevronDown, Check } from 'lucide-react';
 import { caseStudies, Vertical, ServicePillar, ProjectStage } from '../../data/caseStudies';
 import { industries } from '../../data/caseStudies';
@@ -127,9 +128,9 @@ const CaseStudyGrid: React.FC = () => {
                                             </li>
                                         ))}
                                     </ul>
-                                    <button className="w-full py-3 border border-text-dark text-text-dark font-bold rounded-xl hover:bg-text-dark hover:text-white transition-colors">
+                                    <Link to={study.path || '#'} className="block w-full text-center py-3 border border-text-dark text-text-dark font-bold rounded-xl hover:bg-text-dark hover:text-white transition-colors">
                                         Read Full Case Study
-                                    </button>
+                                    </Link>
                                 </div>
                             </motion.div>
                         ))}

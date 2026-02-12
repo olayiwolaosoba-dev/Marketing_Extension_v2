@@ -9,6 +9,7 @@ export interface CaseStudy {
   timeline: string;
   results: string[];
   image: string;
+  path?: string;
   quote?: {
     text: string;
     author: string;

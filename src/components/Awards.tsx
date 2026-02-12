@@ -4,11 +4,12 @@ import { motion } from 'framer-motion';
 
 const Awards: React.FC = () => {
   const items = [
-    { title: 'Top B2B Agency 2025', provider: 'Clutch', desc: 'Ranked #1 for growth marketing in high-growth segments.' },
-    { title: 'Meta Business Partner', provider: 'Meta', desc: 'Certified expertise in scaling high-spend paid social.' },
-    { title: 'Google Partner', provider: 'Google', desc: 'Premium badge for search efficiency and performance.' },
-    { title: 'Solutions Partner', provider: 'HubSpot', desc: 'Certified in CRM migration and lifecycle automation.' },
-    { title: 'Site of the Day', provider: 'Awwwards', desc: 'Recognized for UX and conversion-focused design.' },
+    { title: 'Embedded Growth Partner', desc: 'Trusted to operate inside fintech, infra, and SaaS companies as an extension of leadership—not an external vendor.', linkText: 'View case studies →' },
+    { title: 'Investor-Ready GTM Narratives', desc: 'Supported seed to Series B raises with positioning, messaging, and proof frameworks that stand up in diligence rooms.', linkText: 'View fundraising work →' },
+    { title: 'Multi-Market GTM Execution', desc: 'Designed and executed go-to-market programs across Nigeria, East Africa, and pan-African contexts.', linkText: 'View regional work →' },
+    { title: 'Marketing Operating Systems', desc: 'Built marketing OS foundations—processes, metrics, talent models, and reporting—inside scaling teams.', linkText: 'View marketing OS →' },
+    { title: 'Narrative-Led Brand & UX Work', desc: 'Recognized by founders and operators for clarity, restraint, and conversion-focused design.', linkText: 'View selected work →' },
+    { title: '10+ High-Impact Engagements', desc: 'Across fintech, payments infrastructure, regtech, SaaS, and growth-stage platforms.', linkText: 'Explore all →' }
   ];
 
   return (
@@ -26,25 +27,18 @@ const Awards: React.FC = () => {
             <motion.div
               key={idx}
               whileHover={{ backgroundColor: '#F9FAFB' }}
-              className="bg-white p-12 flex flex-col justify-between"
+              className="bg-white p-12 flex flex-col justify-between group"
             >
               <div>
-                <div className="h-10 w-24 bg-bg-gray rounded-md mb-8" />
+                <div className="h-10 w-24 bg-bg-gray rounded-md mb-8 group-hover:bg-primary/10 transition-colors" />
                 <h4 className="text-xl font-display font-bold text-text-dark mb-4">{item.title}</h4>
                 <p className="text-text-muted text-sm leading-relaxed">{item.desc}</p>
               </div>
-              <button className="mt-10 text-xs font-bold uppercase tracking-widest text-text-muted hover:text-primary transition-colors text-left">
-                View on {item.provider} →
+              <button className="mt-10 text-xs font-bold uppercase tracking-widest text-text-muted group-hover:text-primary transition-colors text-left">
+                {item.linkText}
               </button>
             </motion.div>
           ))}
-          <div className="bg-bg-gray p-12 flex flex-col justify-center items-center text-center rounded-br-[32px]">
-             <h4 className="text-4xl font-display font-bold text-text-dark mb-2">32+</h4>
-             <p className="text-text-muted font-bold text-sm mb-6 uppercase tracking-widest">Other Awards</p>
-             <button className="bg-text-dark text-white px-8 py-4 rounded-full font-bold hover:bg-primary transition-all">
-               Explore all
-             </button>
-          </div>
         </div>
       </div>
     </section>

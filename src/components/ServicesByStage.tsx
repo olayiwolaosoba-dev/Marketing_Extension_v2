@@ -1,12 +1,12 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const stages = [
-  { 
-    id: 'pre-launch', 
-    label: 'Pre-launch', 
+  {
+    id: 'pre-launch',
+    label: 'Pre-launch',
     title: 'Validate your offer & positioning',
     services: [
       { title: 'Offer Design & ICP Research', desc: 'Defining exactly who you sell to and why they need you now.' },
@@ -15,9 +15,9 @@ const stages = [
       { title: 'Waitlist & Beta Campaigns', desc: 'Generating demand before the product is even live.' },
     ]
   },
-  { 
-    id: 'early-growth', 
-    label: 'Early Growth', 
+  {
+    id: 'early-growth',
+    label: 'Early Growth',
     title: 'Build your growth engine',
     services: [
       { title: 'Paid Social & Search', desc: 'Scaling Meta, LinkedIn, and Google Ads with high efficiency.' },
@@ -26,9 +26,9 @@ const stages = [
       { title: 'Analytics Stack Setup', desc: 'Implementing GA4, HubSpot, and attribution models.' },
     ]
   },
-  { 
-    id: 'scale', 
-    label: 'Series A & Beyond', 
+  {
+    id: 'scale',
+    label: 'Series A & Beyond',
     title: 'Optimize & expand the engine',
     services: [
       { title: 'Advanced Attribution', desc: 'Mapping the full customer journey across all touchpoints.' },
@@ -40,7 +40,8 @@ const stages = [
 ];
 
 const ServicesByStage: React.FC = () => {
-  const [activeStage, setActiveStage] = useState(stages[0]);
+  const activeStageInitial = stages[0];
+  const [activeStage, setActiveStage] = useState(activeStageInitial);
 
   return (
     <section className="bg-bg-dark pt-32 pb-40 rounded-t-[80px] clipped-bottom">
@@ -65,10 +66,10 @@ const ServicesByStage: React.FC = () => {
               </button>
             ))}
             <div className="hidden lg:block mt-auto pt-10">
-              <button className="flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all">
+              <Link to="/services/marketing-consulting" className="flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all">
                 Explore all services
                 <ArrowRight size={18} />
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -83,16 +84,16 @@ const ServicesByStage: React.FC = () => {
                 transition={{ duration: 0.4 }}
               >
                 <h3 className="text-3xl font-display font-bold text-white mb-12">{activeStage.title}</h3>
-                
+
                 <div className="grid md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
                   {activeStage.services.map((service, idx) => (
                     <div key={idx} className="p-10 bg-bg-dark hover:bg-white/5 transition-colors group">
                       <h4 className="text-xl font-bold text-white mb-4 group-hover:text-primary transition-colors">{service.title}</h4>
                       <p className="text-white/60 mb-8 leading-relaxed">{service.desc}</p>
-                      <button className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
+                      <Link to="/services/marketing-consulting" className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
                         Explore
                         <ArrowRight size={14} />
-                      </button>
+                      </Link>
                     </div>
                   ))}
                 </div>

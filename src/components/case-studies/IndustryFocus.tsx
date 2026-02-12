@@ -1,104 +1,95 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, CheckCircle, ExternalLink } from 'lucide-react';
+import { ArrowRight, CheckCircle } from 'lucide-react';
 import { industries } from '../../data/caseStudies';
 
 // Industry Data with Narrative
 const industryData = {
     'fintech': {
         title: 'Trust engines for regulated payments growth',
-        description: 'We help authorized payment institutions and infrastructure providers turn compliance and reliability into their strongest growth assets.',
+        label: 'Payments & Fintech Infrastructure Vertical',
         image: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&q=80&w=800',
         challenges: [
-            'Long sales cycles and multiple stakeholders',
-            'Hard-to-explain infrastructure value',
-            'Category skepticism and "prove it" risk'
+            'Long sales cycles and multiple stakeholders (banks, regulators, partners)',
+            'Hard-to-explain infrastructure value (network effects, reliability, compliance)',
+            'Category skepticism and “prove it” risk for adoption'
         ],
         solutions: [
             'Category narrative + GTM positioning leaders can repeat',
-            'Executive PR + ecosystem storytelling',
-            'Marketing OS with adoption funnels'
+            'Executive PR + ecosystem storytelling to build credibility',
+            'Marketing OS with adoption funnels, partner comms, and reporting cadence'
         ],
-        miniCases: [
-            { client: 'PayFlow', outcome: '3x pipeline growth', tags: ['Consulting', 'Content+'] },
-            { client: 'SecurePay', outcome: 'Licence approval support', tags: ['PR', 'Strategy'] }
-        ]
+        ctaText: 'Explore Payments & Fintech Infra services',
+        link: '/work/payments-fintech-infra'
     },
     'crypto': {
         title: 'Growth that builds trust, not hype',
-        description: 'For protocols, exchanges, and dApps that need to cross the chasm from degen adoption to institutional credibility.',
+        label: 'Crypto & Digital Assets Vertical',
         image: 'https://images.unsplash.com/photo-1621504450168-b8c6816db70a?auto=format&fit=crop&q=80&w=800',
         challenges: [
-            'Low trust and high perceived risk',
-            'Education gaps blocking mainstream adoption',
-            'Compliance-sensitive messaging'
+            'Low trust and high perceived risk in the category',
+            'Education gaps that block activation and retention',
+            'Compliance-sensitive messaging across channels'
         ],
         solutions: [
-            'Culture + education-led growth systems',
-            'Clear product stories that reduce fear',
-            'Campaign platforms built to scale'
+            'Culture + education-led growth systems (brand + community + onboarding)',
+            'Clear product stories that reduce fear and increase first actions',
+            'Campaign platforms built to scale across PR, content, creators, and paid'
         ],
-        miniCases: [
-            { client: 'CoinSafe', outcome: '40% CAC reduction', tags: ['Content+', 'Performance'] },
-            { client: 'ChainLink', outcome: '10k dev signups', tags: ['Community', 'DevRel'] }
-        ]
+        ctaText: 'Explore Crypto & Digital Assets services',
+        link: '/services/marketing-consulting'
     },
     'regtech': {
         title: 'Make complex security and compliance feel simple',
-        description: 'Translate dense technical specifications into compelling business value for CISOs and risk officers.',
+        label: 'RegTech & Cybersecurity Vertical',
         image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
         challenges: [
-            'Dense, technical products',
-            'Buyers demand credibility and proof',
-            'Fragmented suites competing for attention'
+            'Dense, technical products that are hard to explain fast',
+            'Buyers demand credibility, proof, and risk clarity',
+            'Fragmented suites or multiple products competing for attention'
         ],
         solutions: [
-            'Message architecture that simplifies',
-            'Product-by-segment GTM playbooks',
-            'Demand + credibility engine'
+            'Message architecture that simplifies without dumbing down',
+            'Product-by-segment GTM playbooks (enterprise, mid-market, SMB)',
+            'Demand + credibility engine: webinars, thought leadership, partner programs, PR'
         ],
-        miniCases: [
-            { client: 'SecureNet', outcome: '200% demo increase', tags: ['Strategy', 'MarTech'] },
-            { client: 'CompliBot', outcome: 'Series B raise support', tags: ['Consulting'] }
-        ]
+        ctaText: 'Explore RegTech & Cybersecurity services',
+        link: '/services/marketing-consulting'
     },
     'saas': {
         title: 'Demand engines for platform and product-led growth',
-        description: 'From PLG to enterprise sales motions, we build the systems that capture and convert demand efficiently.',
+        label: 'B2B SaaS & Platforms Vertical',
         image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800',
         challenges: [
-            'ICP uncertainty and weak targeting',
-            'Traffic without conversion (leaky funnels)',
-            'Activity without measurement'
+            'ICP uncertainty and weak targeting = wasted effort',
+            'Traffic without conversion (leaky funnels, unclear offers)',
+            'Activity without measurement (attribution debates, scattered data)'
         ],
         solutions: [
-            'ICP + positioning sprints',
-            'Full-funnel design and optimization',
-            'Analytics + dashboards'
+            'ICP + positioning sprints that lock the “who and why”',
+            'Full-funnel design: landing pages, lifecycle flows, conversion experiments',
+            'Analytics + dashboards that tie marketing to pipeline and revenue'
         ],
-        miniCases: [
-            { client: 'DataFlow', outcome: '$2M ARR added', tags: ['GTM', 'Scale'] },
-            { client: 'SaaSify', outcome: '30% churn reduction', tags: ['Lifecycle', 'Content'] }
-        ]
+        ctaText: 'Explore B2B SaaS services',
+        link: '/services/marketing-consulting'
     },
     'consulting': {
         title: 'Authority-building engines that convert to pipeline',
-        description: 'Ideally suited for boutiques and firms where the founder is the brand. We productize your expertise.',
+        label: 'Professional Services & Consulting Vertical',
         image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800',
         challenges: [
-            'Services are hard to differentiate',
-            'Founder-led selling limits scale',
-            'Credibility gaps vs big firms'
+            'Services are hard to differentiate (“we do everything”)',
+            'Founder-led selling without a scalable marketing system',
+            'Credibility gaps when competing with bigger firms'
         ],
         solutions: [
-            'Offer design + packaging',
-            'Thought-leadership systems',
-            'Content + PR + partnerships cadence'
+            'Offer design + packaging (clear categories, outcomes, proof points)',
+            'Thought-leadership system that builds authority over time',
+            'Content + PR + partnerships cadence tied to pipeline goals'
         ],
-        miniCases: [
-            { client: 'Alpha Partners', outcome: 'WSJ & Forbes features', tags: ['PR', 'Authority'] },
-            { client: 'GrowthLabs', outcome: 'Booked out 6 months', tags: ['Strategy'] }
-        ]
+        ctaText: 'Explore Consulting services',
+        link: '/services/marketing-consulting'
     }
 };
 
@@ -120,8 +111,8 @@ const IndustryFocus: React.FC = () => {
                                     key={ind.id}
                                     onClick={() => setSelectedIndustry(ind.id)}
                                     className={`text-left px-5 py-3 rounded-xl font-bold text-sm transition-all duration-300 whitespace-nowrap lg:whitespace-normal ${selectedIndustry === ind.id
-                                            ? 'bg-text-dark text-white shadow-lg translate-x-1'
-                                            : 'bg-white text-text-muted hover:bg-white/80 hover:text-text-dark border border-gray-100'
+                                        ? 'bg-text-dark text-white shadow-lg translate-x-1'
+                                        : 'bg-white text-text-muted hover:bg-white/80 hover:text-text-dark border border-gray-100'
                                         }`}
                                 >
                                     {ind.label}
@@ -147,7 +138,7 @@ const IndustryFocus: React.FC = () => {
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                                         <div className="absolute bottom-0 left-0 p-8 md:p-10 text-white">
                                             <h2 className="text-3xl md:text-5xl font-display font-bold mb-4 leading-tight">{data.title}</h2>
-                                            <p className="text-white/80 text-lg md:max-w-xl leading-relaxed">{data.description}</p>
+                                            <p className="text-white/80 text-lg md:max-w-xl leading-relaxed font-bold">{data.label}</p>
                                         </div>
                                     </div>
 
@@ -155,7 +146,7 @@ const IndustryFocus: React.FC = () => {
                                         <div>
                                             <h4 className="font-bold text-text-dark mb-4 flex items-center gap-2">
                                                 <span className="w-2 h-2 rounded-full bg-red-400" />
-                                                Common Challenges
+                                                CHALLENGES
                                             </h4>
                                             <ul className="space-y-3">
                                                 {data.challenges.map((c, i) => (
@@ -166,7 +157,7 @@ const IndustryFocus: React.FC = () => {
                                         <div>
                                             <h4 className="font-bold text-text-dark mb-4 flex items-center gap-2">
                                                 <span className="w-2 h-2 rounded-full bg-primary" />
-                                                How We Solve Them
+                                                HOW WE SOLVE THEM
                                             </h4>
                                             <ul className="space-y-3">
                                                 {data.solutions.map((s, i) => (
@@ -180,39 +171,12 @@ const IndustryFocus: React.FC = () => {
                                     </div>
 
                                     {/* Action Row */}
-                                    <div className="px-8 md:px-10 pb-8 md:pb-10 pt-4 flex flex-col md:flex-row gap-6 border-t border-gray-50 mt-2">
-                                        <div>
-                                            <p className="text-xs font-bold uppercase tracking-widest text-text-muted mb-3">Typical Deliverables</p>
-                                            <div className="flex flex-wrap gap-2">
-                                                {['Strategy Audit', 'Content Engine', 'Attribution Setup'].map(d => (
-                                                    <span key={d} className="text-xs bg-gray-50 text-text-dark px-2 py-1 rounded border border-gray-100">{d}</span>
-                                                ))}
-                                            </div>
-                                        </div>
+                                    <div className="px-8 md:px-10 pb-8 md:pb-10 pt-4 border-t border-gray-50 mt-2">
+                                        <Link to={data.link} className="bg-primary text-white px-8 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-primary-dark transition-all shadow-lg hover:shadow-xl hover:gap-3 inline-flex">
+                                            {data.ctaText}
+                                            <ArrowRight size={18} />
+                                        </Link>
                                     </div>
-                                </div>
-
-                                {/* Mini Case Study Cards */}
-                                <div className="grid md:grid-cols-2 gap-4 max-w-4xl">
-                                    {data.miniCases.map((mini, i) => (
-                                        <div key={i} className="group bg-white p-5 rounded-2xl border border-gray-100 hover:shadow-lg hover:border-primary/20 transition-all cursor-pointer flex justify-between items-center">
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-2">
-                                                    <span className="font-display font-bold text-text-dark">{mini.client}</span>
-                                                    <span className="text-xs text-text-muted">•</span>
-                                                    <div className="flex gap-1">
-                                                        {mini.tags.map(t => (
-                                                            <span key={t} className="text-[10px] bg-gray-50 px-1.5 py-0.5 rounded text-text-muted uppercase tracking-wide">{t}</span>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                <p className="text-sm font-medium text-primary">Outcome: {mini.outcome}</p>
-                                            </div>
-                                            <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
-                                                <ExternalLink size={14} />
-                                            </div>
-                                        </div>
-                                    ))}
                                 </div>
                             </motion.div>
                         </AnimatePresence>

@@ -173,7 +173,7 @@ const ProblemsWeSolve: React.FC = () => {
         headline="Need world-class content, but can’t hire a full creative team?"
         body="Our Content+ Studio becomes your always-on creative engine—design, copy, and production for social, campaigns, decks, landing pages, and brand assets. Fast turnaround with AI-assisted workflows, human taste and quality control throughout."
         ctaText="Build my content engine"
-        ctaLink="/services/content-studio"
+        ctaLink="/contentplus"
         image={imgContent}
       />
 
@@ -183,7 +183,7 @@ const ProblemsWeSolve: React.FC = () => {
         headline="Tools everywhere, but growth still feels manual?"
         body="We design and implement the stack that makes marketing run smoothly—tracking, attribution, CRM, automation, reporting dashboards, and experimentation. Plus AI copilots that speed up research, content ops, and performance reporting."
         ctaText="Upgrade my stack"
-        ctaLink="/services/martech-ai"
+        ctaLink="/services/martech"
         image={imgMartech}
       />
     </section>
