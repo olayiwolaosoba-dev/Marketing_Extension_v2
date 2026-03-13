@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, X } from 'lucide-react';
+import { trackLogin } from '../../lib/analytics';
 
 const Login: React.FC = () => {
 
@@ -8,6 +9,8 @@ const Login: React.FC = () => {
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
+        // Fire GA4 login event
+        trackLogin();
         // In a real app, we would validate credentials here.
         // For MVP, we'll set a mock token and redirect.
         localStorage.setItem('me_auth_token', 'demo-token');

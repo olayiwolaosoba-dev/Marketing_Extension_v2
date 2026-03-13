@@ -1,4 +1,5 @@
 import React from 'react';
+import SEO from '../../components/SEO';
 import CaseStudyHero from '../../components/work/CaseStudyHero';
 import StickySnapshotBar from '../../components/work/StickySnapshotBar';
 import ChapterNav from '../../components/work/ChapterNav';
@@ -12,6 +13,12 @@ import NextCaseStudies from '../../components/work/NextCaseStudies';
 const QuidaxCaseStudy: React.FC = () => {
     return (
         <div className="bg-white min-h-screen">
+            <SEO
+                title="Quidax Case Study — Don Jazzy Crypto Education Campaign | Marketing Extension"
+                description="How Marketing Extension partnered with Quidax to launch a mass-market crypto education campaign with Don Jazzy, driving millions of impressions and user acquisition."
+                canonical="https://marketingextension.com/work/quidax-don-jazzy-crypto-education"
+                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://marketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "Quidax", "item": "https://marketingextension.com/work/quidax-don-jazzy-crypto-education" }] }]}
+            />
             <CaseStudyHero
                 client="Quidax"
                 headline="Quidax — Turning a Crypto Exchange into a Pop-Culture Movement"

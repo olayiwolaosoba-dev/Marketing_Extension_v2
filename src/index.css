@@ -1,41 +1,48 @@
 /* Marketing Extension Landing Page - Global Styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Reset and base styles are handled by Tailwind via CDN */
 
-/* Custom animations */
-@keyframes scramble {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes scramble {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
 
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
-@keyframes pulse-glow {
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes float {
 
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(255, 107, 61, 0.3);
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
   }
+}
 
-  50% {
-    box-shadow: 0 0 40px rgba(255, 107, 61, 0.6);
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes pulse-glow {
+
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(255, 107, 61, 0.3);
+    }
+
+    50% {
+      box-shadow: 0 0 40px rgba(255, 107, 61, 0.6);
+    }
   }
 }
 
@@ -128,14 +135,15 @@ html {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* Infinite Scroll Logic */
-@keyframes infinite-scroll {
-  from {
-    transform: translateX(0);
-  }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes infinite-scroll {
+    from {
+      transform: translateX(0);
+    }
 
-  to {
-    transform: translateX(-100%);
+    to {
+      transform: translateX(-100%);
+    }
   }
 }
 

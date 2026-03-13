@@ -16,8 +16,15 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
 
     return (
         <div className="relative selection:bg-primary selection:text-white">
+            {/* Skip Navigation – visible only on keyboard focus */}
+            <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:absolute focus:z-[1000] focus:top-4 focus:left-4 focus:px-6 focus:py-3 focus:bg-primary focus:text-white focus:rounded-full focus:font-bold focus:shadow-lg"
+            >
+                Skip to main content
+            </a>
             <Header currentPage={currentPage} onNavigate={handleNavigate} />
-            <main className="overflow-x-hidden min-h-screen">
+            <main id="main-content" tabIndex={-1} className="overflow-x-hidden min-h-screen">
                 {children}
             </main>
             <Footer onNavigate={handleNavigate} />

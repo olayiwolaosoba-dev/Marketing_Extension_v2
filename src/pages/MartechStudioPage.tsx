@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import SEO from '../components/SEO';
 import { ArrowRight, BarChart3, ScanLine } from 'lucide-react';
 import MartechHero from '../components/martech/MartechHero';
 import TrustStrip from '../components/common/TrustStrip';
@@ -22,6 +23,30 @@ const MartechStudioPage: React.FC = () => {
 
     return (
         <div className="bg-bg-dark min-h-screen selection:bg-primary selection:text-white">
+            <SEO
+                title="MarTech Studio — AI-Powered Marketing Infrastructure | Marketing Extension"
+                description="Build your marketing technology stack with AI at the core. MarTech audits, stack builds, automation, RevOps, and managed support for fintech and B2B SaaS teams."
+                canonical="https://marketingextension.com/services/martech"
+                structuredData={[
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "Service",
+                        "name": "MarTech Studio — AI-Powered Marketing Infrastructure",
+                        "provider": { "@type": "Organization", "name": "Marketing Extension" },
+                        "description": "Marketing technology stack builds, AI integration, automation, RevOps, and managed stack support.",
+                        "areaServed": "Africa, United Kingdom",
+                        "serviceType": "Marketing Technology"
+                    },
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [
+                            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
+                            { "@type": "ListItem", "position": 2, "name": "MarTech Studio", "item": "https://marketingextension.com/services/martech" }
+                        ]
+                    }
+                ]}
+            />
             <MartechHero />
             <TrustStrip />
             <MartechSilentFailure />

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Core Pages -->
+  <url><loc>https://marketingextension.com/</loc><lastmod>2025-07-11</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://marketingextension.com/about</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://marketingextension.com/careers</loc><lastmod>2025-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/pricing</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://marketingextension.com/strategy-call</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://marketingextension.com/audit</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+
+  <!-- Services -->
+  <url><loc>https://marketingextension.com/services/marketing-consulting</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://marketingextension.com/services/martech</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://marketingextension.com/services/martech/ai-audit</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/services/martech/product-engineering</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/services/martech/automation-revops</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/services/martech/managed-stack</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/services/martech/training-enablement</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/contentplus</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://marketingextension.com/martech-studio</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://marketingextension.com/positioning</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Case Studies -->
+  <url><loc>https://marketingextension.com/case-studies</loc><lastmod>2025-07-11</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://marketingextension.com/work/zone-regulated-blockchain-payments</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://marketingextension.com/work/verypay-multi-country-marketing-bench</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://marketingextension.com/work/smartcomply-full-funnel-growth-engine</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://marketingextension.com/work/mercurie-launch-pr-narrative</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://marketingextension.com/work/quidax-don-jazzy-crypto-education</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://marketingextension.com/work/sabitrack-investor-ready-foundation</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://marketingextension.com/work/tamy-consulting-growth-engine</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://marketingextension.com/work/payments-fintech-infra</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/work/crypto-digital-assets</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/work/regtech-cybersecurity</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/work/b2b-saas-services</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/work/professional-services-consulting</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- About sub-pages -->
+  <url><loc>https://marketingextension.com/about/life-at-marketing-extension</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://marketingextension.com/about/how-we-use-ai</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Why Us -->
+  <url><loc>https://marketingextension.com/why-us/talent</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://marketingextension.com/why-us/ai-excellence</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://marketingextension.com/why-us/technology</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- Resources -->
+  <url><loc>https://marketingextension.com/resources/learn</loc><lastmod>2025-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/resources/events</loc><lastmod>2025-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/resources/guides</loc><lastmod>2025-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://marketingextension.com/resources/reports</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://marketingextension.com/resources/videos</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://marketingextension.com/resources/playbooks</loc><lastmod>2025-07-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+</urlset>

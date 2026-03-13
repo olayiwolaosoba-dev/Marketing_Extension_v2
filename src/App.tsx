@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import GoogleAnalytics from './components/GoogleAnalytics';
+import { usePageTracking } from './hooks/usePageTracking';
 
 // Layouts
 import PublicLayout from './layouts/PublicLayout';
@@ -80,6 +82,7 @@ import Signup from './pages/Auth/Signup';
 import RequestAccess from './pages/Auth/RequestAccess';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import AboutPage from './pages/AboutPage';
+import SEO from './components/SEO';
 import CareersPage from './pages/CareersPage';
 import LifePage from './pages/LifePage';
 import AiPage from './pages/AiPage';
@@ -95,8 +98,10 @@ import ManagedStackPage from './pages/martech/ManagedStackPage';
 import TrainingEnablementPage from './pages/martech/TrainingEnablementPage';
 import AuditWizard from './pages/audit/AuditWizard';
 import AuditResults from './pages/audit/AuditResults';
-import ContentStudioPage from './pages/services/ContentStudio';
-import MartechAIPage from './pages/services/MartechAI';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
+import CookiePage from './pages/CookiePage';
+import NotFoundPage from './pages/NotFoundPage';
 import ZoneCaseStudy from './pages/work/ZoneCaseStudy';
 import CryptoDigitalAssetsPage from './pages/work/CryptoDigitalAssetsPage';
 import RegTechCybersecurityPage from './pages/work/RegTechCybersecurityPage';
@@ -111,8 +116,14 @@ import TamyConsultingCaseStudy from './pages/work/TamyConsultingCaseStudy';
 import PaymentsFintechInfraPage from './pages/work/PaymentsFintechInfraPage';
 
 
-const App: React.FC = () => {
+/**
+ * AppContent — rendered inside <Router> so it can safely call useLocation-based hooks.
+ */
+const AppContent: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // Track SPA page views on every route change
+  usePageTracking();
 
   useEffect(() => {
     // Simulate initial asset loading
@@ -121,7 +132,6 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Router>
       <div className="relative selection:bg-primary selection:text-white">
         <AnimatePresence>
           {!isLoaded && (
@@ -148,6 +158,86 @@ const App: React.FC = () => {
             {/* --- Public Marketing Site Routes --- */}
             <Route path="/" element={
               <PublicLayout>
+                <SEO
+                  title="Plug-In Growth Marketing for Fintech & B2B SaaS Teams | Marketing Extension"
+                  description="Marketing Extension embeds into your team as a dedicated growth marketing partner. We drive pipeline, demand generation, and GTM execution for fintech, regtech, and B2B SaaS companies across Africa and the UK."
+                  canonical="https://marketingextension.com/"
+                  structuredData={[
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "Organization",
+                      "name": "Marketing Extension",
+                      "url": "https://marketingextension.com",
+                      "logo": "https://marketingextension.com/logo.png",
+                      "description": "Embedded growth marketing partner for fintech, regtech, and B2B SaaS teams across Africa and the UK.",
+                      "foundingDate": "2022",
+                      "areaServed": ["Nigeria", "Ghana", "Kenya", "Rwanda", "Senegal", "United Kingdom"],
+                      "sameAs": [
+                        "https://www.linkedin.com/company/marketing-extension",
+                        "https://twitter.com/mktgextension",
+                        "https://www.instagram.com/marketingextension"
+                      ],
+                      "contactPoint": {
+                        "@type": "ContactPoint",
+                        "email": "hello@marketingext.com",
+                        "contactType": "customer service"
+                      }
+                    },
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "WebSite",
+                      "name": "Marketing Extension",
+                      "url": "https://marketingextension.com",
+                      "potentialAction": {
+                        "@type": "SearchAction",
+                        "target": {
+                          "@type": "EntryPoint",
+                          "urlTemplate": "https://marketingextension.com/case-studies?q={search_term_string}"
+                        },
+                        "query-input": "required name=search_term_string"
+                      }
+                    },
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "Organization",
+                      "name": "Marketing Extension",
+                      "aggregateRating": {
+                        "@type": "AggregateRating",
+                        "ratingValue": "4.9",
+                        "reviewCount": "6",
+                        "bestRating": "5",
+                        "worstRating": "1"
+                      }
+                    },
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "Service",
+                      "name": "Growth Marketing Consulting",
+                      "provider": { "@type": "Organization", "name": "Marketing Extension" },
+                      "description": "Strategy, ICP research, positioning, messaging, channel strategy, GTM planning, and weekly decision support.",
+                      "areaServed": "Africa, United Kingdom",
+                      "serviceType": "Marketing Consulting"
+                    },
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "Service",
+                      "name": "Content Studio — Content+ by Marketing Extension",
+                      "provider": { "@type": "Organization", "name": "Marketing Extension" },
+                      "description": "High-volume, brand-on content production: copy, design, video, thought leadership, and social.",
+                      "areaServed": "Africa, United Kingdom",
+                      "serviceType": "Content Marketing"
+                    },
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "Service",
+                      "name": "MarTech Studio — AI-Powered Marketing Infrastructure",
+                      "provider": { "@type": "Organization", "name": "Marketing Extension" },
+                      "description": "Marketing technology stack builds, AI integration, automation, RevOps, and managed stack support.",
+                      "areaServed": "Africa, United Kingdom",
+                      "serviceType": "Marketing Technology"
+                    }
+                  ]}
+                />
                 <Hero />
                 <FeaturedWins />
                 <ProblemsWeSolve />
@@ -176,18 +266,16 @@ const App: React.FC = () => {
             <Route path="/strategy-call" element={<PublicLayout><StrategyCall /></PublicLayout>} />
 
             {/* Services Pages */}
-            <Route path="/services/marketing-consulting" element={<PublicLayout><MarketingConsultingPage /></PublicLayout>} />
             <Route path="/services/martech" element={<PublicLayout><MartechStudioPage /></PublicLayout>} />
             <Route path="/services/martech/ai-audit" element={<PublicLayout><AiAuditPage /></PublicLayout>} />
             <Route path="/services/martech/product-engineering" element={<PublicLayout><ProductEngineeringPage /></PublicLayout>} />
             <Route path="/services/martech/automation-revops" element={<PublicLayout><AutomationRevOpsPage /></PublicLayout>} />
             <Route path="/services/martech/managed-stack" element={<PublicLayout><ManagedStackPage /></PublicLayout>} />
             <Route path="/services/martech/training-enablement" element={<PublicLayout><TrainingEnablementPage /></PublicLayout>} />
-            <Route path="/services/content-studio" element={<PublicLayout><ContentStudioPage /></PublicLayout>} />
-            <Route path="/services/martech-ai" element={<PublicLayout><MartechAIPage /></PublicLayout>} />
-            <Route path="/services/martech/training-enablement" element={<PublicLayout><TrainingEnablementPage /></PublicLayout>} />
-            <Route path="/services/content-studio" element={<PublicLayout><ContentStudioPage /></PublicLayout>} />
-            <Route path="/services/martech-ai" element={<PublicLayout><MartechAIPage /></PublicLayout>} />
+            {/* Stub redirects → full pages per PRD B2 */}
+            <Route path="/services/content-studio" element={<Navigate to="/contentplus" replace />} />
+            <Route path="/services/martech-ai" element={<Navigate to="/martech-studio" replace />} />
+            <Route path="/services/marketing-consulting" element={<PublicLayout><MarketingConsultingPage /></PublicLayout>} />
             <Route path="/case-studies" element={<PublicLayout><CaseStudiesPage /></PublicLayout>} />
 
             {/* Case Studies Detail Pages */}
@@ -266,22 +354,10 @@ const App: React.FC = () => {
             <Route path="/academy/sign-up" element={<StudentSignUp />} />
             <Route path="/academy/forgot-password" element={<StudentForgotPassword />} />
 
-            {/* University Routes */}
-            <Route path="/university" element={
-              <UniversityLayout>
-                <UniversityHome />
-              </UniversityLayout>
-            } />
-            <Route path="/university/my-learning" element={
-              <UniversityLayout>
-                <MyLearning />
-              </UniversityLayout>
-            } />
-            <Route path="/university/profile" element={
-              <UniversityLayout>
-                <StudentProfile />
-              </UniversityLayout>
-            } />
+            {/* University Routes — redirected to Academy per PRD B2 */}
+            <Route path="/university" element={<Navigate to="/academy" replace />} />
+            <Route path="/university/my-learning" element={<Navigate to="/academy/courses" replace />} />
+            <Route path="/university/profile" element={<Navigate to="/academy" replace />} />
 
             {/* Auth Routes */}
             <Route path="/auth/login" element={<Login />} />
@@ -319,11 +395,29 @@ const App: React.FC = () => {
               </AppLayout>
             } />
 
-            {/* Fallback */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+            {/* Legal Pages */}
+            <Route path="/privacy" element={<PublicLayout><PrivacyPage /></PublicLayout>} />
+            <Route path="/terms" element={<PublicLayout><TermsPage /></PublicLayout>} />
+            <Route path="/cookies" element={<PublicLayout><CookiePage /></PublicLayout>} />
+
+            {/* Branded 404 catch-all */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         )}
       </div>
+  );
+};
+
+/**
+ * App — top-level shell. Provides Router context.
+ * GoogleAnalytics injects gtag.js (prod-only, no-op in dev).
+ * AppContent handles routing + page-view tracking.
+ */
+const App: React.FC = () => {
+  return (
+    <Router>
+      <GoogleAnalytics />
+      <AppContent />
     </Router>
   );
 };

@@ -200,6 +200,9 @@ const LeadershipCarousel: React.FC = () => {
                             <img
                                 src={leader.image}
                                 alt={leader.name}
+                                width="800"
+                                height="1067"
+                                loading="lazy"
                                 className="w-full h-full object-cover grayscale group-hover/card:grayscale-0 transition-all duration-500"
                             />
                             <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover/card:opacity-40 transition-opacity duration-300" />
@@ -331,6 +334,9 @@ const LeadershipCarousel: React.FC = () => {
                                 <img
                                     src={leader.image}
                                     alt={leader.name}
+                                    width="800"
+                                    height="1067"
+                                    loading="lazy"
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
                                 />
                                 {/* subtle gradient at bottom of image to blend if needed, or remove completely for clean look. 
@@ -350,7 +356,10 @@ const LeadershipCarousel: React.FC = () => {
                                         {/* Assuming we might want a real link eventually, but for now button is fine. 
                                             If leader.linkedinUrl exists? The interface has it as optional. 
                                             Let's render it if it exists or just render a placeholder icon. */}
-                                        <button className="text-gray-400 hover:text-[#0077b5] transition-colors p-1">
+                                        <button
+                                            aria-label={`View ${leader.name}'s LinkedIn profile`}
+                                            className="text-gray-400 hover:text-[#0077b5] transition-colors p-1"
+                                        >
                                             <Linkedin size={20} />
                                         </button>
                                     </div>
@@ -379,10 +388,11 @@ const LeadershipCarousel: React.FC = () => {
             <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 pointer-events-none flex justify-between px-4 md:px-8">
                 { /* Prev Arrow */}
                 <button
+                    aria-label="Previous team member"
                     onClick={scrollPrev}
                     className={`
-            w-12 h-12 rounded-full bg-white/90 shadow-lg backdrop-blur-sm 
-            flex items-center justify-center text-text-dark 
+            w-12 h-12 rounded-full bg-white/90 shadow-lg backdrop-blur-sm
+            flex items-center justify-center text-text-dark
             pointer-events-auto transition-all duration-300
             hover:scale-110 hover:text-primary border border-gray-100
             ${!canScrollLeft ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-0 group-hover/carousel:opacity-100 translate-x-0'}
@@ -393,10 +403,11 @@ const LeadershipCarousel: React.FC = () => {
 
                 { /* Next Arrow */}
                 <button
+                    aria-label="Next team member"
                     onClick={scrollNext}
                     className={`
-            w-12 h-12 rounded-full bg-white/90 shadow-lg backdrop-blur-sm 
-            flex items-center justify-center text-text-dark 
+            w-12 h-12 rounded-full bg-white/90 shadow-lg backdrop-blur-sm
+            flex items-center justify-center text-text-dark
             pointer-events-auto transition-all duration-300
             hover:scale-110 hover:text-primary border border-gray-100
             ${!canScrollRight ? 'opacity-0 -translate-x-4 pointer-events-none' : 'opacity-0 group-hover/carousel:opacity-100 translate-x-0'}
@@ -416,12 +427,14 @@ const LeadershipCarousel: React.FC = () => {
                     />
                 </div>
 
-                {LEADERS.map((_, idx) => (
+                {LEADERS.map((leader, idx) => (
                     <button
                         key={idx}
+                        aria-label={`Go to ${leader.name}'s card`}
+                        aria-current={activeIndex === idx ? 'true' : undefined}
                         onClick={() => scrollToCard(idx)}
                         className={`
-              h-2 rounded-full transition-all duration-300 
+              h-2 rounded-full transition-all duration-300
               ${activeIndex === idx ? 'w-6 bg-primary' : 'w-2 bg-gray-300 hover:bg-gray-400'}
             `}
                     />

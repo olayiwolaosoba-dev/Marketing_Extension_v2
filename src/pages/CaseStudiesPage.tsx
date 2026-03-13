@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import SEO from '../components/SEO';
 import CaseStudyHero from '../components/case-studies/CaseStudyHero';
 import TrustStrip from '../components/common/TrustStrip';
 import IndustryFocus from '../components/case-studies/IndustryFocus';
@@ -20,6 +21,19 @@ const CaseStudiesPage: React.FC = () => {
 
     return (
         <div className="bg-bg-light min-h-screen">
+            <SEO
+                title="Growth Marketing Case Studies — Real Results | Marketing Extension"
+                description="See how Marketing Extension drove $100M+ in pipeline influence across fintech, regtech, B2B SaaS, and payments infrastructure. Real case studies, real outcomes."
+                canonical="https://marketingextension.com/case-studies"
+                structuredData={[{
+                    "@context": "https://schema.org",
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
+                        { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://marketingextension.com/case-studies" }
+                    ]
+                }]}
+            />
             <CaseStudyHero />
             <TrustStrip />
             <IndustryFocus />

@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Disallow private app and auth routes
+Disallow: /app/
+Disallow: /academy/app/
+Disallow: /auth/
+Disallow: /audit/results
+
+# Disallow Academy gated content
+Disallow: /academy/courses
+Disallow: /academy/cohorts
+Disallow: /academy/certifications
+Disallow: /academy/community
+
+# Sitemap
+Sitemap: https://marketingextension.com/sitemap.xml

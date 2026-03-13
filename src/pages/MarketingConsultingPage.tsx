@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import SEO from '../components/SEO';
 import ConsultingHero from '../components/consulting/ConsultingHero';
 import ProblemSection from '../components/consulting/ProblemSection';
 import ModuleGrid from '../components/consulting/ModuleGrid';
@@ -23,6 +24,31 @@ const MarketingConsultingPage: React.FC = () => {
 
     return (
         <div className="bg-bg-light min-h-screen">
+            <SEO
+                title="Growth Marketing Consulting — Strategy & GTM Execution | Marketing Extension"
+                description="Embedded marketing consulting for fintech and B2B SaaS. ICP research, positioning, messaging, channel strategy, GTM planning, and weekly decision support."
+                canonical="https://marketingextension.com/services/marketing-consulting"
+                structuredData={[
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "Service",
+                        "name": "Growth Marketing Consulting",
+                        "provider": { "@type": "Organization", "name": "Marketing Extension" },
+                        "description": "Strategy, ICP research, positioning, messaging, channel strategy, GTM planning, and weekly decision support.",
+                        "areaServed": "Africa, United Kingdom",
+                        "serviceType": "Marketing Consulting"
+                    },
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [
+                            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
+                            { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://marketingextension.com/services/marketing-consulting" },
+                            { "@type": "ListItem", "position": 3, "name": "Marketing Consulting", "item": "https://marketingextension.com/services/marketing-consulting" }
+                        ]
+                    }
+                ]}
+            />
             <ConsultingHero />
             <TrustStrip />
             <ProblemSection />

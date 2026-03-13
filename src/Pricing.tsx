@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, X, HelpCircle, ArrowRight } from 'lucide-react';
-import ContactSection from './components/ContactSection'; // Reuse Contact
+import { useNavigate } from 'react-router-dom';
+import ContactSection from './components/ContactSection';
+import SEO from './components/SEO';
 
 interface PricingProps {
     onNavigate: (page: any) => void;
 }
 
 const Pricing: React.FC<PricingProps> = ({ onNavigate }) => {
+    const navigate = useNavigate();
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -16,6 +19,19 @@ const Pricing: React.FC<PricingProps> = ({ onNavigate }) => {
 
     return (
         <div className="bg-bg-light min-h-screen pt-24">
+            <SEO
+                title="Transparent Pricing — Growth Marketing Plans | Marketing Extension"
+                description="Flat monthly pricing for embedded growth marketing. Essential from $3,900/mo, Growth at $7,900/mo, Enterprise custom. No hidden fees. No surprise overages."
+                canonical="https://marketingextension.com/pricing"
+                structuredData={[{
+                    "@context": "https://schema.org",
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
+                        { "@type": "ListItem", "position": 2, "name": "Pricing", "item": "https://marketingextension.com/pricing" }
+                    ]
+                }]}
+            />
             {/* Header */}
             <section className="py-20 text-center container mx-auto px-6">
                 <h1 className="text-5xl md:text-7xl font-display font-bold text-text-dark mb-6">
@@ -28,14 +44,18 @@ const Pricing: React.FC<PricingProps> = ({ onNavigate }) => {
 
                 {/* Toggle */}
                 <div className="flex items-center justify-center gap-4 mb-16">
-                    <span className={`font-bold ${!isAnnual ? 'text-text-dark' : 'text-text-muted'}`}>Monthly</span>
+                    <span id="billing-monthly" className={`font-bold ${!isAnnual ? 'text-text-dark' : 'text-text-muted'}`}>Monthly</span>
                     <button
+                        role="switch"
+                        aria-checked={isAnnual}
+                        aria-labelledby="billing-monthly billing-annual"
                         onClick={() => setIsAnnual(!isAnnual)}
-                        className="w-16 h-8 bg-bg-dark rounded-full relative px-1 transition-colors"
+                        className="w-16 h-8 bg-bg-dark rounded-full relative px-1 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                     >
                         <div className={`w-6 h-6 bg-white rounded-full absolute top-1 transition-all duration-300 ${isAnnual ? 'left-9' : 'left-1'}`} />
+                        <span className="sr-only">{isAnnual ? 'Annual billing selected' : 'Monthly billing selected'}</span>
                     </button>
-                    <span className={`font-bold ${isAnnual ? 'text-text-dark' : 'text-text-muted'}`}>
+                    <span id="billing-annual" className={`font-bold ${isAnnual ? 'text-text-dark' : 'text-text-muted'}`}>
                         Annual <span className="text-primary text-xs font-bold bg-primary/10 px-2 py-1 rounded ml-1">SAVE 20%</span>
                     </span>
                 </div>
@@ -77,10 +97,13 @@ const Pricing: React.FC<PricingProps> = ({ onNavigate }) => {
                                 {plan.price !== "Custom" && <span className="text-sm opacity-60">/mo</span>}
                             </div>
 
-                            <button className={`w-full py-4 rounded-full font-bold mb-8 transition-colors ${plan.popular
+                            <button
+                                onClick={() => plan.price === 'Custom' ? navigate('/strategy-call') : navigate('/#contact-form')}
+                                className={`w-full py-4 rounded-full font-bold mb-8 transition-colors ${plan.popular
                                     ? 'bg-primary text-white hover:bg-white hover:text-text-dark'
                                     : 'bg-bg-gray text-text-dark hover:bg-bg-dark hover:text-white'
-                                }`}>
+                                    }`}
+                            >
                                 {plan.price === "Custom" ? "Contact Sales" : "Get Started"}
                             </button>
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import SEO from '../../components/SEO';
 import CaseStudyHero from '../../components/work/CaseStudyHero';
 import StickySnapshotBar from '../../components/work/StickySnapshotBar';
 import ChapterNav from '../../components/work/ChapterNav';
@@ -12,6 +13,12 @@ import NextCaseStudies from '../../components/work/NextCaseStudies';
 const ZoneCaseStudy: React.FC = () => {
     return (
         <div className="bg-white min-h-screen">
+            <SEO
+                title="Zone Case Study — Regulated Blockchain Payments GTM | Marketing Extension"
+                description="How Marketing Extension built the full GTM motion for Zone's regulated blockchain payments infrastructure — positioning, messaging, content, and demand generation."
+                canonical="https://marketingextension.com/work/zone-regulated-blockchain-payments"
+                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://marketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "Zone", "item": "https://marketingextension.com/work/zone-regulated-blockchain-payments" }] }]}
+            />
             {/* Hero */}
             <CaseStudyHero
                 client="Zone"

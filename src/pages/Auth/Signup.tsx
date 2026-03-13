@@ -1,8 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { trackSignUp } from '../../lib/analytics';
 
 const Signup: React.FC = () => {
+    const handleSignUp = (e: React.FormEvent) => {
+        e.preventDefault();
+        trackSignUp();
+        // TODO: wire up real registration logic
+    };
+
     return (
         <div className="min-h-screen bg-bg-light flex flex-col items-center justify-center p-6">
             <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 md:p-12">
@@ -14,7 +21,7 @@ const Signup: React.FC = () => {
                     <p className="text-text-muted">Start your journey to becoming a world-class marketer. Free forever.</p>
                 </div>
 
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={handleSignUp}>
                     <div>
                         <label className="block text-sm font-bold text-text-dark mb-2">Full Name</label>
                         <input
@@ -41,7 +48,7 @@ const Signup: React.FC = () => {
                     </div>
 
                     <div className="pt-2">
-                        <button className="w-full py-4 rounded-xl bg-primary text-white font-bold text-lg flex items-center justify-center gap-2 hover:bg-primary-dark transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                        <button type="submit" className="w-full py-4 rounded-xl bg-primary text-white font-bold text-lg flex items-center justify-center gap-2 hover:bg-primary-dark transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
                             Create Account <ArrowRight size={20} />
                         </button>
                     </div>

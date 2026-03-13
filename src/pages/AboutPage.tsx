@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 // Components
 import AboutHero from '../components/about/AboutHero';
@@ -14,6 +16,7 @@ import CareersCTA from '../components/about/CareersCTA';
 import AboutTestimonials from '../components/about/AboutTestimonials';
 
 const AboutPage: React.FC = () => {
+    const navigate = useNavigate();
     // Sticky Nav Logic
     const [activeTab, setActiveTab] = useState('overview');
     const [isSticky, setIsSticky] = useState(false);
@@ -56,6 +59,19 @@ const AboutPage: React.FC = () => {
 
     return (
         <div className="bg-bg-light min-h-screen">
+            <SEO
+                title="About Us — The Embedded Marketing Engine | Marketing Extension"
+                description="We're a distributed team of growth operators, strategists, and content marketers across 7 countries. We plug into your team, own the outcomes, and operate like an in-house squad."
+                canonical="https://marketingextension.com/about"
+                structuredData={[{
+                    "@context": "https://schema.org",
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
+                        { "@type": "ListItem", "position": 2, "name": "About", "item": "https://marketingextension.com/about" }
+                    ]
+                }]}
+            />
             <AboutHero />
 
             {/* Sticky Sub Nav */}
@@ -70,7 +86,7 @@ const AboutPage: React.FC = () => {
                         ].map(tab => (
                             <button
                                 key={tab.id}
-                                onClick={() => tab.path ? window.location.href = tab.path : scrollToSection(tab.id)}
+                                onClick={() => tab.path ? navigate(tab.path) : scrollToSection(tab.id)}
                                 className={`text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-colors pb-1 border-b-2 ${activeTab === tab.id ? 'text-primary border-primary' : 'text-text-muted border-transparent hover:text-text-dark'}`}
                             >
                                 {tab.label}

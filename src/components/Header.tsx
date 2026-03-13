@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Menu as MenuIcon, X, ArrowRight, Play, BookOpen, FileText, Video, Users, Calendar, BarChart2 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import logo from '../assets/logo.png';
 
 interface HeaderProps {
   onNavigate?: (page: any) => void; // Deprecated but kept for transition compatibility if needed
@@ -48,10 +49,12 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
       >
         <div className="container mx-auto px-6 max-w-7xl flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" onClick={closeMenu} className="flex items-center gap-2 group outline-none">
+          <Link to="/" onClick={closeMenu} aria-label="Marketing Extension – go to homepage" className="flex items-center gap-2 group outline-none">
             <img
-              src="/src/assets/logo.png"
+              src={logo}
               alt="Marketing Extension"
+              width="160"
+              height="32"
               className={`h-8 w-auto transition-all duration-300 ${!isLightMode ? 'brightness-0 invert' : ''}`}
             />
           </Link>
@@ -100,18 +103,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               Free Audit
             </Link>
 
-            {location.pathname.startsWith('/academy') ? (
-              <div className="flex items-center gap-6">
-                <Link to="/auth/login" className={`text-sm font-bold ${isLightMode ? 'text-text-muted hover:text-text-dark' : 'text-white/80 hover:text-white'} transition-colors`}>
-                  Sign In
-                </Link>
-                <Link to="/academy/sign-in" className="px-6 py-2.5 rounded-full font-bold text-sm bg-primary text-white hover:bg-primary-dark shadow-lg transition-all duration-300">
-                  Student Sign In
-                </Link>
-              </div>
-            ) : (
-              <Link to="/auth/login" className={`px-6 py-2.5 rounded-full font-bold text-sm flex items-center gap-2 transition-all duration-300 ${isLightMode ? 'bg-text-dark text-white hover:bg-primary shadow-lg' : 'bg-white text-text-dark hover:bg-primary hover:text-white shadow-lg'}`}>
-                Sign In
+            {location.pathname.startsWith('/academy') && (
+              <Link to="/academy/sign-in" className="px-6 py-2.5 rounded-full font-bold text-sm bg-primary text-white hover:bg-primary-dark shadow-lg transition-all duration-300">
+                Student Sign In
               </Link>
             )}
           </div>
@@ -119,6 +113,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
         {/* Mobile Toggle */}
         <button
+          aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-menu"
           className={`lg:hidden p-2 transition-colors duration-300 ${mobileMenuOpen ? 'text-text-dark' : textColor}`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
@@ -165,6 +162,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
         {
           mobileMenuOpen && (
             <motion.div
+              id="mobile-menu"
               initial={{ opacity: 0, x: '100%' }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
@@ -191,7 +189,6 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   )
                 ))}
                 <div className="pt-4 space-y-4">
-                  <Link to="/auth/login" onClick={closeMenu} className="block w-full py-3 text-center border border-gray-300 rounded-full font-bold text-text-dark">Sign In</Link>
                 </div>
               </div>
             </motion.div>
@@ -307,6 +304,10 @@ const ServicesMega = ({ onNavigate, closeMenu }: { onNavigate: (page: string) =>
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
           src={active.img}
+          alt={active.label}
+          width="800"
+          height="600"
+          loading="lazy"
           className="w-full h-full object-cover"
         />
       </div>
@@ -324,7 +325,7 @@ const WhyUsMega = ({ onNavigate, closeMenu }: { onNavigate: (page: string) => vo
     <div className="grid grid-cols-3 gap-6">
       {cards.map(card => (
         <Link key={card.id} to={card.path} onClick={closeMenu} className="group cursor-pointer rounded-[32px] overflow-hidden border border-gray-100 hover:shadow-2xl transition-all">
-          <div className="aspect-[16/9] overflow-hidden"><img src={card.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform" /></div>
+          <div className="aspect-[16/9] overflow-hidden"><img src={card.img} alt={card.title} width="600" height="338" loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform" /></div>
           <div className="p-6 bg-white"><h4 className="font-display font-bold text-lg mb-2">{card.title}</h4><p className="text-sm text-text-muted">{card.desc}</p></div>
         </Link>
       ))}
@@ -400,6 +401,10 @@ const ResourcesMega = ({ onNavigate, closeMenu }: { onNavigate: (page: string) =
           <div className="rounded-xl overflow-hidden mb-4 relative aspect-video">
             <img
               src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=600"
+              alt="Featured story – How a Fortune 500 doubled their AI adoption"
+              width="600"
+              height="338"
+              loading="lazy"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />

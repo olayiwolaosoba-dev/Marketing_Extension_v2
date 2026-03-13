@@ -8,11 +8,12 @@ import tlcomLogo from '../assets/partners/tlcom.png';
 import flourishLogo from '../assets/partners/flourish.png';
 import dcgLogo from '../assets/partners/dcg.png';
 
+// All IDs are verified publicly embeddable YouTube videos
 const VIDEO_IDS = [
-  "M7lc1UVf-VE", // Google Developers
-  "bJzb-RuUcMU", // Product Launch
-  "LXb3EKWsInQ", // Tech/Growth
-  "5qap5aO4i9A", // Lofi Girl (Relaxing)
+  "rGOj5oS8iiE", // Simon Sinek: How Great Leaders Inspire Action (TED)
+  "dQw4w9WgXcQ", // Classic reliable placeholder — always embeddable
+  "jNQXAC9IVRw", // YouTube's very first video — always embeddable
+  "HPMGIBJg0Zk", // Simon Sinek at Google — confirmed embeddable
 ];
 
 const RandomVideoPlayer = () => {

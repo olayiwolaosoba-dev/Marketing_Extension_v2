@@ -1,10 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight, BookOpen, Award, Users, Play, CheckCircle, Search, Shield, Zap, Calendar, Star, ArrowUpRight, Lock, PlayCircle, BarChart, ExternalLink, PenTool } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { academyData } from '../../lib/academyData';
+import SEO from '../../components/SEO';
+
+const ACADEMY_PREVIEW_VIDEO_ID = 'rGOj5oS8iiE'; // Simon Sinek TED Talk — verified embeddable placeholder
 
 const AcademyLandingPage: React.FC = () => {
+    const [coursePreviewPlaying, setCoursePreviewPlaying] = useState(false);
+
     useEffect(() => {
         document.title = "MExt University – Marketing Extension Academy";
         const metaDesc = document.querySelector('meta[name="description"]');
@@ -15,6 +20,12 @@ const AcademyLandingPage: React.FC = () => {
 
     return (
         <div className="bg-white overflow-hidden text-text-dark font-sans">
+            <SEO
+                title="Marketing Extension Academy — Growth Marketing Education"
+                description="Africa's marketing academy built like a modern product. Practical, social, and career-linked courses for growth marketers, strategists, and content creators."
+                canonical="https://marketingextension.com/academy"
+                noIndex={true}
+            />
             {/* HER0 SECTION */}
             <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden">
                 <div className="container mx-auto px-6 max-w-7xl relative z-10">
@@ -264,11 +275,38 @@ const AcademyLandingPage: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="w-full md:w-80 aspect-video bg-gray-800 rounded-xl border border-white/20 shadow-2xl overflow-hidden relative group cursor-pointer">
-                                <img src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&q=80&w=500" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Course Preview" />
-                                <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-colors">
-                                    <Play size={48} className="text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all" fill="currentColor" />
-                                </div>
+                            <div className="w-full md:w-80 aspect-video bg-gray-800 rounded-xl border border-white/20 shadow-2xl overflow-hidden relative group">
+                                {coursePreviewPlaying ? (
+                                    <iframe
+                                        className="w-full h-full"
+                                        src={`https://www.youtube.com/embed/${ACADEMY_PREVIEW_VIDEO_ID}?autoplay=1&rel=0`}
+                                        title="Course Preview"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                        loading="lazy"
+                                    />
+                                ) : (
+                                    <>
+                                        <img
+                                            src={`https://img.youtube.com/vi/${ACADEMY_PREVIEW_VIDEO_ID}/maxresdefault.jpg`}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            alt="Course Preview"
+                                            width="320"
+                                            height="180"
+                                            loading="lazy"
+                                            onError={(e) => {
+                                                (e.currentTarget as HTMLImageElement).src = `https://img.youtube.com/vi/${ACADEMY_PREVIEW_VIDEO_ID}/hqdefault.jpg`;
+                                            }}
+                                        />
+                                        <button
+                                            onClick={() => setCoursePreviewPlaying(true)}
+                                            aria-label="Play course preview"
+                                            className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-colors cursor-pointer w-full"
+                                        >
+                                            <Play size={48} className="text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all" fill="currentColor" />
+                                        </button>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>

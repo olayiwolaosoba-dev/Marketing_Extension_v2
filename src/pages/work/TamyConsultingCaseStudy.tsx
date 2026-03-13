@@ -1,4 +1,5 @@
 import React from 'react';
+import SEO from '../../components/SEO';
 import CaseStudyHero from '../../components/work/CaseStudyHero';
 import StickySnapshotBar from '../../components/work/StickySnapshotBar';
 import ChapterNav from '../../components/work/ChapterNav';
@@ -12,6 +13,12 @@ import NextCaseStudies from '../../components/work/NextCaseStudies';
 const TamyConsultingCaseStudy: React.FC = () => {
     return (
         <div className="bg-white min-h-screen">
+            <SEO
+                title="Tamy Consulting Case Study — Growth Engine Build | Marketing Extension"
+                description="How Marketing Extension built and activated Tamy Consulting's growth engine, driving inbound pipeline through positioning, content strategy, and demand generation."
+                canonical="https://marketingextension.com/work/tamy-consulting-growth-engine"
+                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://marketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "Tamy Consulting", "item": "https://marketingextension.com/work/tamy-consulting-growth-engine" }] }]}
+            />
             <CaseStudyHero
                 client="Tamy Consulting"
                 headline="Tamy Consulting — From Invisible Marketing to a Focused Digital Engine"
