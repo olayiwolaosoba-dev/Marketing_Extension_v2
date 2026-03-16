@@ -40,6 +40,12 @@ import GuideDetailPage from './pages/resources/GuideDetailPage';
 // Academy (PWA)
 import AcademyLayout from './layouts/AcademyLayout';
 import AcademyDashboard from './pages/Academy/Dashboard';
+import AcademyMyLearning from './pages/Academy/app/MyLearningPage';
+import AcademyCertificatesPage from './pages/Academy/app/CertificatesPage';
+import AcademyCommunityApp from './pages/Academy/app/CommunityPage';
+import AcademyJobsPage from './pages/Academy/app/JobsPage';
+import AcademySettingsPage from './pages/Academy/app/SettingsPage';
+import AcademyCoursePlayer from './pages/Academy/app/CoursePlayer';
 
 // ME-OS Platform
 import AppLayout from './layouts/AppLayout';
@@ -75,6 +81,7 @@ import {
 } from './pages/Academy/AcademySubpages';
 import { AcademyAi, AcademyPartners, AcademyStories, AcademyWaitlist } from './pages/Academy/AcademyStubs';
 import { StudentSignIn, StudentSignUp, StudentForgotPassword } from './pages/Academy/StudentAuth';
+import ProtectedRoute from './components/Academy/ProtectedRoute';
 
 // Auth Pages
 import Login from './pages/Auth/Login';
@@ -319,14 +326,23 @@ const AppContent: React.FC = () => {
             <Route path="/resources/guides" element={<PublicLayout><GuidesIndexPage /></PublicLayout>} />
             <Route path="/resources/guides/:slug" element={<PublicLayout><GuideDetailPage /></PublicLayout>} />
 
-            {/* --- Academy (PWA) App Routes --- */}
+            {/* --- Academy (PWA) App Routes — protected --- */}
             <Route path="/academy/app/*" element={
-              <AcademyLayout>
-                <Routes>
-                  <Route index element={<AcademyDashboard />} />
-                  <Route path="login" element={<Navigate to="/academy/sign-in" replace />} />
-                </Routes>
-              </AcademyLayout>
+              <ProtectedRoute>
+                <AcademyLayout>
+                  <Routes>
+                    <Route index element={<AcademyDashboard />} />
+                    <Route path="learning" element={<AcademyMyLearning />} />
+                    <Route path="certificates" element={<AcademyCertificatesPage />} />
+                    <Route path="community" element={<AcademyCommunityApp />} />
+                    <Route path="jobs" element={<AcademyJobsPage />} />
+                    <Route path="settings" element={<AcademySettingsPage />} />
+                    <Route path="courses/:slug" element={<AcademyCoursePlayer />} />
+                    <Route path="login" element={<Navigate to="/academy/sign-in" replace />} />
+                    <Route path="*" element={<Navigate to="/academy/app" replace />} />
+                  </Routes>
+                </AcademyLayout>
+              </ProtectedRoute>
             } />
 
             {/* --- Academy Marketing Site Routes --- */}

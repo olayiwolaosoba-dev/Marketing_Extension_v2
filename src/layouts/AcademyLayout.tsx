@@ -1,16 +1,25 @@
-import React, { ReactNode } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { Home, BookOpen, Users, Award, Briefcase, Settings, Menu, X, WifiOff } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { Home, BookOpen, Users, Award, Briefcase, Settings, Menu, X, WifiOff, LogOut } from 'lucide-react';
+import { useAcademyAuth } from '../lib/academyAuth';
 
 // This layout is for the Authenticated Learner Experience
 interface AcademyLayoutProps {
     children: ReactNode;
 }
 
+const FALLBACK_AVATAR = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200';
+
 const AcademyLayout: React.FC<AcademyLayoutProps> = ({ children }) => {
+    const { student, logout } = useAcademyAuth();
+    const navigate = useNavigate();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+    const handleLogout = () => {
+        logout();
+        navigate('/academy/sign-in', { replace: true });
+    };
 
     useEffect(() => {
         const handleOnline = () => setIsOffline(false);
@@ -26,18 +35,18 @@ const AcademyLayout: React.FC<AcademyLayoutProps> = ({ children }) => {
     }, []);
 
     const menuItems = [
-        { icon: Home, label: 'Dashboard', path: '/academy' },
-        { icon: BookOpen, label: 'My Learning', path: '/academy/learning' },
-        { icon: Award, label: 'Certificates', path: '/academy/certificates' },
-        { icon: Users, label: 'Community', path: '/academy/community' },
-        { icon: Briefcase, label: 'Jobs', path: '/academy/jobs' },
+        { icon: Home, label: 'Dashboard', path: '/academy/app' },
+        { icon: BookOpen, label: 'My Learning', path: '/academy/app/learning' },
+        { icon: Award, label: 'Certificates', path: '/academy/app/certificates' },
+        { icon: Users, label: 'Community', path: '/academy/app/community' },
+        { icon: Briefcase, label: 'Jobs', path: '/academy/app/jobs' },
     ];
 
     return (
         <div className="min-h-screen bg-bg-light flex flex-col md:flex-row">
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-100 sticky top-0 z-20">
-                <Link to="/academy" className="font-display font-bold text-lg text-text-dark">
+                <Link to="/academy/app" className="font-display font-bold text-lg text-text-dark">
                     MEA <span className="text-primary">Academy</span>
                 </Link>
                 <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 text-text-dark">
@@ -62,7 +71,7 @@ const AcademyLayout: React.FC<AcademyLayoutProps> = ({ children }) => {
                             key={item.path}
                             to={item.path}
                             onClick={() => setSidebarOpen(false)}
-                            end={item.path === '/academy'} // Only exact match for dashboard
+                            end={item.path === '/academy/app'} // Only exact match for dashboard
                             className={({ isActive }) => `
                 flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors
                 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-muted hover:bg-gray-50 hover:text-text-dark'}
@@ -75,18 +84,25 @@ const AcademyLayout: React.FC<AcademyLayoutProps> = ({ children }) => {
                 </nav>
 
                 <div className="p-4 border-t border-gray-50">
-                    <Link to="/academy/settings" className="flex items-center gap-3 px-4 py-3 text-text-muted hover:text-text-dark rounded-xl transition-colors">
+                    <Link to="/academy/app/settings" className="flex items-center gap-3 px-4 py-3 text-text-muted hover:text-text-dark rounded-xl transition-colors">
                         <Settings size={20} />
                         Settings
                     </Link>
                     <div className="mt-4 flex items-center gap-3 px-4">
-                        <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Profile" className="w-full h-full object-cover" />
+                        <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+                            <img src={student?.avatar || FALLBACK_AVATAR} alt="Profile" className="w-full h-full object-cover" />
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-bold text-text-dark truncate">Ada Nnaji</p>
-                            <p className="text-xs text-text-muted truncate">Digital Associate</p>
+                            <p className="text-sm font-bold text-text-dark truncate">{student?.name || 'Student'}</p>
+                            <p className="text-xs text-text-muted truncate">{student?.role || 'Academy Member'}</p>
                         </div>
+                        <button
+                            onClick={handleLogout}
+                            title="Sign out"
+                            className="flex-shrink-0 p-1.5 text-text-muted hover:text-red-500 transition-colors rounded-lg hover:bg-red-50"
+                        >
+                            <LogOut size={16} />
+                        </button>
                     </div>
                 </div>
             </aside>
