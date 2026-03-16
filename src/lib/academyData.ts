@@ -343,5 +343,108 @@ export const academyData = {
         { q: 'What is included in community?', a: 'Access to topic-specific spaces (SEO, Brand, etc.), weekly prompts, job boards, and peer feedback.' },
         { q: 'Do you offer scholarships?', a: 'Yes, we have a scholarship fund for underrepresented talent. Applications open quarterly.' },
         { q: 'How do employers verify?', a: 'Employers can visit /academy/verify, enter the certificate ID, and see the full transcript and validity status.' }
+    ],
+    jobs: [
+        {
+            id: '1',
+            title: 'Growth Marketing Manager',
+            company: 'Flutterwave',
+            location: 'Lagos, Nigeria',
+            type: 'Full-time',
+            level: 'Mid-Senior',
+            salary: '$40,000 - $60,000',
+            posted: '2 days ago',
+            tags: ['Growth', 'Paid Ads', 'Analytics'],
+            logo: 'F',
+            logoColor: '#FF9B21'
+        },
+        {
+            id: '2',
+            title: 'Content Strategist',
+            company: 'Paystack',
+            location: 'Remote (Africa)',
+            type: 'Full-time',
+            level: 'Mid',
+            salary: '$35,000 - $50,000',
+            posted: '5 days ago',
+            tags: ['Content', 'SEO', 'Brand'],
+            logo: 'P',
+            logoColor: '#00C3F7'
+        },
+        {
+            id: '3',
+            title: 'Performance Marketing Intern',
+            company: 'Andela',
+            location: 'Lagos, Nigeria',
+            type: 'Internship',
+            level: 'Entry',
+            salary: '$800/month',
+            posted: '1 day ago',
+            tags: ['Paid Social', 'Google Ads', 'Reporting'],
+            logo: 'A',
+            logoColor: '#56C568'
+        },
+        {
+            id: '4',
+            title: 'Marketing Operations Lead',
+            company: 'Moniepoint',
+            location: 'Lagos, Nigeria',
+            type: 'Full-time',
+            level: 'Senior',
+            salary: '$55,000 - $75,000',
+            posted: '3 days ago',
+            tags: ['HubSpot', 'RevOps', 'Automation'],
+            logo: 'M',
+            logoColor: '#0066FF'
+        },
+        {
+            id: '5',
+            title: 'Brand Designer (Contract)',
+            company: 'Piggyvest',
+            location: 'Remote (Nigeria)',
+            type: 'Contract',
+            level: 'Mid',
+            salary: '$3,000/month',
+            posted: '1 week ago',
+            tags: ['Figma', 'Brand Identity', 'Social'],
+            logo: 'P',
+            logoColor: '#0C1E5B'
+        },
+        {
+            id: '6',
+            title: 'SEO & Content Manager',
+            company: 'Kuda Bank',
+            location: 'Lagos, Nigeria',
+            type: 'Full-time',
+            level: 'Mid',
+            salary: '$30,000 - $45,000',
+            posted: '4 days ago',
+            tags: ['SEO', 'Content Marketing', 'Analytics'],
+            logo: 'K',
+            logoColor: '#40196D'
+        },
+        {
+            id: '7',
+            title: 'Product Marketing Manager',
+            company: 'Chipper Cash',
+            location: 'Accra, Ghana',
+            type: 'Full-time',
+            level: 'Senior',
+            salary: '$50,000 - $70,000',
+            posted: '6 days ago',
+            tags: ['GTM', 'Positioning', 'Research'],
+            logo: 'C',
+            logoColor: '#6B3FA0'
+        }
+    ],
+    partners: [
+        'TechPoint Africa',
+        'Ventures Platform',
+        'Cabal',
+        'Future Africa',
+        'Ingressive for Good',
+        'AltSchool Africa',
+        'Flutterwave Foundation',
+        'Google for Startups'
     ]
 };

@@ -1,14 +1,18 @@
 import React from 'react';
 import { Play, Clock, Award, Flame, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useAcademyAuth } from '../../lib/academyAuth';
 
 const AcademyDashboard = () => {
+    const { student } = useAcademyAuth();
+    const firstName = student?.name?.split(' ')[0] || 'Student';
+
     return (
         <div className="space-y-8">
             {/* Header */}
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-display font-bold text-text-dark">Welcome back, Ada! 👋</h1>
+                    <h1 className="text-3xl font-display font-bold text-text-dark">Welcome back, {firstName}! 👋</h1>
                     <p className="text-text-muted mt-1">You're making great progress on your Digital Marketing track.</p>
                 </div>
                 <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
