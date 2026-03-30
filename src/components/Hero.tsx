@@ -3,10 +3,60 @@ import { motion } from 'framer-motion';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// Partner Logos
-import tlcomLogo from '../assets/partners/tlcom.png';
-import flourishLogo from '../assets/partners/flourish.png';
-import dcgLogo from '../assets/partners/dcg.png';
+// Inline investor logo components — renders crisp white text on dark bg
+const CardinalStoneLogo = () => (
+  <div className="flex items-center gap-1.5 select-none">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="11" cy="11" r="10" stroke="white" strokeWidth="1.2" opacity="0.7"/>
+      <rect x="5" y="10" width="2" height="7" rx="0.5" fill="white" opacity="0.5"/>
+      <rect x="8" y="7" width="2" height="10" rx="0.5" fill="white" opacity="0.6"/>
+      <rect x="11" y="4" width="2" height="13" rx="0.5" fill="white" opacity="0.8"/>
+      <rect x="14" y="7" width="2" height="10" rx="0.5" fill="white" opacity="0.6"/>
+      <rect x="17" y="10" width="2" height="7" rx="0.5" fill="white" opacity="0.5"/>
+    </svg>
+    <span className="text-white text-[10px] tracking-[0.1em]" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>
+      <span className="text-[12px]">C</span>ARDINAL<span className="text-[12px]">S</span>TONE
+    </span>
+  </div>
+);
+
+const FlourishLogo = () => (
+  <div className="flex items-center gap-1 select-none">
+    <svg width="20" height="22" viewBox="0 0 20 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 1C12 1 15.5 7 15.5 14C15.5 21 10.5 25 4 25C4 25 4 18 4 13C4 6 7.5 1 12 1Z" fill="white" opacity="0.65"/>
+      <path d="M12 1C12 1 8.5 7 8.5 14C8.5 20 4 25 4 25" stroke="white" strokeWidth="1" fill="none" opacity="0.4"/>
+    </svg>
+    <span className="text-white text-[16px] font-light tracking-[-0.02em]" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+      flourish
+    </span>
+  </div>
+);
+
+const DCGLogo = () => (
+  <div className="flex items-center gap-2 select-none">
+    <span className="text-white text-[22px] font-extrabold tracking-[-0.04em] leading-none" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+      DCG
+    </span>
+    <div className="flex flex-col leading-[1.15]">
+      <span className="text-white/70 text-[6.5px] font-medium tracking-[0.02em]" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>Digital</span>
+      <span className="text-white/70 text-[6.5px] font-medium tracking-[0.02em]" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>Currency</span>
+      <span className="text-white/70 text-[6.5px] font-medium tracking-[0.02em]" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>Group</span>
+    </div>
+  </div>
+);
+
+const TLComLogo = () => (
+  <div className="flex items-center gap-1.5 select-none">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="11" cy="11" r="9.5" stroke="white" strokeWidth="1.4" opacity="0.7"/>
+      <text x="11" y="14.5" textAnchor="middle" fill="white" fontSize="10" fontWeight="700" fontFamily="Helvetica Neue, Arial, sans-serif" opacity="0.85">TL</text>
+    </svg>
+    <div className="flex flex-col leading-[1.1]">
+      <span className="text-white text-[10px] font-bold tracking-[0.25em]" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>TLCOM</span>
+      <span className="text-white/60 text-[10px] font-light tracking-[0.25em]" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>CAPITAL</span>
+    </div>
+  </div>
+);
 
 // All IDs are verified publicly embeddable YouTube videos
 const VIDEO_IDS = [
@@ -114,14 +164,14 @@ const Hero: React.FC = () => {
             <RandomVideoPlayer />
 
             {/* Partner Logos */}
-            {/* Partner Logos */}
             <div className="mt-10">
-              <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em] mb-6">Embedded marketing teams for companies backed by world-class investors</p>
-              <div className="flex flex-wrap items-center gap-10 opacity-80 grayscale">
-                <img src={flourishLogo} alt="Flourish Ventures" className="h-6 w-auto object-contain opacity-90" />
-                <img src={tlcomLogo} alt="TLcom Capital" className="h-6 w-auto object-contain opacity-90" />
-                <img src={dcgLogo} alt="Digital Currency Group" className="h-6 w-auto object-contain opacity-90" />
-                <span className="text-white/30 text-[10px] font-bold self-center tracking-widest pl-2 border-l border-white/10">AND MORE</span>
+              <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em] mb-5">Embedded marketing teams for companies backed by world-class investors</p>
+              <div className="flex flex-wrap items-center gap-5">
+                <div className="opacity-50 hover:opacity-85 transition-opacity duration-300"><CardinalStoneLogo /></div>
+                <div className="opacity-50 hover:opacity-85 transition-opacity duration-300"><FlourishLogo /></div>
+                <div className="opacity-50 hover:opacity-85 transition-opacity duration-300"><DCGLogo /></div>
+                <div className="opacity-50 hover:opacity-85 transition-opacity duration-300"><TLComLogo /></div>
+                <span className="text-white/25 text-[9px] font-bold self-center tracking-widest pl-3 border-l border-white/10">AND MORE</span>
               </div>
             </div>
           </div>

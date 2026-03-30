@@ -9,6 +9,15 @@ import imgConsulting from '../assets/service-consulting.png';
 import imgContent from '../assets/service-content.png';
 import imgMartech from '../assets/service-martech.png';
 
+// Helper: split text at ~50% on a word boundary
+const splitBodyText = (text: string): [string, string] => {
+  const mid = Math.floor(text.length / 2);
+  const spaceAfter = text.indexOf(' ', mid);
+  const spaceBefore = text.lastIndexOf(' ', mid);
+  const splitAt = (spaceAfter !== -1 && (spaceAfter - mid) < (mid - spaceBefore)) ? spaceAfter : spaceBefore;
+  return [text.slice(0, splitAt), text.slice(splitAt)];
+};
+
 interface ServiceBlockProps {
   num: string;
   headline: string;
@@ -16,12 +25,17 @@ interface ServiceBlockProps {
   ctaText: string;
   ctaLink: string;
   image: string;
+  videoId: string;
   id: string;
 }
 
-const ServiceBlock: React.FC<ServiceBlockProps> = ({ num, headline, body, ctaText, ctaLink, image, id }) => {
+const ServiceBlock: React.FC<ServiceBlockProps> = ({ num, headline, body, ctaText, ctaLink, image, videoId, id }) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: false, margin: "-20% 0px -20% 0px" });
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const [firstHalf, secondHalf] = splitBodyText(body);
 
   return (
     <section id={id} ref={ref} className="py-24 md:py-32 relative overflow-hidden group">
@@ -50,14 +64,22 @@ const ServiceBlock: React.FC<ServiceBlockProps> = ({ num, headline, body, ctaTex
 
           {/* Middle Column: Body & CTA */}
           <div className="md:col-span-4 flex flex-col gap-8">
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-lg text-text-muted leading-relaxed"
             >
-              {body}
-            </motion.p>
+              <p>
+                {isExpanded ? body : (<>{firstHalf}…</>)}
+              </p>
+              <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="mt-2 text-primary font-semibold text-sm hover:underline transition-all duration-200 cursor-pointer"
+              >
+                {isExpanded ? 'See less' : 'See more'}
+              </button>
+            </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
@@ -71,7 +93,7 @@ const ServiceBlock: React.FC<ServiceBlockProps> = ({ num, headline, body, ctaTex
             </motion.div>
           </div>
 
-          {/* Right Column: Media Tile (Liquid Glass) */}
+          {/* Right Column: Video Tile */}
           <div className="md:col-span-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -79,23 +101,42 @@ const ServiceBlock: React.FC<ServiceBlockProps> = ({ num, headline, body, ctaTex
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl group/media"
             >
-              {/* Background Image with slight parallax/scale on hover */}
-              <motion.img
-                src={image}
-                alt={headline}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover/media:scale-105"
-              />
+              {isPlaying ? (
+                /* YouTube Embed */
+                <iframe
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+                  title={headline}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                  allowFullScreen
+                />
+              ) : (
+                /* Thumbnail + Play Button */
+                <>
+                  <img
+                    src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                    alt={headline}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover/media:scale-105"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+                    }}
+                  />
 
-              {/* Liquid Glass Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-50 pointer-events-none" />
-              <div className="absolute inset-0 backdrop-blur-[1px] bg-white/5 border border-white/20 rounded-3xl pointer-events-none" />
+                  {/* Liquid Glass Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-black/30 to-transparent opacity-60 pointer-events-none" />
+                  <div className="absolute inset-0 backdrop-blur-[1px] bg-white/5 border border-white/20 rounded-3xl pointer-events-none" />
 
-              {/* Play Button */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 bg-primary/90 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-[0_0_20px_rgba(249,115,22,0.4)] group-hover/media:scale-110 group-hover/media:shadow-[0_0_30px_rgba(249,115,22,0.6)] transition-all duration-500 cursor-pointer">
-                  <Play size={24} fill="currentColor" className="ml-1" />
-                </div>
-              </div>
+                  {/* Play Button */}
+                  <div
+                    className="absolute inset-0 flex items-center justify-center cursor-pointer"
+                    onClick={() => setIsPlaying(true)}
+                  >
+                    <div className="w-16 h-16 bg-primary/90 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-[0_0_20px_rgba(249,115,22,0.4)] group-hover/media:scale-110 group-hover/media:shadow-[0_0_30px_rgba(249,115,22,0.6)] transition-all duration-500">
+                      <Play size={24} fill="currentColor" className="ml-1" />
+                    </div>
+                  </div>
+                </>
+              )}
             </motion.div>
           </div>
 
@@ -165,6 +206,7 @@ const ProblemsWeSolve: React.FC = () => {
         ctaText="Get a consulting plan"
         ctaLink="/services/marketing-consulting"
         image={imgConsulting}
+        videoId="rGOj5oS8iiE"
       />
 
       <ServiceBlock
@@ -175,6 +217,7 @@ const ProblemsWeSolve: React.FC = () => {
         ctaText="Build my content engine"
         ctaLink="/contentplus"
         image={imgContent}
+        videoId="dQw4w9WgXcQ"
       />
 
       <ServiceBlock
@@ -185,6 +228,7 @@ const ProblemsWeSolve: React.FC = () => {
         ctaText="Upgrade my stack"
         ctaLink="/services/martech"
         image={imgMartech}
+        videoId="jNQXAC9IVRw"
       />
     </section>
   );
