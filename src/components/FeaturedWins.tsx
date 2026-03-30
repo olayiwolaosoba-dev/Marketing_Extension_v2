@@ -1,13 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// Client Logos
-// Using placeholders for missing logos for now or reusing if appropriate
-// The user provided 5 images, mapped to the first 5 available matches roughly in order?
-// Zone (0), Quidax (1), Smartcomply (2), Mercurie (3), Sabi (4). 
-// That leaves VERYPAY, Tamy, Google without unique logos from the upload.
+import zoneImg from '../assets/clients/zone.jpeg';
+import quidaxImg from '../assets/clients/quidax.png';
+import smartcomplyImg from '../assets/clients/smartcomply.png';
+import verypayImg from '../assets/clients/verypay.webp';
+import mercurieImg from '../assets/clients/mercurie.png';
+import sabiImg from '../assets/clients/sabi.png';
+import googleImg from '../assets/clients/google.png';
 
 interface WinCardProps {
+  logo?: string;
   name: string;
   desc: string;
   metric: string;
@@ -15,7 +18,7 @@ interface WinCardProps {
   delay: number;
 }
 
-const WinCard: React.FC<WinCardProps> = ({ name, desc, metric, tags, delay }) => (
+const WinCard: React.FC<WinCardProps> = ({ logo, name, desc, metric, tags, delay }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -27,7 +30,17 @@ const WinCard: React.FC<WinCardProps> = ({ name, desc, metric, tags, delay }) =>
     <div className="absolute inset-0 bg-primary translate-x-[101%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
 
     <div className="relative z-10 flex flex-col h-full">
-      <div className="w-12 h-12 bg-bg-gray rounded-full mb-8 group-hover:bg-white/20 transition-colors" />
+      <div className="w-16 h-12 mb-8 flex items-center">
+        {logo ? (
+          <img
+            src={logo}
+            alt={name}
+            className="h-10 w-auto max-w-[120px] object-contain grayscale group-hover:grayscale-0 group-hover:brightness-0 group-hover:invert transition-all duration-300"
+          />
+        ) : (
+          <div className="w-12 h-12 bg-bg-gray rounded-full group-hover:bg-white/20 transition-colors" />
+        )}
+      </div>
 
       <h3 className="text-2xl font-display font-bold mb-4 group-hover:text-white transition-colors">{name}</h3>
       <p className="text-text-muted group-hover:text-white/80 transition-colors mb-6">{desc}</p>
@@ -51,14 +64,14 @@ const WinCard: React.FC<WinCardProps> = ({ name, desc, metric, tags, delay }) =>
 
 const FeaturedWins: React.FC = () => {
   const wins = [
-    { name: 'Zone', desc: 'Regulated blockchain payment infrastructure network.', metric: '₦1T+ Transactions', tags: ['Fintech', 'Nigeria'], delay: 0.1 },
-    { name: 'Quidax', desc: 'Making crypto feel mainstream through culture-led, education-first growth.', metric: '100K+ Signups', tags: ['Crypto', 'West Africa'], delay: 0.2 },
-    { name: 'Smartcomply', desc: 'Group narrative + demand engine across a multi-product cybersecurity & compliance suite.', metric: '2–3× Enterprise Pipeline Growth', tags: ['RegTech', 'Africa'], delay: 0.3 },
-    { name: 'VERYPAY', desc: 'Embedded in-country marketing leadership for multi-market expansion and adoption.', metric: '4+ In-Country Teams Deployed', tags: ['Fintech', 'Africa'], delay: 0.4 },
-    { name: 'Mercurie', desc: 'Reframed “payments for SaaS” into an infrastructure story that travels across markets.', metric: '~40% Admin Savings', tags: ['B2B SaaS', 'Nigeria'], delay: 0.1 },
-    { name: 'SabiTrack', desc: 'From early-stage idea to launch-ready narrative, assets, and GTM foundations.', metric: 'Launched in <6 Months', tags: ['B2B SaaS', 'UK'], delay: 0.2 },
-    { name: 'Tamy Consulting', desc: 'Consulting repositioning + content and PR system built for pipeline credibility.', metric: '3–4 Tier-1 Features Secured', tags: ['Consulting', 'Nigeria'], delay: 0.3 },
-    { name: 'Google West Africa', desc: 'Content Production (The Buffet) for a leading telecommunications provider.', metric: '1M+ Views', tags: ['Tech', 'West Africa'], delay: 0.4 },
+    { logo: zoneImg, name: 'Zone', desc: 'Regulated blockchain payment infrastructure network.', metric: '₦1T+ Transactions', tags: ['Fintech', 'Nigeria'], delay: 0.1 },
+    { logo: quidaxImg, name: 'Quidax', desc: 'Making crypto feel mainstream through culture-led, education-first growth.', metric: '100K+ Signups', tags: ['Crypto', 'West Africa'], delay: 0.2 },
+    { logo: smartcomplyImg, name: 'Smartcomply', desc: 'Group narrative + demand engine across a multi-product cybersecurity & compliance suite.', metric: '2–3× Enterprise Pipeline Growth', tags: ['RegTech', 'Africa'], delay: 0.3 },
+    { logo: verypayImg, name: 'VERYPAY', desc: 'Embedded in-country marketing leadership for multi-market expansion and adoption.', metric: '4+ In-Country Teams Deployed', tags: ['Fintech', 'Africa'], delay: 0.4 },
+    { logo: mercurieImg, name: 'Mercurie', desc: 'Reframed "payments for SaaS" into an infrastructure story that travels across markets.', metric: '~40% Admin Savings', tags: ['B2B SaaS', 'Nigeria'], delay: 0.1 },
+    { logo: sabiImg, name: 'SabiTrack', desc: 'From early-stage idea to launch-ready narrative, assets, and GTM foundations.', metric: 'Launched in <6 Months', tags: ['B2B SaaS', 'UK'], delay: 0.2 },
+    { logo: undefined, name: 'Tamy Consulting', desc: 'Consulting repositioning + content and PR system built for pipeline credibility.', metric: '3–4 Tier-1 Features Secured', tags: ['Consulting', 'Nigeria'], delay: 0.3 },
+    { logo: googleImg, name: 'Google West Africa', desc: 'Content Production (The Buffet) for a leading telecommunications provider.', metric: '1M+ Views', tags: ['Tech', 'West Africa'], delay: 0.4 },
   ];
 
   return (

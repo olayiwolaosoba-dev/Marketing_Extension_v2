@@ -1,8 +1,26 @@
 import React from 'react';
 
+import zoneImg from '../../assets/clients/zone.jpeg';
+import quidaxImg from '../../assets/clients/quidax.png';
+import smartcomplyImg from '../../assets/clients/smartcomply.png';
+import verypayImg from '../../assets/clients/verypay.webp';
+import andelaImg from '../../assets/clients/andela.png';
+import seequreImg from '../../assets/clients/seequre.png';
+import adhereImg from '../../assets/clients/adhere.png';
+import elev8Img from '../../assets/clients/elev8.png';
+
+const logos = [
+  { src: zoneImg, alt: 'Zone' },
+  { src: quidaxImg, alt: 'Quidax' },
+  { src: smartcomplyImg, alt: 'Smartcomply' },
+  { src: verypayImg, alt: 'VeryPay' },
+  { src: andelaImg, alt: 'Andela' },
+  { src: seequreImg, alt: 'Seequre' },
+  { src: adhereImg, alt: 'Adhere' },
+  { src: elev8Img, alt: 'Elev8' },
+];
+
 const TrustBar: React.FC = () => {
-    // Placeholder logic for logos - using text or generic shapes if images aren't real yet.
-    // User requested placeholders if real logos not available.
     return (
         <section className="bg-bg-dark pb-32">
             <div className="container mx-auto px-6 max-w-7xl border-t border-white/10 pt-16">
@@ -12,14 +30,15 @@ const TrustBar: React.FC = () => {
                         <p className="text-white/40 text-sm">Fintech, Infrastructure, Venture, Growth</p>
                     </div>
 
-                    {/* Logo Row Gradient Mask */}
                     <div className="flex-1 w-full overflow-hidden relative mask-gradient-horizontal">
-                        <div className="flex items-center justify-between gap-12 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                            {/* Placeholders for logos */}
-                            {['Paystack', 'Kuda', 'Eden Life', 'Bamboo', 'Chowdeck', 'Moniepoint'].map((name, i) => (
-                                <div key={i} className="text-white font-display font-bold text-2xl shrink-0">
-                                    {name}
-                                </div>
+                        <div className="flex items-center justify-between gap-10 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                            {logos.map((logo, i) => (
+                                <img
+                                    key={i}
+                                    src={logo.src}
+                                    alt={logo.alt}
+                                    className="h-7 w-auto object-contain shrink-0"
+                                />
                             ))}
                         </div>
                     </div>
