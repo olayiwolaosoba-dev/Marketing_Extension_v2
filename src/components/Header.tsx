@@ -109,18 +109,18 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               </Link>
             )}
           </div>
-        </div>
 
-        {/* Mobile Toggle */}
-        <button
-          aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          aria-expanded={mobileMenuOpen}
-          aria-controls="mobile-menu"
-          className={`lg:hidden p-2 transition-colors duration-300 ${mobileMenuOpen ? 'text-text-dark' : textColor}`}
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X size={28} /> : <MenuIcon size={28} />}
-        </button>
+          {/* Mobile Toggle */}
+          <button
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
+            className={`lg:hidden p-2 transition-colors duration-300 ${mobileMenuOpen ? 'text-text-dark' : textColor}`}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={28} /> : <MenuIcon size={28} />}
+          </button>
+        </div>
 
 
         {/* Mega Menus Container */}
