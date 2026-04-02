@@ -55,9 +55,15 @@ const WinCard: React.FC<WinCardProps> = ({ image, name, desc, metric, tags, dela
           <p className="text-white/90 text-sm leading-relaxed max-w-[280px]">{desc}</p>
         </div>
 
-        {/* Bottom: Metric + Tags (always visible) */}
+        {/* Bottom: Metric (hover/click only) + Tags (always visible) */}
         <div className="mt-auto">
-          <div className="text-2xl font-display font-bold text-white mb-4 leading-tight">
+          <div
+            className={`text-2xl font-display font-bold text-white mb-4 leading-tight transition-all duration-500 ${
+              isRevealed
+                ? 'opacity-100 translate-y-0'
+                : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+            }`}
+          >
             {metric}
           </div>
 
