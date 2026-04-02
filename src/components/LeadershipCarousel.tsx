@@ -2,6 +2,13 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Linkedin } from 'lucide-react';
 
+import oshobaImg from '../assets/team/oshoba.png';
+import adebolaImg from '../assets/team/adebola.png';
+import favourImg from '../assets/team/favour.png';
+import motilolaImg from '../assets/team/motilola.png';
+import temiladeImg from '../assets/team/temilade.png';
+import preciousImg from '../assets/team/precious.png';
+
 interface LeaderProfile {
     id: number;
     name: string;
@@ -14,44 +21,44 @@ interface LeaderProfile {
 const LEADERS: LeaderProfile[] = [
     {
         id: 1,
-        name: "Sarah Chen",
+        name: "Hugh Oshoba",
         role: "Chief Executive Officer",
-        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800&h=1067", // Portrait 3:4
+        image: oshobaImg,
         capsules: ["Growth Strategy", "Corp Dev", "Brand Vision", "Leadership"],
     },
     {
         id: 2,
-        name: "David Okonjo",
+        name: "Adebola Olusunmade",
         role: "Chief Technology Officer",
-        image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800&h=1067",
+        image: adebolaImg,
         capsules: ["AI Infrastructure", "MarTech", "Product Eng", "Scale"],
     },
     {
         id: 3,
-        name: "Elena Rodriguez",
+        name: "Favour",
         role: "VP of Growth",
-        image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800&h=1067",
+        image: favourImg,
         capsules: ["Demand Gen", "Paid Media", "Lifecycle", "Analytics"],
     },
     {
         id: 4,
-        name: "Michael Chang",
+        name: "Motilola",
         role: "Head of Strategy",
-        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800&h=1067",
+        image: motilolaImg,
         capsules: ["GTM", "Partnerships", "Market Research", "Ops"],
     },
     {
         id: 5,
-        name: "Amara Ndiaye",
+        name: "Temilade",
         role: "Creative Director",
-        image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=800&h=1067",
+        image: temiladeImg,
         capsules: ["Brand Design", "UX/UI", "Content Strategy", "Storytelling"],
     },
     {
         id: 6,
-        name: "James Wilson",
+        name: "Precious",
         role: "VP of Sales",
-        image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800&h=1067",
+        image: preciousImg,
         capsules: ["Enterprise Sales", "RevOps", "Negotiation", "Team Building"],
     },
 ];
