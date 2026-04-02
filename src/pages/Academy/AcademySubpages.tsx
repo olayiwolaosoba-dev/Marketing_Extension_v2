@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { academyData } from '../../lib/academyData';
-import { ArrowLeft, Clock, CheckCircle, BarChart, Users, Star, Lock, PlayCircle, Shield, Calendar } from 'lucide-react';
+import { getCourseBySlug } from '../../lib/academyCourseData';
+import { useAcademyProgress } from '../../stores/academyProgress';
+import { useAcademyAuth } from '../../lib/academyAuth';
+import { ArrowLeft, Clock, CheckCircle, BarChart, Users, Star, Lock, PlayCircle, Shield, Calendar, BookOpen, FileText } from 'lucide-react';
 
 // --- SHARED COMPONENTS ---
 const AcademyHero = ({ title, subtitle, image, pill }: any) => (
@@ -257,23 +260,110 @@ export const AcademyTrackDetail: React.FC = () => {
 
 export const AcademyCourseDetail: React.FC = () => {
     const { slug } = useParams();
-    const course = academyData.courses.find(c => c.slug === slug) || academyData.courses[0];
+    const navigate = useNavigate();
+    const catalogCourse = academyData.courses.find(c => c.slug === slug) || academyData.courses[0];
+    const curriculumData = getCourseBySlug(slug || '');
+    const { enrollCourse, isEnrolled } = useAcademyProgress();
+    const { isAuthenticated } = useAcademyAuth();
+    const enrolled = isEnrolled(slug || '');
+
+    const totalLessons = curriculumData?.modules.reduce((sum, m) => sum + m.lessons.length, 0) || 0;
+    const totalModules = curriculumData?.modules.length || 0;
+
+    const handleEnroll = () => {
+        if (!isAuthenticated) {
+            navigate('/academy/sign-up', { state: { from: `/academy/courses/${slug}` } });
+            return;
+        }
+        enrollCourse(slug || '');
+        navigate(`/academy/app/courses/${slug}`);
+    };
+
     return (
         <div>
-            <AcademyHero title={course.title} subtitle={course.summary} image={course.image} pill="Course" />
+            <AcademyHero title={catalogCourse.title} subtitle={catalogCourse.summary} image={catalogCourse.image} pill="Course" />
             <div className="container mx-auto px-6 max-w-7xl py-20">
                 <Link to="/academy/courses" className="inline-flex items-center gap-2 text-text-muted font-bold hover:text-text-dark mb-8"><ArrowLeft size={16} /> Back to Catalog</Link>
-                <div className="grid md:grid-cols-2 gap-12">
-                    <div>
-                        <h2 className="text-2xl font-bold mb-6">Syllabus</h2>
-                        <ul className="space-y-4">
-                            {course.topics.map((t, i) => (
-                                <li key={i} className="p-4 border border-gray-200 rounded-xl flex items-center justify-between">
-                                    <span className="font-bold text-text-dark">{t}</span>
-                                    <PlayCircle size={20} className="text-primary" />
-                                </li>
-                            ))}
-                        </ul>
+                <div className="flex flex-col md:flex-row gap-12">
+                    <div className="flex-1">
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="flex items-center gap-1"><Star size={16} className="text-orange-500 fill-orange-500" /><span className="font-bold">{catalogCourse.rating}</span><span className="text-text-muted text-sm">({catalogCourse.reviewsCount} reviews)</span></div>
+                            <span className="px-2 py-1 bg-gray-100 rounded text-xs font-bold">{catalogCourse.level}</span>
+                            <span className="px-2 py-1 bg-gray-100 rounded text-xs font-bold">{catalogCourse.durationHours}h</span>
+                        </div>
+
+                        {catalogCourse.outcomes && (
+                            <section className="mb-12">
+                                <h2 className="text-2xl font-bold mb-6">What you'll learn</h2>
+                                <div className="grid sm:grid-cols-2 gap-3">
+                                    {catalogCourse.outcomes.map((o: string) => (
+                                        <div key={o} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                                            <CheckCircle size={18} className="text-primary shrink-0" />
+                                            <span className="text-sm font-medium text-text-dark">{o}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        <section>
+                            <h2 className="text-2xl font-bold mb-6">Curriculum</h2>
+                            <p className="text-text-muted mb-6">{totalModules} modules, {totalLessons} lessons</p>
+                            {curriculumData ? (
+                                <div className="space-y-4">
+                                    {curriculumData.modules.map((mod, i) => (
+                                        <div key={mod.id} className="border border-gray-200 rounded-xl overflow-hidden">
+                                            <div className="p-5 bg-gray-50 flex items-center gap-4">
+                                                <div className="w-8 h-8 rounded-full bg-text-dark text-white flex items-center justify-center font-bold text-sm shrink-0">{i + 1}</div>
+                                                <div className="flex-1">
+                                                    <h3 className="font-bold text-text-dark">{mod.title}</h3>
+                                                    <p className="text-xs text-text-muted mt-1">{mod.lessons.length} lessons</p>
+                                                </div>
+                                            </div>
+                                            <div className="divide-y divide-gray-100">
+                                                {mod.lessons.map((lesson) => (
+                                                    <div key={lesson.id} className="px-5 py-3 flex items-center gap-3 text-sm">
+                                                        {lesson.type === 'video' && <PlayCircle size={16} className="text-primary shrink-0" />}
+                                                        {lesson.type === 'reading' && <BookOpen size={16} className="text-blue-500 shrink-0" />}
+                                                        {lesson.type === 'quiz' && <FileText size={16} className="text-green-600 shrink-0" />}
+                                                        <span className="flex-1 text-text-dark">{lesson.title}</span>
+                                                        <span className="text-text-muted text-xs">{lesson.duration} min</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <ul className="space-y-4">
+                                    {catalogCourse.topics.map((t: string, i: number) => (
+                                        <li key={i} className="p-4 border border-gray-200 rounded-xl flex items-center justify-between">
+                                            <span className="font-bold text-text-dark">{t}</span>
+                                            <Lock size={16} className="text-gray-400" />
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </section>
+                    </div>
+
+                    <div className="w-full md:w-80 shrink-0">
+                        <div className="bg-white p-8 rounded-3xl border border-gray-200 sticky top-32">
+                            <div className="text-3xl font-bold text-text-dark mb-2">Free</div>
+                            <p className="text-text-muted text-sm mb-6">{totalModules} modules, {totalLessons} lessons included.</p>
+                            {enrolled ? (
+                                <Link to={`/academy/app/courses/${slug}`} className="block w-full py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-dark transition-colors text-center mb-4">Continue Learning</Link>
+                            ) : (
+                                <button onClick={handleEnroll} className="w-full py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-dark transition-colors mb-4 cursor-pointer">
+                                    {isAuthenticated ? 'Enroll & Start' : 'Sign Up to Start'}
+                                </button>
+                            )}
+                            <div className="space-y-3 text-sm text-text-muted">
+                                <div className="flex justify-between"><span>Duration</span> <span className="font-bold text-text-dark">{catalogCourse.durationHours} hours</span></div>
+                                <div className="flex justify-between"><span>Level</span> <span className="font-bold text-text-dark">{catalogCourse.level}</span></div>
+                                <div className="flex justify-between"><span>Lessons</span> <span className="font-bold text-text-dark">{totalLessons}</span></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
