@@ -5,6 +5,10 @@ import { ArrowRight, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { CaseStudy } from '../types';
 
+import zoneImg from '../assets/case-studies/zone.jpg';
+import verypayImg from '../assets/case-studies/verypay.jpg';
+import smartcomplyImg from '../assets/case-studies/smartcomply.jpg';
+
 const cases: CaseStudy[] = [
   {
     id: '1',
@@ -14,7 +18,7 @@ const cases: CaseStudy[] = [
     tags: ['Strategy', 'GTM', 'Marketing_OS'],
     techStack: 'Brand architecture, PR & executive branding, marketing OS',
     timeline: '2022 – Present',
-    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=1200',
+    image: zoneImg,
     path: '/work/zone-regulated-blockchain-payments',
     results: [
       'Onboarded 12+ leading banks + 500+ microfinance banks onto the network',
@@ -30,7 +34,7 @@ const cases: CaseStudy[] = [
     tags: ['Talent_Bench', 'Operating_Model', 'Multi_Country'],
     techStack: 'Operating-model design, multi-country recruitment, oversight cadences',
     timeline: 'Oct 2024 – May 2025',
-    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1200',
+    image: verypayImg,
     path: '/work/verypay-multi-country-marketing-bench',
     results: [
       '4 in-country marketing leaders installed across Uganda, Zimbabwe, SA, and Nigeria',
@@ -46,7 +50,7 @@ const cases: CaseStudy[] = [
     tags: ['Fractional_CMO', 'Full_Funnel', 'Growth_OS'],
     techStack: 'Fractional CMO leadership, group narrative, product GTM, marketing OS',
     timeline: '2025 – Present',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200',
+    image: smartcomplyImg,
     path: '/work/smartcomply-full-funnel-growth-engine',
     results: [
       '2–3× increase in qualified pipeline attributed to marketing touchpoints',

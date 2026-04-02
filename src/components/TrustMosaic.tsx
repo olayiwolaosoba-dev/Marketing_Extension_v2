@@ -7,6 +7,8 @@ import mosaicTilesImg from '../assets/trust-mosaic/mosaic_tiles.png';
 import mosaicSpeakingEventImg from '../assets/trust-mosaic/mosaic_speaking_event.png';
 import mosaicDashboardBlurImg from '../assets/trust-mosaic/mosaic_dashboard_blur.png';
 import mosaicPressHeadlineImg from '../assets/trust-mosaic/mosaic_press_headline.png';
+import tamyImg from '../assets/case-studies/tamy.jpg';
+import sabitrackImg from '../assets/case-studies/sabitrack.jpg';
 
 interface TrustItem {
     id: number;
@@ -77,7 +79,7 @@ const TRUST_ITEMS: TrustItem[] = [
         id: 5,
         type: 'leadership',
         size: '2x1',
-        image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800',
+        image: tamyImg,
         quote: "Finally, our digital presence matches our reputation.",
         fullQuote: "We rely on referrals, but we needed a digital home that validated our expertise. Marketing Extension gave us a voice.",
         name: "Tamara",
@@ -90,7 +92,7 @@ const TRUST_ITEMS: TrustItem[] = [
         id: 6,
         type: 'deliverable',
         size: '1x1',
-        image: 'https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&q=80&w=800',
+        image: sabitrackImg,
         quote: "From idea to investor-ready in weeks.",
         fullQuote: "They turned a rough idea into a concrete business plan, deck, and go-to-market strategy that investors understood immediately.",
         name: "Founder",

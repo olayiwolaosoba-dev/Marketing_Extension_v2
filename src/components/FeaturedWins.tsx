@@ -1,6 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
+import zoneImg from '../assets/case-studies/zone.jpg';
+import quidaxImg from '../assets/case-studies/quidax.jpg';
+import smartcomplyImg from '../assets/case-studies/smartcomply.jpg';
+import verypayImg from '../assets/case-studies/verypay.jpg';
+import mercurieImg from '../assets/case-studies/mercurie.png';
+import sabitrackImg from '../assets/case-studies/sabitrack.jpg';
+import tamyImg from '../assets/case-studies/tamy.jpg';
+import googleImg from '../assets/case-studies/google.jpg';
+
 interface WinCardProps {
   image: string;
   name: string;
@@ -103,14 +112,14 @@ const WinCard: React.FC<WinCardProps> = ({ image, name, desc, metric, tags, dela
 
 const FeaturedWins: React.FC = () => {
   const wins = [
-    { image: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Zone', desc: 'Regulated blockchain payment infrastructure network.', metric: '\u20a61T+ Transactions', tags: ['Fintech', 'Nigeria'], delay: 0.1 },
-    { image: 'https://images.unsplash.com/photo-1621504450168-b8c6816db70a?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Quidax', desc: 'Making crypto feel mainstream through culture-led, education-first growth.', metric: '100K+ Signups', tags: ['Crypto', 'West Africa'], delay: 0.2 },
-    { image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Smartcomply', desc: 'Group narrative + demand engine across a multi-product cybersecurity & compliance suite.', metric: '2\u20133\u00d7 Enterprise Pipeline Growth', tags: ['RegTech', 'Africa'], delay: 0.3 },
-    { image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800&h=1200', name: 'VERYPAY', desc: 'Embedded in-country marketing leadership for multi-market expansion and adoption.', metric: '4+ In-Country Teams Deployed', tags: ['Fintech', 'Africa'], delay: 0.4 },
-    { image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Mercurie', desc: 'Reframed "payments for SaaS" into an infrastructure story that travels across markets.', metric: '~40% Admin Savings', tags: ['B2B SaaS', 'Nigeria'], delay: 0.1 },
-    { image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=800&h=1200', name: 'SabiTrack', desc: 'From early-stage idea to launch-ready narrative, assets, and GTM foundations.', metric: 'Launched in <6 Months', tags: ['B2B SaaS', 'UK'], delay: 0.2 },
-    { image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Tamy Consulting', desc: 'Consulting repositioning + content and PR system built for pipeline credibility.', metric: '3\u20134 Tier-1 Features Secured', tags: ['Consulting', 'Nigeria'], delay: 0.3 },
-    { image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Google West Africa', desc: 'Content Production (The Buffet) for a leading telecommunications provider.', metric: '1M+ Views', tags: ['Tech', 'West Africa'], delay: 0.4 },
+    { image: zoneImg, name: 'Zone', desc: 'Regulated blockchain payment infrastructure network.', metric: '₦1T+ Transactions', tags: ['Fintech', 'Nigeria'], delay: 0.1 },
+    { image: quidaxImg, name: 'Quidax', desc: 'Making crypto feel mainstream through culture-led, education-first growth.', metric: '100K+ Signups', tags: ['Crypto', 'West Africa'], delay: 0.2 },
+    { image: smartcomplyImg, name: 'Smartcomply', desc: 'Group narrative + demand engine across a multi-product cybersecurity & compliance suite.', metric: '2–3× Enterprise Pipeline Growth', tags: ['RegTech', 'Africa'], delay: 0.3 },
+    { image: verypayImg, name: 'VERYPAY', desc: 'Embedded in-country marketing leadership for multi-market expansion and adoption.', metric: '4+ In-Country Teams Deployed', tags: ['Fintech', 'Africa'], delay: 0.4 },
+    { image: mercurieImg, name: 'Mercurie', desc: 'Reframed "payments for SaaS" into an infrastructure story that travels across markets.', metric: '~40% Admin Savings', tags: ['B2B SaaS', 'Nigeria'], delay: 0.1 },
+    { image: sabitrackImg, name: 'SabiTrack', desc: 'From early-stage idea to launch-ready narrative, assets, and GTM foundations.', metric: 'Launched in <6 Months', tags: ['B2B SaaS', 'UK'], delay: 0.2 },
+    { image: tamyImg, name: 'Tamy Consulting', desc: 'Consulting repositioning + content and PR system built for pipeline credibility.', metric: '3–4 Tier-1 Features Secured', tags: ['Consulting', 'Nigeria'], delay: 0.3 },
+    { image: googleImg, name: 'Google West Africa', desc: 'Content Production (The Buffet) for a leading telecommunications provider.', metric: '1M+ Views', tags: ['Tech', 'West Africa'], delay: 0.4 },
   ];
 
   return (
