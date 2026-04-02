@@ -82,6 +82,7 @@ import {
 import { AcademyAi, AcademyPartners, AcademyStories, AcademyWaitlist } from './pages/Academy/AcademyStubs';
 import { StudentSignIn, StudentSignUp, StudentForgotPassword } from './pages/Academy/StudentAuth';
 import ProtectedRoute from './components/Academy/ProtectedRoute';
+import ScrollToTop from './components/Academy/ScrollToTop';
 
 // Auth Pages
 import Login from './pages/Auth/Login';
@@ -160,6 +161,7 @@ const AppContent: React.FC = () => {
           )}
         </AnimatePresence>
 
+        <ScrollToTop />
         {isLoaded && (
           <Routes>
             {/* --- Public Marketing Site Routes --- */}

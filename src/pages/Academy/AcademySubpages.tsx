@@ -1,5 +1,5 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { academyData } from '../../lib/academyData';
 import { ArrowLeft, Clock, CheckCircle, BarChart, Users, Star, Lock, PlayCircle, Shield, Calendar } from 'lucide-react';
 
@@ -18,32 +18,54 @@ const AcademyHero = ({ title, subtitle, image, pill }: any) => (
 
 // --- CATALOG PAGES ---
 
-export const AcademyTracks: React.FC = () => (
-    <div>
-        <AcademyHero title="Choose your pathway" subtitle="Structured learning paths designed for role mastery. From beginner to CMO." pill="Tracks" />
-        <div className="container mx-auto px-6 max-w-7xl py-24">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {academyData.tracks.map((track, i) => (
-                    <Link key={i} to={`/academy/tracks/${track.slug}`} className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all">
-                        <div className="h-48 overflow-hidden relative">
-                            <img src={track.heroImage} alt={track.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                            <div className="absolute top-4 left-4"><span className="px-3 py-1 bg-white/90 rounded-full text-xs font-bold uppercase">{track.level}</span></div>
-                        </div>
-                        <div className="p-8 flex flex-col flex-1">
-                            <h3 className="text-2xl font-bold text-text-dark mb-2 group-hover:text-primary transition-colors">{track.title}</h3>
-                            <p className="text-text-muted mb-6 flex-1">{track.summary}</p>
-                            <div className="flex items-center gap-4 text-sm font-bold text-text-dark mt-auto">
-                                <span>{track.durationWeeks} Weeks</span>
-                                <span className="w-1 h-1 bg-gray-300 rounded-full" />
-                                <span>{track.capstoneProject}</span>
+export const AcademyTracks: React.FC = () => {
+    const [activeFilter, setActiveFilter] = useState('All');
+    const filters = ['All', 'Beginner', 'Intermediate', 'Advanced'];
+    const filteredTracks = activeFilter === 'All'
+        ? academyData.tracks
+        : academyData.tracks.filter(t => t.level === activeFilter);
+
+    return (
+        <div>
+            <AcademyHero title="Choose your pathway" subtitle="Structured learning paths designed for role mastery. From beginner to CMO." pill="Tracks" />
+            <div className="container mx-auto px-6 max-w-7xl py-24">
+                <div className="flex gap-3 mb-12 overflow-x-auto pb-2">
+                    {filters.map(f => (
+                        <button
+                            key={f}
+                            onClick={() => setActiveFilter(f)}
+                            className={`px-6 py-2.5 rounded-full font-bold text-sm whitespace-nowrap transition-all duration-300 ${activeFilter === f ? 'bg-text-dark text-white' : 'bg-gray-100 text-text-muted hover:bg-gray-200'}`}
+                        >
+                            {f === 'All' ? 'All Levels' : f}
+                        </button>
+                    ))}
+                </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredTracks.map((track, i) => (
+                        <Link key={i} to={`/academy/tracks/${track.slug}`} className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all">
+                            <div className="h-48 overflow-hidden relative">
+                                <img src={track.heroImage} alt={track.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                <div className="absolute top-4 left-4"><span className="px-3 py-1 bg-white/90 rounded-full text-xs font-bold uppercase">{track.level}</span></div>
                             </div>
-                        </div>
-                    </Link>
-                ))}
+                            <div className="p-8 flex flex-col flex-1">
+                                <h3 className="text-2xl font-bold text-text-dark mb-2 group-hover:text-primary transition-colors">{track.title}</h3>
+                                <p className="text-text-muted mb-6 flex-1">{track.summary}</p>
+                                <div className="flex items-center gap-4 text-sm font-bold text-text-dark mt-auto">
+                                    <span>{track.durationWeeks} Weeks</span>
+                                    <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                                    <span>{track.capstoneProject}</span>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+                {filteredTracks.length === 0 && (
+                    <p className="text-center text-text-muted py-12">No tracks found for this level. Try a different filter.</p>
+                )}
             </div>
         </div>
-    </div>
-);
+    );
+};
 
 export const AcademyCourses: React.FC = () => (
     <div>
@@ -183,6 +205,7 @@ export const AcademyEvents: React.FC = () => (
 // --- DETAIL PAGE Stubs (Dynamic) ---
 export const AcademyTrackDetail: React.FC = () => {
     const { slug } = useParams();
+    const navigate = useNavigate();
     const track = academyData.tracks.find(t => t.slug === slug) || academyData.tracks[0];
     return (
         <div>
@@ -216,9 +239,9 @@ export const AcademyTrackDetail: React.FC = () => {
                     </div>
                     <div className="w-full md:w-96">
                         <div className="bg-white p-8 rounded-3xl border border-gray-200 sticky top-32">
-                            <div className="text-3xl font-bold text-text-dark mb-2">$49<span className="text-lg text-text-muted font-normal">/mo</span></div>
+                            <div className="text-3xl font-bold text-text-dark mb-2">{'\u20A6'}15,000<span className="text-lg text-text-muted font-normal">/mo</span></div>
                             <p className="text-text-muted text-sm mb-6">Includes access to all tracks and community.</p>
-                            <button className="w-full py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-dark transition-colors mb-4">Start Free Trial</button>
+                            <button onClick={() => navigate('/academy/sign-up')} className="w-full py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-dark transition-colors mb-4 cursor-pointer">Start Free Trial</button>
                             <div className="space-y-3 text-sm text-text-muted">
                                 <div className="flex justify-between"><span>Duration</span> <span className="font-bold text-text-dark">{track.durationWeeks} Weeks</span></div>
                                 <div className="flex justify-between"><span>Level</span> <span className="font-bold text-text-dark">{track.level}</span></div>
