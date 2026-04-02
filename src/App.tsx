@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import GoogleAnalytics from './components/GoogleAnalytics';
@@ -37,15 +37,17 @@ import EventDetailPage from './pages/resources/EventDetailPage';
 import GuidesIndexPage from './pages/resources/GuidesIndexPage';
 import GuideDetailPage from './pages/resources/GuideDetailPage';
 
-// Academy (PWA)
+// Academy (PWA) — lazy loaded for code splitting
 import AcademyLayout from './layouts/AcademyLayout';
-import AcademyDashboard from './pages/Academy/Dashboard';
-import AcademyMyLearning from './pages/Academy/app/MyLearningPage';
-import AcademyCertificatesPage from './pages/Academy/app/CertificatesPage';
-import AcademyCommunityApp from './pages/Academy/app/CommunityPage';
-import AcademyJobsPage from './pages/Academy/app/JobsPage';
-import AcademySettingsPage from './pages/Academy/app/SettingsPage';
-import AcademyCoursePlayer from './pages/Academy/app/CoursePlayer';
+const AcademyDashboard = React.lazy(() => import('./pages/Academy/Dashboard'));
+const AcademyMyLearning = React.lazy(() => import('./pages/Academy/app/MyLearningPage'));
+const AcademyCertificatesPage = React.lazy(() => import('./pages/Academy/app/CertificatesPage'));
+const AcademyCommunityApp = React.lazy(() => import('./pages/Academy/app/CommunityPage'));
+const AcademyJobsPage = React.lazy(() => import('./pages/Academy/app/JobsPage'));
+const AcademySettingsPage = React.lazy(() => import('./pages/Academy/app/SettingsPage'));
+const AcademyCoursePlayer = React.lazy(() => import('./pages/Academy/app/CoursePlayer'));
+const AcademyTeamDashboard = React.lazy(() => import('./pages/Academy/app/TeamDashboard'));
+const EnterprisePage = React.lazy(() => import('./pages/Academy/EnterprisePage'));
 
 // ME-OS Platform
 import AppLayout from './layouts/AppLayout';
@@ -72,8 +74,8 @@ import ActivityPage from './pages/app/system/ActivityPage';
 
 
 
-// Academy Marketing Pages
-import AcademyLandingPage from './pages/Academy/AcademyLandingPage';
+// Academy Marketing Pages — landing page lazy loaded; subpages kept eager (named exports)
+const AcademyLandingPage = React.lazy(() => import('./pages/Academy/AcademyLandingPage'));
 import {
   AcademyTracks, AcademyCourses, AcademyCertifications, AcademyVerify,
   AcademyCommunity, AcademyCohorts, AcademyEvents,
@@ -332,23 +334,26 @@ const AppContent: React.FC = () => {
             <Route path="/academy/app/*" element={
               <ProtectedRoute>
                 <AcademyLayout>
-                  <Routes>
-                    <Route index element={<AcademyDashboard />} />
-                    <Route path="learning" element={<AcademyMyLearning />} />
-                    <Route path="certificates" element={<AcademyCertificatesPage />} />
-                    <Route path="community" element={<AcademyCommunityApp />} />
-                    <Route path="jobs" element={<AcademyJobsPage />} />
-                    <Route path="settings" element={<AcademySettingsPage />} />
-                    <Route path="courses/:slug" element={<AcademyCoursePlayer />} />
-                    <Route path="login" element={<Navigate to="/academy/sign-in" replace />} />
-                    <Route path="*" element={<Navigate to="/academy/app" replace />} />
-                  </Routes>
+                  <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" /></div>}>
+                    <Routes>
+                      <Route index element={<AcademyDashboard />} />
+                      <Route path="learning" element={<AcademyMyLearning />} />
+                      <Route path="certificates" element={<AcademyCertificatesPage />} />
+                      <Route path="community" element={<AcademyCommunityApp />} />
+                      <Route path="jobs" element={<AcademyJobsPage />} />
+                      <Route path="settings" element={<AcademySettingsPage />} />
+                      <Route path="courses/:slug" element={<AcademyCoursePlayer />} />
+                      <Route path="team" element={<AcademyTeamDashboard />} />
+                      <Route path="login" element={<Navigate to="/academy/sign-in" replace />} />
+                      <Route path="*" element={<Navigate to="/academy/app" replace />} />
+                    </Routes>
+                  </Suspense>
                 </AcademyLayout>
               </ProtectedRoute>
             } />
 
             {/* --- Academy Marketing Site Routes --- */}
-            <Route path="/academy" element={<PublicLayout><AcademyLandingPage /></PublicLayout>} />
+            <Route path="/academy" element={<PublicLayout><Suspense fallback={null}><AcademyLandingPage /></Suspense></PublicLayout>} />
 
             {/* Catalog & Details */}
             <Route path="/academy/tracks" element={<PublicLayout><AcademyTracks /></PublicLayout>} />
@@ -366,6 +371,7 @@ const AppContent: React.FC = () => {
             <Route path="/academy/partners" element={<PublicLayout><AcademyPartners /></PublicLayout>} />
             <Route path="/academy/stories" element={<PublicLayout><AcademyStories /></PublicLayout>} />
             <Route path="/academy/waitlist" element={<PublicLayout><AcademyWaitlist /></PublicLayout>} />
+            <Route path="/academy/enterprise" element={<PublicLayout><Suspense fallback={null}><EnterprisePage /></Suspense></PublicLayout>} />
 
             {/* Student Auth */}
             <Route path="/academy/sign-in" element={<StudentSignIn />} />

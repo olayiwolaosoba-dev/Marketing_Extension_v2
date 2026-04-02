@@ -1,6 +1,6 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { Home, BookOpen, Users, Award, Briefcase, Settings, Menu, X, WifiOff, LogOut } from 'lucide-react';
+import { Home, BookOpen, Users, Award, Briefcase, Settings, Menu, X, WifiOff, LogOut, BarChart3 } from 'lucide-react';
 import { useAcademyAuth } from '../lib/academyAuth';
 
 // This layout is for the Authenticated Learner Experience
@@ -40,6 +40,7 @@ const AcademyLayout: React.FC<AcademyLayoutProps> = ({ children }) => {
         { icon: Award, label: 'Certificates', path: '/academy/app/certificates' },
         { icon: Users, label: 'Community', path: '/academy/app/community' },
         { icon: Briefcase, label: 'Jobs', path: '/academy/app/jobs' },
+        { icon: BarChart3, label: 'Team', path: '/academy/app/team' },
     ];
 
     return (
