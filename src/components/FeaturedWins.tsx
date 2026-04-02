@@ -1,16 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-import zoneImg from '../assets/clients/zone.jpeg';
-import quidaxImg from '../assets/clients/quidax.png';
-import smartcomplyImg from '../assets/clients/smartcomply.png';
-import verypayImg from '../assets/clients/verypay.webp';
-import mercurieImg from '../assets/clients/mercurie.png';
-import sabiImg from '../assets/clients/sabi.png';
-import googleImg from '../assets/clients/google.png';
-
 interface WinCardProps {
-  logo?: string;
+  image: string;
   name: string;
   desc: string;
   metric: string;
@@ -18,60 +10,83 @@ interface WinCardProps {
   delay: number;
 }
 
-const WinCard: React.FC<WinCardProps> = ({ logo, name, desc, metric, tags, delay }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.6, delay }}
-    className="group relative p-10 border-r border-b border-gray-100 flex flex-col h-[400px] overflow-hidden"
-  >
-    {/* Hover BG */}
-    <div className="absolute inset-0 bg-primary translate-x-[101%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+const WinCard: React.FC<WinCardProps> = ({ image, name, desc, metric, tags, delay }) => {
+  const [isRevealed, setIsRevealed] = useState(false);
 
-    <div className="relative z-10 flex flex-col h-full">
-      <div className="w-16 h-12 mb-8 flex items-center">
-        {logo ? (
-          <img
-            src={logo}
-            alt={name}
-            className="h-10 w-auto max-w-[120px] object-contain grayscale group-hover:grayscale-0 group-hover:brightness-0 group-hover:invert transition-all duration-300"
-          />
-        ) : (
-          <div className="w-12 h-12 bg-bg-gray rounded-full group-hover:bg-white/20 transition-colors" />
-        )}
-      </div>
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay }}
+      className="group relative h-[420px] overflow-hidden cursor-pointer"
+      onClick={() => setIsRevealed(!isRevealed)}
+    >
+      {/* Background Image */}
+      <img
+        src={image}
+        alt={name}
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      />
 
-      <h3 className="text-2xl font-display font-bold mb-4 group-hover:text-white transition-colors">{name}</h3>
-      <p className="text-text-muted group-hover:text-white/80 transition-colors mb-6">{desc}</p>
+      {/* Default gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 transition-opacity duration-500" />
 
-      <div className="mt-auto">
-        <div className="text-2xl font-display font-bold text-text-dark group-hover:text-white transition-colors mb-6 whitespace-nowrap">
-          {metric}
+      {/* Hover / Click reveal overlay */}
+      <div
+        className={`absolute inset-0 bg-black/60 transition-opacity duration-500 ${
+          isRevealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        }`}
+      />
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col h-full p-8">
+        {/* Top: Client name */}
+        <p className="text-white/70 text-xs font-bold uppercase tracking-[0.15em]">{name}</p>
+
+        {/* Middle: Description (revealed on hover/click) */}
+        <div
+          className={`mt-6 transition-all duration-500 ${
+            isRevealed
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+          }`}
+        >
+          <p className="text-white/90 text-sm leading-relaxed max-w-[280px]">{desc}</p>
         </div>
 
-        <div className="flex gap-2 flex-wrap">
-          {tags.map(tag => (
-            <span key={tag} className="px-3 py-1 rounded-full bg-bg-gray text-[10px] font-bold uppercase tracking-tight text-text-muted group-hover:bg-white/20 group-hover:text-white">
-              {tag}
-            </span>
-          ))}
+        {/* Bottom: Metric + Tags (always visible) */}
+        <div className="mt-auto">
+          <div className="text-2xl font-display font-bold text-white mb-4 leading-tight">
+            {metric}
+          </div>
+
+          <div className="flex gap-2 flex-wrap">
+            {tags.map(tag => (
+              <span
+                key={tag}
+                className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-[10px] font-bold uppercase tracking-tight text-white/80 border border-white/10"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  </motion.div>
-);
+    </motion.div>
+  );
+};
 
 const FeaturedWins: React.FC = () => {
   const wins = [
-    { logo: zoneImg, name: 'Zone', desc: 'Regulated blockchain payment infrastructure network.', metric: '₦1T+ Transactions', tags: ['Fintech', 'Nigeria'], delay: 0.1 },
-    { logo: quidaxImg, name: 'Quidax', desc: 'Making crypto feel mainstream through culture-led, education-first growth.', metric: '100K+ Signups', tags: ['Crypto', 'West Africa'], delay: 0.2 },
-    { logo: smartcomplyImg, name: 'Smartcomply', desc: 'Group narrative + demand engine across a multi-product cybersecurity & compliance suite.', metric: '2–3× Enterprise Pipeline Growth', tags: ['RegTech', 'Africa'], delay: 0.3 },
-    { logo: verypayImg, name: 'VERYPAY', desc: 'Embedded in-country marketing leadership for multi-market expansion and adoption.', metric: '4+ In-Country Teams Deployed', tags: ['Fintech', 'Africa'], delay: 0.4 },
-    { logo: mercurieImg, name: 'Mercurie', desc: 'Reframed "payments for SaaS" into an infrastructure story that travels across markets.', metric: '~40% Admin Savings', tags: ['B2B SaaS', 'Nigeria'], delay: 0.1 },
-    { logo: sabiImg, name: 'SabiTrack', desc: 'From early-stage idea to launch-ready narrative, assets, and GTM foundations.', metric: 'Launched in <6 Months', tags: ['B2B SaaS', 'UK'], delay: 0.2 },
-    { logo: undefined, name: 'Tamy Consulting', desc: 'Consulting repositioning + content and PR system built for pipeline credibility.', metric: '3–4 Tier-1 Features Secured', tags: ['Consulting', 'Nigeria'], delay: 0.3 },
-    { logo: googleImg, name: 'Google West Africa', desc: 'Content Production (The Buffet) for a leading telecommunications provider.', metric: '1M+ Views', tags: ['Tech', 'West Africa'], delay: 0.4 },
+    { image: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Zone', desc: 'Regulated blockchain payment infrastructure network.', metric: '₦1T+ Transactions', tags: ['Fintech', 'Nigeria'], delay: 0.1 },
+    { image: 'https://images.unsplash.com/photo-1621504450168-b8c6816db70a?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Quidax', desc: 'Making crypto feel mainstream through culture-led, education-first growth.', metric: '100K+ Signups', tags: ['Crypto', 'West Africa'], delay: 0.2 },
+    { image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Smartcomply', desc: 'Group narrative + demand engine across a multi-product cybersecurity & compliance suite.', metric: '2–3× Enterprise Pipeline Growth', tags: ['RegTech', 'Africa'], delay: 0.3 },
+    { image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800&h=1000', name: 'VERYPAY', desc: 'Embedded in-country marketing leadership for multi-market expansion and adoption.', metric: '4+ In-Country Teams Deployed', tags: ['Fintech', 'Africa'], delay: 0.4 },
+    { image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Mercurie', desc: 'Reframed "payments for SaaS" into an infrastructure story that travels across markets.', metric: '~40% Admin Savings', tags: ['B2B SaaS', 'Nigeria'], delay: 0.1 },
+    { image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=800&h=1000', name: 'SabiTrack', desc: 'From early-stage idea to launch-ready narrative, assets, and GTM foundations.', metric: 'Launched in <6 Months', tags: ['B2B SaaS', 'UK'], delay: 0.2 },
+    { image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Tamy Consulting', desc: 'Consulting repositioning + content and PR system built for pipeline credibility.', metric: '3–4 Tier-1 Features Secured', tags: ['Consulting', 'Nigeria'], delay: 0.3 },
+    { image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Google West Africa', desc: 'Content Production (The Buffet) for a leading telecommunications provider.', metric: '1M+ Views', tags: ['Tech', 'West Africa'], delay: 0.4 },
   ];
 
   return (
@@ -85,7 +100,7 @@ const FeaturedWins: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 border-l border-t border-gray-100">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4">
         {wins.map((win) => (
           <WinCard key={win.name} {...win} />
         ))}
