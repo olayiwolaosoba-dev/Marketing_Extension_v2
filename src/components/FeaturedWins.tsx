@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface WinCardProps {
@@ -12,14 +12,32 @@ interface WinCardProps {
 
 const WinCard: React.FC<WinCardProps> = ({ image, name, desc, metric, tags, delay }) => {
   const [isRevealed, setIsRevealed] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Auto-dismiss reveal when card scrolls out of view (mobile fix)
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && isRevealed) {
+          setIsRevealed(false);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isRevealed]);
 
   return (
     <motion.div
+      ref={cardRef}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay }}
-      className="group relative h-[420px] overflow-hidden cursor-pointer"
+      className="group relative h-[82vh] md:h-[540px] lg:h-[500px] overflow-hidden cursor-pointer snap-start"
       onClick={() => setIsRevealed(!isRevealed)}
     >
       {/* Background Image */}
@@ -40,7 +58,7 @@ const WinCard: React.FC<WinCardProps> = ({ image, name, desc, metric, tags, dela
       />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col h-full p-8">
+      <div className="relative z-10 flex flex-col h-full p-8 md:p-8">
         {/* Top: Client name */}
         <p className="text-white/70 text-xs font-bold uppercase tracking-[0.15em]">{name}</p>
 
@@ -52,13 +70,13 @@ const WinCard: React.FC<WinCardProps> = ({ image, name, desc, metric, tags, dela
               : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
           }`}
         >
-          <p className="text-white/90 text-sm leading-relaxed max-w-[280px]">{desc}</p>
+          <p className="text-white/90 text-sm md:text-sm leading-relaxed max-w-[320px]">{desc}</p>
         </div>
 
         {/* Bottom: Metric (hover/click only) + Tags (always visible) */}
         <div className="mt-auto">
           <div
-            className={`text-2xl font-display font-bold text-white mb-4 leading-tight transition-all duration-500 ${
+            className={`text-2xl md:text-2xl font-display font-bold text-white mb-4 leading-tight transition-all duration-500 ${
               isRevealed
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
@@ -85,14 +103,14 @@ const WinCard: React.FC<WinCardProps> = ({ image, name, desc, metric, tags, dela
 
 const FeaturedWins: React.FC = () => {
   const wins = [
-    { image: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Zone', desc: 'Regulated blockchain payment infrastructure network.', metric: '₦1T+ Transactions', tags: ['Fintech', 'Nigeria'], delay: 0.1 },
-    { image: 'https://images.unsplash.com/photo-1621504450168-b8c6816db70a?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Quidax', desc: 'Making crypto feel mainstream through culture-led, education-first growth.', metric: '100K+ Signups', tags: ['Crypto', 'West Africa'], delay: 0.2 },
-    { image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Smartcomply', desc: 'Group narrative + demand engine across a multi-product cybersecurity & compliance suite.', metric: '2–3× Enterprise Pipeline Growth', tags: ['RegTech', 'Africa'], delay: 0.3 },
-    { image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800&h=1000', name: 'VERYPAY', desc: 'Embedded in-country marketing leadership for multi-market expansion and adoption.', metric: '4+ In-Country Teams Deployed', tags: ['Fintech', 'Africa'], delay: 0.4 },
-    { image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Mercurie', desc: 'Reframed "payments for SaaS" into an infrastructure story that travels across markets.', metric: '~40% Admin Savings', tags: ['B2B SaaS', 'Nigeria'], delay: 0.1 },
-    { image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=800&h=1000', name: 'SabiTrack', desc: 'From early-stage idea to launch-ready narrative, assets, and GTM foundations.', metric: 'Launched in <6 Months', tags: ['B2B SaaS', 'UK'], delay: 0.2 },
-    { image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Tamy Consulting', desc: 'Consulting repositioning + content and PR system built for pipeline credibility.', metric: '3–4 Tier-1 Features Secured', tags: ['Consulting', 'Nigeria'], delay: 0.3 },
-    { image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800&h=1000', name: 'Google West Africa', desc: 'Content Production (The Buffet) for a leading telecommunications provider.', metric: '1M+ Views', tags: ['Tech', 'West Africa'], delay: 0.4 },
+    { image: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Zone', desc: 'Regulated blockchain payment infrastructure network.', metric: '\u20a61T+ Transactions', tags: ['Fintech', 'Nigeria'], delay: 0.1 },
+    { image: 'https://images.unsplash.com/photo-1621504450168-b8c6816db70a?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Quidax', desc: 'Making crypto feel mainstream through culture-led, education-first growth.', metric: '100K+ Signups', tags: ['Crypto', 'West Africa'], delay: 0.2 },
+    { image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Smartcomply', desc: 'Group narrative + demand engine across a multi-product cybersecurity & compliance suite.', metric: '2\u20133\u00d7 Enterprise Pipeline Growth', tags: ['RegTech', 'Africa'], delay: 0.3 },
+    { image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800&h=1200', name: 'VERYPAY', desc: 'Embedded in-country marketing leadership for multi-market expansion and adoption.', metric: '4+ In-Country Teams Deployed', tags: ['Fintech', 'Africa'], delay: 0.4 },
+    { image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Mercurie', desc: 'Reframed "payments for SaaS" into an infrastructure story that travels across markets.', metric: '~40% Admin Savings', tags: ['B2B SaaS', 'Nigeria'], delay: 0.1 },
+    { image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=800&h=1200', name: 'SabiTrack', desc: 'From early-stage idea to launch-ready narrative, assets, and GTM foundations.', metric: 'Launched in <6 Months', tags: ['B2B SaaS', 'UK'], delay: 0.2 },
+    { image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Tamy Consulting', desc: 'Consulting repositioning + content and PR system built for pipeline credibility.', metric: '3\u20134 Tier-1 Features Secured', tags: ['Consulting', 'Nigeria'], delay: 0.3 },
+    { image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800&h=1200', name: 'Google West Africa', desc: 'Content Production (The Buffet) for a leading telecommunications provider.', metric: '1M+ Views', tags: ['Tech', 'West Africa'], delay: 0.4 },
   ];
 
   return (
@@ -106,7 +124,7 @@ const FeaturedWins: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 snap-y snap-mandatory md:snap-none">
         {wins.map((win) => (
           <WinCard key={win.name} {...win} />
         ))}
