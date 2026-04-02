@@ -5,6 +5,10 @@ import { ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { IndustryExpertise } from '../types';
 
+import fintechImg from '../assets/industries/fintech-vertical.jpeg';
+import cryptoImg from '../assets/industries/crypto-vertical.jpeg';
+import consultingImg from '../assets/industries/consulting-vertical.jpeg';
+
 interface ExtendedIndustryExpertise extends Omit<IndustryExpertise, 'video'> {
   video: string; // Keeping 'video' property name for image URL as per original component
   label: string; // For the image overlay
@@ -29,7 +33,7 @@ const industries: ExtendedIndustryExpertise[] = [
       'Marketing OS with adoption funnels, partner comms, and reporting cadence'
     ],
     ctaText: 'Explore Payments & Fintech Infra services',
-    video: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&q=80&w=800',
+    video: fintechImg,
     link: '/work/payments-fintech-infra'
   },
   {
@@ -48,7 +52,7 @@ const industries: ExtendedIndustryExpertise[] = [
       'Campaign platforms built to scale across PR, content, creators, and paid'
     ],
     ctaText: 'Explore Crypto & Digital Assets services',
-    video: 'https://images.unsplash.com/photo-1621504450168-b8c6816db70a?auto=format&fit=crop&q=80&w=800',
+    video: cryptoImg,
     link: '/services/marketing-consulting'
   },
   {
@@ -105,7 +109,7 @@ const industries: ExtendedIndustryExpertise[] = [
       'Content + PR + partnerships cadence tied to pipeline goals'
     ],
     ctaText: 'Explore Consulting services',
-    video: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800',
+    video: consultingImg,
     link: '/services/marketing-consulting'
   }
 ];
