@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { ArrowRight, Loader2, Mail, Eye, EyeOff, CheckCircle } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Loader2, Mail, Eye, EyeOff, CheckCircle } from 'lucide-react';
 import { useAcademyAuth, StudentUser } from '../../lib/academyAuth';
 
 // ─── Shared validation helpers ────────────────────────────────────────────────
@@ -73,13 +73,22 @@ const FieldError: React.FC<{ msg?: string }> = ({ msg }) =>
   msg ? <p className="text-xs font-bold text-red-500 mt-1">{msg}</p> : null;
 
 const AcademyBrand: React.FC = () => (
-  <div className="flex items-center gap-2 mb-6">
-    <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
-      <span className="text-white font-display font-bold text-sm">M</span>
-    </div>
-    <span className="font-display font-bold text-text-dark">
-      MExt <span className="text-primary">Academy</span>
-    </span>
+  <div className="flex items-center justify-between mb-6">
+    <Link to="/academy" className="flex items-center gap-2 group">
+      <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+        <span className="text-white font-display font-bold text-sm">M</span>
+      </div>
+      <span className="font-display font-bold text-text-dark group-hover:text-primary transition-colors">
+        MExt <span className="text-primary">Academy</span>
+      </span>
+    </Link>
+    <Link
+      to="/"
+      className="flex items-center gap-1 text-xs text-text-muted hover:text-text-dark transition-colors"
+    >
+      <ArrowLeft size={12} />
+      Main site
+    </Link>
   </div>
 );
 

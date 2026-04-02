@@ -1,6 +1,6 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { Home, BookOpen, Users, Award, Briefcase, Settings, Menu, X, WifiOff, LogOut, BarChart3 } from 'lucide-react';
+import { Home, BookOpen, Users, Award, Briefcase, Settings, Menu, X, WifiOff, LogOut, BarChart3, ArrowLeft } from 'lucide-react';
 import { useAcademyAuth } from '../lib/academyAuth';
 
 // This layout is for the Authenticated Learner Experience
@@ -47,9 +47,14 @@ const AcademyLayout: React.FC<AcademyLayoutProps> = ({ children }) => {
         <div className="min-h-screen bg-bg-light flex flex-col md:flex-row">
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-100 sticky top-0 z-20">
-                <Link to="/academy/app" className="font-display font-bold text-lg text-text-dark">
-                    MEA <span className="text-primary">Academy</span>
-                </Link>
+                <div className="flex items-center gap-3">
+                    <Link to="/" className="flex items-center gap-1 text-xs text-text-muted hover:text-primary transition-colors">
+                        <ArrowLeft size={14} />
+                    </Link>
+                    <Link to="/academy/app" className="font-display font-bold text-lg text-text-dark">
+                        MExt <span className="text-primary">Academy</span>
+                    </Link>
+                </div>
                 <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 text-text-dark">
                     {sidebarOpen ? <X /> : <Menu />}
                 </button>
@@ -61,9 +66,18 @@ const AcademyLayout: React.FC<AcademyLayoutProps> = ({ children }) => {
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
             >
-                <div className="p-6 border-b border-gray-50 flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">M</div>
-                    <span className="font-display font-bold text-xl text-text-dark">Academy</span>
+                <div className="p-5 border-b border-gray-50">
+                    <div className="flex items-center gap-2 mb-3">
+                        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold flex-shrink-0">M</div>
+                        <span className="font-display font-bold text-xl text-text-dark">Academy</span>
+                    </div>
+                    <Link
+                        to="/"
+                        className="flex items-center gap-1.5 text-xs text-text-muted hover:text-primary transition-colors group"
+                    >
+                        <ArrowLeft size={12} className="group-hover:-translate-x-0.5 transition-transform" />
+                        Back to Marketing Extension
+                    </Link>
                 </div>
 
                 <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
