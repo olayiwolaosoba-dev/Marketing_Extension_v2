@@ -159,43 +159,139 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
       {/* Mobile Menu */}
       <AnimatePresence>
-        {
-          mobileMenuOpen && (
-            <motion.div
-              id="mobile-menu"
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
-              className="fixed inset-0 top-[72px] bg-bg-light z-[99] lg:hidden overflow-y-auto px-6 py-10"
-            >
-              <div className="flex flex-col gap-6">
-                {menuItems.map(item => (
-                  item.noMega ? (
-                    <Link
-                      key={item.id}
-                      to={item.path || '#'}
-                      onClick={closeMenu}
-                      className="text-2xl font-display font-bold text-left border-b border-gray-100 pb-4 flex items-center justify-between"
-                    >
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <button
-                      key={item.id}
-                      className="text-2xl font-display font-bold text-left border-b border-gray-100 pb-4 flex items-center justify-between"
-                    >
-                      {item.label} <ChevronDown size={20} className="text-primary" />
-                    </button>
-                  )
-                ))}
-                <div className="pt-4 space-y-4">
-                </div>
-              </div>
-            </motion.div>
-          )
-        }
-      </AnimatePresence >
+        {mobileMenuOpen && (
+          <MobileMenu closeMenu={closeMenu} />
+        )}
+      </AnimatePresence>
     </>
+  );
+};
+
+/* --- MOBILE MENU --- */
+
+const MOBILE_SECTIONS: Record<string, { label: string; path: string }[]> = {
+  services: [
+    { label: 'Marketing Consulting', path: '/services/marketing-consulting' },
+    { label: 'ContentPlus', path: '/contentplus' },
+    { label: 'Martech Studio', path: '/services/martech' },
+    { label: 'Payments & Fintech', path: '/work/payments-fintech-infra' },
+    { label: 'Crypto & Digital Assets', path: '/work/crypto-digital-assets' },
+    { label: 'RegTech & Cybersecurity', path: '/work/regtech-cybersecurity' },
+    { label: 'B2B SaaS Services', path: '/work/b2b-saas-services' },
+    { label: 'Professional Services', path: '/work/professional-services-consulting' },
+  ],
+  'why-us': [
+    { label: 'Our Talent', path: '/why-us/talent' },
+    { label: 'AI Excellence', path: '/why-us/ai-excellence' },
+    { label: 'Our Technology', path: '/why-us/technology' },
+  ],
+  resources: [
+    { label: 'Learning Center', path: '/resources/learn' },
+    { label: 'MExt University', path: '/academy' },
+    { label: 'Events & Summits', path: '/resources/events' },
+    { label: 'Guides', path: '/resources/guides' },
+    { label: 'Reports', path: '/resources/reports' },
+    { label: 'Video Library', path: '/resources/videos' },
+    { label: 'Playbooks', path: '/resources/playbooks' },
+  ],
+};
+
+const MobileMenu: React.FC<{ closeMenu: () => void }> = ({ closeMenu }) => {
+  const [openSection, setOpenSection] = useState<string | null>(null);
+
+  const menuItems = [
+    { label: 'Services', id: 'services' },
+    { label: 'Our Work', id: 'our-work', path: '/case-studies' },
+    { label: 'Why Us', id: 'why-us' },
+    { label: 'Resources', id: 'resources' },
+    { label: 'About Us', id: 'about', path: '/about' },
+  ];
+
+  const toggle = (id: string) => setOpenSection(prev => prev === id ? null : id);
+
+  return (
+    <motion.div
+      id="mobile-menu"
+      initial={{ opacity: 0, x: '100%' }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: '100%' }}
+      transition={{ type: 'tween', duration: 0.25 }}
+      className="fixed inset-0 top-[72px] bg-bg-light z-[99] lg:hidden overflow-y-auto"
+    >
+      {/* FREE AUDIT CTA — top of drawer */}
+      <div className="px-6 pt-6 pb-2">
+        <Link
+          to="/audit"
+          onClick={closeMenu}
+          className="flex items-center justify-center gap-2 w-full py-4 bg-primary text-white font-bold rounded-2xl text-sm uppercase tracking-wider shadow-lg shadow-primary/20"
+        >
+          <BarChart2 size={16} />
+          Get Your Free Audit
+        </Link>
+      </div>
+
+      <div className="px-6 py-4 flex flex-col divide-y divide-gray-100">
+        {menuItems.map(item => {
+          const subItems = MOBILE_SECTIONS[item.id];
+          const isOpen = openSection === item.id;
+
+          if (!subItems) {
+            // Plain link (Our Work, About Us)
+            return (
+              <Link
+                key={item.id}
+                to={item.path || '#'}
+                onClick={closeMenu}
+                className="py-4 text-xl font-display font-bold text-text-dark flex items-center justify-between"
+              >
+                {item.label}
+                <ArrowRight size={18} className="text-text-muted" />
+              </Link>
+            );
+          }
+
+          return (
+            <div key={item.id}>
+              <button
+                onClick={() => toggle(item.id)}
+                className="w-full py-4 text-xl font-display font-bold text-text-dark flex items-center justify-between"
+              >
+                {item.label}
+                <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                  <ChevronDown size={20} className="text-primary" />
+                </motion.span>
+              </button>
+
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.22, ease: 'easeInOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pb-3 pl-2 flex flex-col gap-1">
+                      {subItems.map(sub => (
+                        <Link
+                          key={sub.path}
+                          to={sub.path}
+                          onClick={closeMenu}
+                          className="flex items-center gap-3 py-2.5 px-3 rounded-xl text-base font-medium text-text-muted hover:text-text-dark hover:bg-white transition-colors"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </div>
+    </motion.div>
   );
 };
 
