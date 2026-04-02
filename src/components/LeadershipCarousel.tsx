@@ -128,6 +128,8 @@ const LeadershipCarousel: React.FC = () => {
     useEffect(() => {
         const container = containerRef.current;
         if (container) {
+            // Reset to first card immediately on mount (no animation)
+            container.scrollLeft = 0;
             container.addEventListener('scroll', updateScrollState);
             updateScrollState();
             window.addEventListener('resize', updateScrollState);
@@ -188,8 +190,8 @@ const LeadershipCarousel: React.FC = () => {
                         data-card-index={index}
                         className={"relative flex-shrink-0 snap-start w-[85vw] md:w-[360px] aspect-[3/4] rounded-2xl overflow-hidden bg-white border border-[#ECECEC] shadow-sm hover:shadow-md transition-all duration-500 group/card " + (activeIndex === index ? "opacity-100" : "opacity-80 group-hover/carousel:opacity-100")}
                         initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.07 }}
                     >
                         <div className="flex flex-col h-full w-full">
                             {/* Image Section */}
@@ -200,7 +202,8 @@ const LeadershipCarousel: React.FC = () => {
                                     width="800"
                                     height="1067"
                                     loading="lazy"
-                                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover/card:scale-105"
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                                    style={{ objectPosition: 'center 8%' }}
                                 />
                             </div>
 
