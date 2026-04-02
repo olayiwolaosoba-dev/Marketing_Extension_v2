@@ -186,183 +186,32 @@ const LeadershipCarousel: React.FC = () => {
                     <motion.div
                         key={leader.id}
                         data-card-index={index}
-                        className={`
-              relative flex-shrink-0 snap-start 
-              w-[85vw] md:w-[360px] aspect-[3/4] 
-              rounded-2xl overflow-hidden bg-white 
-              border border-[#ECECEC] shadow-sm hover:shadow-md 
-              transition-all duration-500 group/card
-              ${// For left align, let's keep all partially visible opaque and maybe just scale active slightly?
-                            // Or simplified: all opaque, but active gets border/shadow highlight?
-                            // The previous prompt had "partial peeks" and "opacity".
-                            // Let's standardise opacity but keep active fully focused.
-                            activeIndex === index ? 'opacity-100' : 'opacity-80 group-hover/carousel:opacity-100'}
-            `}
+                        className={"relative flex-shrink-0 snap-start w-[85vw] md:w-[360px] aspect-[3/4] rounded-2xl overflow-hidden bg-white border border-[#ECECEC] shadow-sm hover:shadow-md transition-all duration-500 group/card " + (activeIndex === index ? "opacity-100" : "opacity-80 group-hover/carousel:opacity-100")}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        {/* Image (Top / Full bleed background with gradient overlay at bottom) */}
-                        <div className="absolute inset-0 bg-gray-200">
-                            <img
-                                src={leader.image}
-                                alt={leader.name}
-                                width="800"
-                                height="1067"
-                                loading="lazy"
-                                className="w-full h-full object-cover grayscale group-hover/card:grayscale-0 transition-all duration-500"
-                            />
-                            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover/card:opacity-40 transition-opacity duration-300" />
-                        </div>
-
-                        {/* Content (Bottom Overlay) - Actually user asked for "Bottom content area (inside the card)"
-               Wait, "Top: portrait image ... Bottom content area".
-               This implies a layout like:
-               [ Image ]
-               [ Content ]
-               But "aspect ratio 3:4 portrait" usually means the whole card is the image OR the card is a container with image + text.
-               "Top: portrait image (full-bleed) ... Bottom content area (inside the card)"
-               If it's inside the card, and card is 3:4, and image is full bleed... maybe the content overlays the image?
-               "Top: portrait image (full-bleed) with a gentle gradient overlay at bottom for readability." -> This suggests TEXT OVER IMAGE.
-               BUT "Bottom content area (inside the card): Name... Designation... Capsules".
-               
-               Let's re-read carefully: "Top: portrait image (full-bleed) with a gentle gradient overlay at bottom for readability."
-               This implies the image takes up the space. The gradient overlay is for text readability.
-               So the text is ON TOP of the image at the bottom.
-               
-               OR it means the image is at the top part of the card, and there is a white space below.
-               "Card style: white background... Top: portrait image... Bottom content area"
-               If the card has a white background, and there is a bottom content area, usually the image is top half, content is bottom half.
-               BUT "portrait image (full-bleed)" suggests the image goes to the edges.
-               If I do Image (Top 70%) and Content (Bottom 30%), the image isn't "full-bleed" of the CARD, but full-bleed of the top section.
-               However, "gradient overlay at bottom for readability" strongly suggests text is over the image.
-               BUT "Bottom content area... Name... Designation... Capsules".
-               If I put capsules over the image, it might look cluttered.
-               
-               Let's look at "Card aspect ratio: 3:4". 360x480.
-               If I have Name, Role, and 2 lines of capsules (approx 60-80px height), plus padding.
-               
-               Let's try a hybrid approach which looks very premium 2030:
-               Image takes up the top ~65-70%.
-               Content area is white background at the bottom.
-               BUT the prompt says "Top: portrait image (full-bleed) with a gentle gradient overlay at bottom for readability."
-               This specifically mentions "readability", implying text is THERE.
-               
-               Maybe the Name/Designation is on the image, and capsules are below?
-               OR everything is on the image?
-               
-               Let's look at "Card style: white background". This implies some part is white.
-               If the whole card was image, it wouldn't need a white background (except as fallback).
-               
-               I will assume:
-               The card has a white background.
-               The Image is at the top, full width (full bleed horizontally), height ~65-70%.
-               The Text is in the white area below?
-               
-               WAIT. "Top: portrait image (full-bleed) with a gentle gradient overlay at bottom for readability."
-               If the text was in a white box below, you wouldn't need a gradient overlay on the image for readability.
-               The gradient overlay is only needed if text is OVER the image.
-               
-               Maybe the Name/Title is over the image, and capsules are in the white footer?
-               Or maybe the prompt implies the image covers the WHOLE card, and the "Bottom content area" is an overlay?
-               "Bottom content area (inside the card)"
-               
-               Let's go with: **Image covers the whole card**. Text is overlaid at the bottom.
-               "Card style: white background" might just be the base layer.
-               Use the gradient for readability of the Name/Role.
-               Capsules might be tricky over an image unless the gradient is strong.
-               
-               Alternative: Image height 100%. Content positioned absolute bottom.
-               "A “capsule skills” footer row beneath designation"
-               
-               Let's try to interpret "Card style: white background" + "Top: portrait image...".
-               Maybe it's a layout like:
-               [ Image (height 75%) ] -> with gradient at bottom of IMAGE?
-               [ White Footer (height 25%) ] -> Capsules?
-               
-               Let's stick to the most premium "2030" look:
-               Full height image.
-               Gradient at bottom.
-               Name/Role/Capsules overlaid at the bottom.
-               Why? Because "3:4 portrait" + "full-bleed image" usually means the image is the card.
-               If it was split, it would be described as "Image top, text bottom".
-               "Card style: white background" is often default spec.
-               
-               Wait, "Capsules are tiny... light grey background, dark text".
-               If they are over a dark gradient, "light grey background, dark text" works well.
-               
-               I will implement **Full Image Card** with data overlaid at bottom.
-            */}
-
-                        {/* Actually, let's reconsider "Card style: white background". 
-               If I use full image, I don't see the white background.
-               Maybe the user wants a classic "Polaroid" style or "Image Top / Text Bottom" card?
-               "Top: portrait image... Bottom content area..."
-               The "gradient overlay at bottom [of the image] for readability" might refer to text ON the image, OR
-               maybe the name/title is on the image, and capsules in a white footer?
-               
-               Let's look at the requirements again.
-               "Leadership Card Design... Card style: white background... Top: portrait image... Bottom content area... Name... Designation... Capsules"
-               
-               If I do a split:
-               Image Height: 70%
-               Content Height: 30% (White bg)
-               Then the gradient on the image effectively does nothing for "readability" of the name if the name is in the white part.
-               So the Name must be ON the image.
-               
-               Hypothesis:
-               Image (Top 75%)
-                 -> Overlay: Name + Designation (White text)
-                 -> Gradient exists to make White text readable.
-               Footer (Bottom 25%)
-                 -> White background.
-                 -> Capsules (Dark text on light grey pills).
-               
-               This feels "Design-y".
-               
-               Let's try that.
-               
-               Refining the "2030-grade" look:
-               Actually, full card image with a floating glassmorphism panel or just clean overlay is more 2030.
-               BUT "Card style: white background" suggests the container is white.
-               
-               Let's go with:
-               Container: White, rounded.
-               Image: Top part, aspect ratio maybe square or 4:5? No, card is 3:4.
-               So maybe Image is 60%, Content 40%.
-               
-               Let's stick to the safest interpretation that fits all clues:
-               **The image covers the top area. The content is in the bottom area. The Name/Designation is INSIDE the image area at the bottom (hence gradient). The Capsules are in the white footer.**
-            */}
-
                         <div className="flex flex-col h-full w-full">
-                            {/* Image Section - Fixed Height or Flex */}
-                            <div className="relative h-[65%] w-full overflow-hidden">
+                            {/* Image Section */}
+                            <div className="relative h-[68%] w-full overflow-hidden bg-gray-100">
                                 <img
                                     src={leader.image}
                                     alt={leader.name}
                                     width="800"
                                     height="1067"
                                     loading="lazy"
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover/card:scale-105"
                                 />
-                                {/* subtle gradient at bottom of image to blend if needed, or remove completely for clean look. 
-                                    Let's keep a very faint one just for depth, or remove for total clean look. removing for clean look. */}
                             </div>
 
-                            {/* Footer Section - White background with Content */}
+                            {/* Footer Section */}
                             <div className="bg-white flex-1 p-5 flex flex-col justify-between border-t border-gray-100 relative">
-
                                 <div>
                                     <div className="flex justify-between items-start mb-1">
                                         <div>
                                             <h3 className="text-xl font-bold font-display text-gray-900 tracking-tight">{leader.name}</h3>
                                             <p className="text-sm font-medium text-primary mt-1">{leader.role}</p>
                                         </div>
-                                        {/* LinkedIn Link */}
-                                        {/* Assuming we might want a real link eventually, but for now button is fine. 
-                                            If leader.linkedinUrl exists? The interface has it as optional. 
-                                            Let's render it if it exists or just render a placeholder icon. */}
                                         <button
                                             aria-label={`View ${leader.name}'s LinkedIn profile`}
                                             className="text-gray-400 hover:text-[#0077b5] transition-colors p-1"
