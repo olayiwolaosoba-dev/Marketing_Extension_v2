@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Linkedin } from 'lucide-react';
 
@@ -63,112 +63,126 @@ const LEADERS: LeaderProfile[] = [
     },
 ];
 
+// Duplicate cards for seamless infinite loop: [L0..L5, L0'..L5']
+const LOOP_LEADERS = [...LEADERS, ...LEADERS];
+
 const LeadershipCarousel: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    // activeIndex is always 0-5 (real card index, used for dots/display)
     const [activeIndex, setActiveIndex] = useState(0);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
     const [isPaused, setIsPaused] = useState(false);
 
-    // Check scroll buttons visibility & Update Active Index
-    const updateScrollState = () => {
-        if (containerRef.current) {
-            const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
-            setCanScrollLeft(scrollLeft > 0);
-            setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+    // scrollIdxRef tracks the actual scroll position across 0-11 (including clones)
+    const scrollIdxRef = useRef(0);
+    // prevents double-scheduling a reset when already resetting
+    const resetInProgressRef = useRef(false);
 
-            // Calculate active index based on LEFT position for snap-start
-            const cards = containerRef.current.querySelectorAll('[data-card-index]');
-            let closestCard = 0;
-            let minDistance = Infinity;
-
-            cards.forEach((card) => {
-                const rect = card.getBoundingClientRect();
-                const containerRect = containerRef.current!.getBoundingClientRect();
-
-                // Distance from left edge of container
-                const distance = Math.abs(rect.left - containerRect.left);
-
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    const index = Number(card.getAttribute('data-card-index'));
-                    closestCard = index;
-                }
-            });
-            setActiveIndex(closestCard);
+    const scrollToIndex = useCallback((index: number, behavior: ScrollBehavior = 'smooth') => {
+        if (!containerRef.current) return;
+        const cards = containerRef.current.querySelectorAll('[data-card-index]');
+        const card = cards[index] as HTMLElement | undefined;
+        if (card) {
+            containerRef.current.scrollTo({ left: card.offsetLeft, behavior });
         }
-    };
-
-    // Auto-scroll effect
-    useEffect(() => {
-        let interval: NodeJS.Timeout;
-
-        if (!isPaused) {
-            interval = setInterval(() => {
-                const nextIndex = (activeIndex + 1) % LEADERS.length;
-                // If we reach the end, scroll back to start? 
-                // Alternatively, just standard infinite or stop at end. 
-                // User said "scroll automatically after every 2 seconds". 
-                // Standard behavior: loop or bounce. Let's loop for now by scrolling to next.
-                // But scrollToCard(0) might be abrupt if we are at the end.
-                // Let's standard "next" behavior.
-                if (activeIndex < LEADERS.length - 1) {
-                    scrollToCard(activeIndex + 1);
-                } else {
-                    scrollToCard(0); // Reset to start
-                }
-            }, 3000); // 3 seconds is better for "slowly". 2 seconds is quite fast. User said "slowly". 
-            // Wait, request said "after every 2 seconds but slowly". 
-            // Setting to 2500ms for balance.
-        }
-
-        return () => clearInterval(interval);
-    }, [activeIndex, isPaused]);
-
-    useEffect(() => {
-        const container = containerRef.current;
-        if (container) {
-            // Reset to first card immediately on mount (no animation)
-            container.scrollLeft = 0;
-            container.addEventListener('scroll', updateScrollState);
-            updateScrollState();
-            window.addEventListener('resize', updateScrollState);
-        }
-        return () => {
-            if (container) container.removeEventListener('scroll', updateScrollState);
-            window.removeEventListener('resize', updateScrollState);
-        };
     }, []);
 
-    const scrollToCard = (index: number) => {
-        if (containerRef.current) {
-            const cards = containerRef.current.querySelectorAll('[data-card-index]');
-            if (cards[index]) {
-                const card = cards[index] as HTMLElement;
-                const container = containerRef.current;
+    // After scrolling into clone zone (index >= LEADERS.length), silently snap back to real card
+    const scheduleLoopReset = useCallback((cloneScrollIdx: number) => {
+        if (resetInProgressRef.current) return;
+        resetInProgressRef.current = true;
+        const realIdx = cloneScrollIdx % LEADERS.length;
+        setTimeout(() => {
+            scrollToIndex(realIdx, 'instant');
+            scrollIdxRef.current = realIdx;
+            setActiveIndex(realIdx);
+            resetInProgressRef.current = false;
+        }, 500); // wait for smooth scroll animation to finish
+    }, [scrollToIndex]);
 
-                // Calculate position to center or align left? Logic was 'inline: start' which means align left.
-                // We want to align the card to the left of the container.
-                // So we just need the card's offsetLeft relative to the container.
+    const updateScrollState = useCallback(() => {
+        if (!containerRef.current) return;
+        const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
+        setCanScrollLeft(scrollLeft > 10);
+        setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
 
-                // However, card.offsetLeft is relative to offsetParent. 
-                // If container is relative, then card.offsetLeft is correct.
+        const cards = containerRef.current.querySelectorAll('[data-card-index]');
+        const containerRect = containerRef.current.getBoundingClientRect();
+        let closest = 0;
+        let minDist = Infinity;
 
-                const scrollLeft = card.offsetLeft;
-                container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+        cards.forEach((card) => {
+            const dist = Math.abs(card.getBoundingClientRect().left - containerRect.left);
+            if (dist < minDist) {
+                minDist = dist;
+                closest = Number(card.getAttribute('data-card-index'));
             }
+        });
+
+        // If user manually scrolled into the clone zone, reset to real equivalent
+        if (closest >= LEADERS.length) {
+            setActiveIndex(closest % LEADERS.length);
+            scheduleLoopReset(closest);
+        } else {
+            scrollIdxRef.current = closest;
+            setActiveIndex(closest);
         }
-    };
+    }, [scheduleLoopReset]);
+
+    // Mount: reset scroll to first card
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+        container.scrollLeft = 0;
+        container.addEventListener('scroll', updateScrollState);
+        window.addEventListener('resize', updateScrollState);
+        updateScrollState();
+        return () => {
+            container.removeEventListener('scroll', updateScrollState);
+            window.removeEventListener('resize', updateScrollState);
+        };
+    }, [updateScrollState]);
+
+    // Auto-scroll: advance one card every 3s, loop seamlessly through clones
+    useEffect(() => {
+        if (isPaused) return;
+        const interval = setInterval(() => {
+            const next = scrollIdxRef.current + 1;
+            if (next < LOOP_LEADERS.length) {
+                scrollToIndex(next, 'smooth');
+                scrollIdxRef.current = next;
+                setActiveIndex(next % LEADERS.length);
+                // If we just entered the clone zone, schedule the silent reset
+                if (next >= LEADERS.length) {
+                    scheduleLoopReset(next);
+                }
+            } else {
+                // Safety fallback: beyond all clones
+                scrollToIndex(0, 'instant');
+                scrollIdxRef.current = 0;
+                setActiveIndex(0);
+            }
+        }, 3000);
+        return () => clearInterval(interval);
+    }, [isPaused, scrollToIndex, scheduleLoopReset]);
 
     const scrollNext = () => {
-        if (activeIndex < LEADERS.length - 1) {
-            scrollToCard(activeIndex + 1);
+        const next = scrollIdxRef.current + 1;
+        if (next < LOOP_LEADERS.length) {
+            scrollToIndex(next, 'smooth');
+            scrollIdxRef.current = next;
+            setActiveIndex(next % LEADERS.length);
+            if (next >= LEADERS.length) scheduleLoopReset(next);
         }
     };
 
     const scrollPrev = () => {
-        if (activeIndex > 0) {
-            scrollToCard(activeIndex - 1);
+        const prev = scrollIdxRef.current - 1;
+        if (prev >= 0) {
+            scrollToIndex(prev, 'smooth');
+            scrollIdxRef.current = prev;
+            setActiveIndex(prev % LEADERS.length);
         }
     };
 
@@ -184,68 +198,73 @@ const LeadershipCarousel: React.FC = () => {
                 className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 pt-4 px-6 scrollbar-hide"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
-                {LEADERS.map((leader, index) => (
-                    <motion.div
-                        key={leader.id}
-                        data-card-index={index}
-                        className={"relative flex-shrink-0 snap-start w-[85vw] md:w-[360px] aspect-[3/4] rounded-2xl overflow-hidden bg-white border border-[#ECECEC] shadow-sm hover:shadow-md transition-all duration-500 group/card " + (activeIndex === index ? "opacity-100" : "opacity-80 group-hover/carousel:opacity-100")}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: index * 0.07 }}
-                    >
-                        <div className="flex flex-col h-full w-full">
-                            {/* Image Section */}
-                            <div className="relative h-[68%] w-full overflow-hidden bg-gray-100">
-                                <img
-                                    src={leader.image}
-                                    alt={leader.name}
-                                    width="800"
-                                    height="1067"
-                                    loading="lazy"
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
-                                    style={{ objectPosition: 'center 8%' }}
-                                />
-                            </div>
+                {LOOP_LEADERS.map((leader, index) => {
+                    const realIdx = index % LEADERS.length;
+                    const isActive = activeIndex === realIdx && (
+                        // highlight the real card OR the currently-visible clone
+                        index === scrollIdxRef.current || index === scrollIdxRef.current % LEADERS.length
+                    );
+                    return (
+                        <motion.div
+                            key={`${leader.id}-${index}`}
+                            data-card-index={index}
+                            className={"relative flex-shrink-0 snap-start w-[85vw] md:w-[360px] aspect-[3/4] rounded-2xl overflow-hidden bg-white border border-[#ECECEC] shadow-sm hover:shadow-md transition-all duration-500 group/card " + (activeIndex === realIdx ? "opacity-100" : "opacity-80 group-hover/carousel:opacity-100")}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: (index < LEADERS.length ? index : 0) * 0.07 }}
+                        >
+                            <div className="flex flex-col h-full w-full">
+                                {/* Image Section */}
+                                <div className="relative h-[68%] w-full overflow-hidden bg-gray-100">
+                                    <img
+                                        src={leader.image}
+                                        alt={leader.name}
+                                        width="800"
+                                        height="1067"
+                                        loading={index < LEADERS.length ? 'eager' : 'lazy'}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                                        style={{ objectPosition: 'center 8%' }}
+                                    />
+                                </div>
 
-                            {/* Footer Section */}
-                            <div className="bg-white flex-1 p-5 flex flex-col justify-between border-t border-gray-100 relative">
-                                <div>
-                                    <div className="flex justify-between items-start mb-1">
-                                        <div>
-                                            <h3 className="text-xl font-bold font-display text-gray-900 tracking-tight">{leader.name}</h3>
-                                            <p className="text-sm font-medium text-primary mt-1">{leader.role}</p>
-                                        </div>
-                                        <button
-                                            aria-label={`View ${leader.name}'s LinkedIn profile`}
-                                            className="text-gray-400 hover:text-[#0077b5] transition-colors p-1"
-                                        >
-                                            <Linkedin size={20} />
-                                        </button>
-                                    </div>
-
-                                    <div className="w-12 h-0.5 bg-gray-100 my-4" />
-
-                                    <div className="flex flex-wrap gap-2">
-                                        {leader.capsules.map((cap, i) => (
-                                            <span
-                                                key={i}
-                                                className="px-2.5 py-1 bg-gray-50 text-[10px] font-bold uppercase tracking-wider text-text-muted rounded-md border border-gray-100"
+                                {/* Footer Section */}
+                                <div className="bg-white flex-1 p-5 flex flex-col justify-between border-t border-gray-100 relative">
+                                    <div>
+                                        <div className="flex justify-between items-start mb-1">
+                                            <div>
+                                                <h3 className="text-xl font-bold font-display text-gray-900 tracking-tight">{leader.name}</h3>
+                                                <p className="text-sm font-medium text-primary mt-1">{leader.role}</p>
+                                            </div>
+                                            <button
+                                                aria-label={`View ${leader.name}'s LinkedIn profile`}
+                                                className="text-gray-400 hover:text-[#0077b5] transition-colors p-1"
                                             >
-                                                {cap}
-                                            </span>
-                                        ))}
+                                                <Linkedin size={20} />
+                                            </button>
+                                        </div>
+
+                                        <div className="w-12 h-0.5 bg-gray-100 my-4" />
+
+                                        <div className="flex flex-wrap gap-2">
+                                            {leader.capsules.map((cap, i) => (
+                                                <span
+                                                    key={i}
+                                                    className="px-2.5 py-1 bg-gray-50 text-[10px] font-bold uppercase tracking-wider text-text-muted rounded-md border border-gray-100"
+                                                >
+                                                    {cap}
+                                                </span>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                    </motion.div>
-                ))}
+                        </motion.div>
+                    );
+                })}
             </div>
 
             {/* Controls */}
             <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 pointer-events-none flex justify-between px-4 md:px-8">
-                { /* Prev Arrow */}
                 <button
                     aria-label="Previous team member"
                     onClick={scrollPrev}
@@ -260,7 +279,6 @@ const LeadershipCarousel: React.FC = () => {
                     <ArrowLeft size={20} />
                 </button>
 
-                { /* Next Arrow */}
                 <button
                     aria-label="Next team member"
                     onClick={scrollNext}
@@ -276,7 +294,7 @@ const LeadershipCarousel: React.FC = () => {
                 </button>
             </div>
 
-            {/* Progress Indicator (Line + Dots) */}
+            {/* Progress dots — always 6, always reflect real index */}
             <div className="flex items-center justify-center mt-8 gap-1">
                 <div className="h-[2px] w-24 bg-gray-200 rounded-full overflow-hidden mr-4 hidden md:block">
                     <motion.div
@@ -291,7 +309,11 @@ const LeadershipCarousel: React.FC = () => {
                         key={idx}
                         aria-label={`Go to ${leader.name}'s card`}
                         aria-current={activeIndex === idx ? 'true' : undefined}
-                        onClick={() => scrollToCard(idx)}
+                        onClick={() => {
+                            scrollToIndex(idx, 'smooth');
+                            scrollIdxRef.current = idx;
+                            setActiveIndex(idx);
+                        }}
                         className={`
               h-2 rounded-full transition-all duration-300
               ${activeIndex === idx ? 'w-6 bg-primary' : 'w-2 bg-gray-300 hover:bg-gray-400'}
