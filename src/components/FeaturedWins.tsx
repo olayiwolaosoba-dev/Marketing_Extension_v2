@@ -153,7 +153,7 @@ const MobileWinCard: React.FC<WinData & { scrollContainerRef: React.RefObject<HT
   return (
     <div
       ref={cardRef}
-      className="relative flex-shrink-0 snap-start w-[68vw] max-w-[280px] h-[240px] overflow-hidden cursor-pointer rounded-xl"
+      className="relative flex-shrink-0 snap-start w-[88vw] max-w-[420px] aspect-[9/16] overflow-hidden cursor-pointer rounded-2xl"
       onClick={() => setColourUnlocked(c => !c)}
     >
       {/* Image */}
@@ -182,25 +182,25 @@ const MobileWinCard: React.FC<WinData & { scrollContainerRef: React.RefObject<HT
       )}
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col h-full p-4">
-        <p className="text-white/70 text-[9px] font-bold uppercase tracking-[0.18em]">{name}</p>
+      <div className="relative z-10 flex flex-col h-full p-6">
+        <p className="text-white/70 text-[10px] font-bold uppercase tracking-[0.18em]">{name}</p>
 
         {/* Description — only shown when colour is unlocked */}
         <div className={`mt-3 transition-all duration-500 ${
           colourUnlocked ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
         }`}>
-          <p className="text-white/90 text-[11px] leading-relaxed line-clamp-3">{desc}</p>
+          <p className="text-white/90 text-sm leading-relaxed line-clamp-5">{desc}</p>
         </div>
 
         <div className="mt-auto">
-          <div className={`text-base font-display font-bold text-white mb-2 leading-tight transition-all duration-500 ${
+          <div className={`text-xl font-display font-bold text-white mb-3 leading-tight transition-all duration-500 ${
             colourUnlocked ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
           }`}>
             {metric}
           </div>
           <div className="flex gap-1.5 flex-wrap">
             {tags.map(tag => (
-              <span key={tag} className="px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-sm text-[8px] font-bold uppercase tracking-tight text-white/80 border border-white/10">
+              <span key={tag} className="px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-sm text-[9px] font-bold uppercase tracking-tight text-white/80 border border-white/10">
                 {tag}
               </span>
             ))}
@@ -305,8 +305,7 @@ const MobileCarouselRow: React.FC<{ cards: WinData[] }> = ({ cards }) => {
    Desktop (≥lg):  header + 4-column tall-card grid (no arrows)
 ───────────────────────────────────────────────────────────── */
 const FeaturedWins: React.FC = () => {
-  const row1 = WINS.slice(0, 4);  // Zone, Quidax, Smartcomply, VeryPay
-  const row2 = WINS.slice(4, 8);  // Mercurie, SabiTrack, Tamy, Google
+  // Single row — all 8 wins scroll horizontally on mobile
 
   return (
     <section className="bg-bg-light pt-24 md:pt-32">
@@ -324,10 +323,9 @@ const FeaturedWins: React.FC = () => {
         </p>
       </div>
 
-      {/* ── MOBILE: two horizontal snap carousels ─────────────── */}
-      <div className="lg:hidden space-y-3">
-        <MobileCarouselRow cards={row1} />
-        <MobileCarouselRow cards={row2} />
+      {/* ── MOBILE: single horizontal snap carousel (IG reel size) ── */}
+      <div className="lg:hidden">
+        <MobileCarouselRow cards={WINS} />
       </div>
 
       {/* ── DESKTOP: 4-column full-height grid (no arrows) ─────── */}
