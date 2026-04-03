@@ -14,6 +14,7 @@ interface LeaderProfile {
     name: string;
     role: string;
     image: string;
+    imgPosition: string; // per-portrait object-position to show face + chest correctly
     capsules: string[];
     linkedinUrl?: string;
 }
@@ -24,6 +25,9 @@ const LEADERS: LeaderProfile[] = [
         name: "Hugh Oshoba",
         role: "Chief Executive Officer",
         image: oshobaImg,
+        // Very tight close-up — face fills ~50% of image; start from absolute top
+        // so hair → face → chin → upper chest all fit within the image pane
+        imgPosition: 'center 0%',
         capsules: ["Growth Strategy", "Corp Dev", "Brand Vision", "Leadership"],
     },
     {
@@ -31,6 +35,9 @@ const LEADERS: LeaderProfile[] = [
         name: "Adebola Olusunmade",
         role: "Chief Technology Officer",
         image: adebolaImg,
+        // Traditional cap adds visual height; face starts ~30% down —
+        // start from top so the full cap + face + chest are framed correctly
+        imgPosition: 'center 0%',
         capsules: ["AI Infrastructure", "MarTech", "Product Eng", "Scale"],
     },
     {
@@ -38,6 +45,9 @@ const LEADERS: LeaderProfile[] = [
         name: "Favour",
         role: "VP of Growth",
         image: favourImg,
+        // Most zoomed-out composition; face at ~5–20%, body/arms below —
+        // 8% gives a small margin above the head then shows lots of body
+        imgPosition: 'center 8%',
         capsules: ["Demand Gen", "Paid Media", "Lifecycle", "Analytics"],
     },
     {
@@ -45,6 +55,8 @@ const LEADERS: LeaderProfile[] = [
         name: "Motilola",
         role: "Head of Strategy",
         image: motilolaImg,
+        // Well-composed medium shot; 8% is already perfect — face + chest visible
+        imgPosition: 'center 8%',
         capsules: ["GTM", "Partnerships", "Market Research", "Ops"],
     },
     {
@@ -52,6 +64,9 @@ const LEADERS: LeaderProfile[] = [
         name: "Temilade",
         role: "Creative Director",
         image: temiladeImg,
+        // Updo bun sits right at the very top of the image (~2%) —
+        // must start from 0% or the bun gets clipped by the crop
+        imgPosition: 'center 0%',
         capsules: ["Brand Design", "UX/UI", "Content Strategy", "Storytelling"],
     },
     {
@@ -59,6 +74,9 @@ const LEADERS: LeaderProfile[] = [
         name: "Precious",
         role: "VP of Sales",
         image: preciousImg,
+        // Medium tight close-up; hair at ~8%, face to ~44% —
+        // 2% gives a small top margin then shows face + good chest area
+        imgPosition: 'center 2%',
         capsules: ["Enterprise Sales", "RevOps", "Negotiation", "Team Building"],
     },
 ];
@@ -215,7 +233,7 @@ const LeadershipCarousel: React.FC = () => {
                         >
                             <div className="flex flex-col h-full w-full">
                                 {/* Image Section */}
-                                <div className="relative h-[68%] w-full overflow-hidden bg-gray-100">
+                                <div className="relative h-[72%] w-full overflow-hidden bg-gray-100">
                                     <img
                                         src={leader.image}
                                         alt={leader.name}
@@ -223,7 +241,7 @@ const LeadershipCarousel: React.FC = () => {
                                         height="1067"
                                         loading={index < LEADERS.length ? 'eager' : 'lazy'}
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
-                                        style={{ objectPosition: 'center 8%' }}
+                                        style={{ objectPosition: leader.imgPosition }}
                                     />
                                 </div>
 
