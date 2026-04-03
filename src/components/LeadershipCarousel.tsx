@@ -14,7 +14,6 @@ interface LeaderProfile {
     name: string;
     role: string;
     image: string;
-    imgPosition: string; // per-portrait object-position to show face + chest correctly
     capsules: string[];
     linkedinUrl?: string;
 }
@@ -25,9 +24,6 @@ const LEADERS: LeaderProfile[] = [
         name: "Hugh Oshoba",
         role: "Chief Executive Officer",
         image: oshobaImg,
-        // Very tight close-up — face fills ~50% of image; start from absolute top
-        // so hair → face → chin → upper chest all fit within the image pane
-        imgPosition: 'center 0%',
         capsules: ["Growth Strategy", "Corp Dev", "Brand Vision", "Leadership"],
     },
     {
@@ -35,9 +31,6 @@ const LEADERS: LeaderProfile[] = [
         name: "Adebola Olusunmade",
         role: "Chief Technology Officer",
         image: adebolaImg,
-        // Traditional cap adds visual height; face starts ~30% down —
-        // start from top so the full cap + face + chest are framed correctly
-        imgPosition: 'center 0%',
         capsules: ["AI Infrastructure", "MarTech", "Product Eng", "Scale"],
     },
     {
@@ -45,9 +38,6 @@ const LEADERS: LeaderProfile[] = [
         name: "Favour",
         role: "VP of Growth",
         image: favourImg,
-        // Most zoomed-out composition; face at ~5–20%, body/arms below —
-        // 8% gives a small margin above the head then shows lots of body
-        imgPosition: 'center 8%',
         capsules: ["Demand Gen", "Paid Media", "Lifecycle", "Analytics"],
     },
     {
@@ -55,8 +45,6 @@ const LEADERS: LeaderProfile[] = [
         name: "Motilola",
         role: "Head of Strategy",
         image: motilolaImg,
-        // Well-composed medium shot; 8% is already perfect — face + chest visible
-        imgPosition: 'center 8%',
         capsules: ["GTM", "Partnerships", "Market Research", "Ops"],
     },
     {
@@ -64,9 +52,6 @@ const LEADERS: LeaderProfile[] = [
         name: "Temilade",
         role: "Creative Director",
         image: temiladeImg,
-        // Updo bun sits right at the very top of the image (~2%) —
-        // must start from 0% or the bun gets clipped by the crop
-        imgPosition: 'center 0%',
         capsules: ["Brand Design", "UX/UI", "Content Strategy", "Storytelling"],
     },
     {
@@ -74,9 +59,6 @@ const LEADERS: LeaderProfile[] = [
         name: "Precious",
         role: "VP of Sales",
         image: preciousImg,
-        // Medium tight close-up; hair at ~8%, face to ~44% —
-        // 2% gives a small top margin then shows face + good chest area
-        imgPosition: 'center 2%',
         capsules: ["Enterprise Sales", "RevOps", "Negotiation", "Team Building"],
     },
 ];
@@ -86,27 +68,21 @@ const LOOP_LEADERS = [...LEADERS, ...LEADERS];
 
 const LeadershipCarousel: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
-    // activeIndex is always 0-5 (real card index, used for dots/display)
     const [activeIndex, setActiveIndex] = useState(0);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
     const [isPaused, setIsPaused] = useState(false);
 
-    // scrollIdxRef tracks the actual scroll position across 0-11 (including clones)
     const scrollIdxRef = useRef(0);
-    // prevents double-scheduling a reset when already resetting
     const resetInProgressRef = useRef(false);
 
     const scrollToIndex = useCallback((index: number, behavior: ScrollBehavior = 'smooth') => {
         if (!containerRef.current) return;
         const cards = containerRef.current.querySelectorAll('[data-card-index]');
         const card = cards[index] as HTMLElement | undefined;
-        if (card) {
-            containerRef.current.scrollTo({ left: card.offsetLeft, behavior });
-        }
+        if (card) containerRef.current.scrollTo({ left: card.offsetLeft, behavior });
     }, []);
 
-    // After scrolling into clone zone (index >= LEADERS.length), silently snap back to real card
     const scheduleLoopReset = useCallback((cloneScrollIdx: number) => {
         if (resetInProgressRef.current) return;
         resetInProgressRef.current = true;
@@ -116,7 +92,7 @@ const LeadershipCarousel: React.FC = () => {
             scrollIdxRef.current = realIdx;
             setActiveIndex(realIdx);
             resetInProgressRef.current = false;
-        }, 500); // wait for smooth scroll animation to finish
+        }, 500);
     }, [scrollToIndex]);
 
     const updateScrollState = useCallback(() => {
@@ -129,16 +105,11 @@ const LeadershipCarousel: React.FC = () => {
         const containerRect = containerRef.current.getBoundingClientRect();
         let closest = 0;
         let minDist = Infinity;
-
         cards.forEach((card) => {
             const dist = Math.abs(card.getBoundingClientRect().left - containerRect.left);
-            if (dist < minDist) {
-                minDist = dist;
-                closest = Number(card.getAttribute('data-card-index'));
-            }
+            if (dist < minDist) { minDist = dist; closest = Number(card.getAttribute('data-card-index')); }
         });
 
-        // If user manually scrolled into the clone zone, reset to real equivalent
         if (closest >= LEADERS.length) {
             setActiveIndex(closest % LEADERS.length);
             scheduleLoopReset(closest);
@@ -148,7 +119,6 @@ const LeadershipCarousel: React.FC = () => {
         }
     }, [scheduleLoopReset]);
 
-    // Mount: reset scroll to first card
     useEffect(() => {
         const container = containerRef.current;
         if (!container) return;
@@ -162,7 +132,6 @@ const LeadershipCarousel: React.FC = () => {
         };
     }, [updateScrollState]);
 
-    // Auto-scroll: advance one card every 3s, loop seamlessly through clones
     useEffect(() => {
         if (isPaused) return;
         const interval = setInterval(() => {
@@ -171,12 +140,8 @@ const LeadershipCarousel: React.FC = () => {
                 scrollToIndex(next, 'smooth');
                 scrollIdxRef.current = next;
                 setActiveIndex(next % LEADERS.length);
-                // If we just entered the clone zone, schedule the silent reset
-                if (next >= LEADERS.length) {
-                    scheduleLoopReset(next);
-                }
+                if (next >= LEADERS.length) scheduleLoopReset(next);
             } else {
-                // Safety fallback: beyond all clones
                 scrollToIndex(0, 'instant');
                 scrollIdxRef.current = 0;
                 setActiveIndex(0);
@@ -210,7 +175,7 @@ const LeadershipCarousel: React.FC = () => {
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
         >
-            {/* Carousel Container */}
+            {/* Carousel track */}
             <div
                 ref={containerRef}
                 className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 pt-4 px-6 scrollbar-hide"
@@ -218,62 +183,104 @@ const LeadershipCarousel: React.FC = () => {
             >
                 {LOOP_LEADERS.map((leader, index) => {
                     const realIdx = index % LEADERS.length;
-                    const isActive = activeIndex === realIdx && (
-                        // highlight the real card OR the currently-visible clone
-                        index === scrollIdxRef.current || index === scrollIdxRef.current % LEADERS.length
-                    );
                     return (
                         <motion.div
                             key={`${leader.id}-${index}`}
                             data-card-index={index}
-                            className={"relative flex-shrink-0 snap-start w-[85vw] md:w-[360px] aspect-[3/4] rounded-2xl overflow-hidden bg-white border border-[#ECECEC] shadow-sm hover:shadow-md transition-all duration-500 group/card " + (activeIndex === realIdx ? "opacity-100" : "opacity-80 group-hover/carousel:opacity-100")}
+                            className={[
+                                'relative flex-shrink-0 snap-start',
+                                'w-[85vw] md:w-[360px] aspect-[3/4]',
+                                'rounded-2xl overflow-hidden',
+                                'shadow-sm hover:shadow-xl',
+                                'border border-[#ECECEC]',
+                                'transition-all duration-500 group/card',
+                                activeIndex === realIdx
+                                    ? 'opacity-100'
+                                    : 'opacity-75 group-hover/carousel:opacity-100',
+                            ].join(' ')}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: (index < LEADERS.length ? index : 0) * 0.07 }}
                         >
-                            <div className="flex flex-col h-full w-full">
-                                {/* Image Section */}
-                                <div className="relative h-[72%] w-full overflow-hidden bg-gray-100">
-                                    <img
-                                        src={leader.image}
-                                        alt={leader.name}
-                                        width="800"
-                                        height="1067"
-                                        loading={index < LEADERS.length ? 'eager' : 'lazy'}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
-                                        style={{ objectPosition: leader.imgPosition }}
-                                    />
+                            {/*
+                             * FULL-CARD IMAGE
+                             * Default: scale(1.35) from the top — clips to show face + chest only
+                             * Hover:   scale(1.0)  — smoothly zooms out to reveal the
+                             *          complete illustrated portrait
+                             *
+                             * object-cover + same portrait aspect-ratio → image fills
+                             * the card with near-zero cropping at scale 1.0.
+                             * overflow-hidden on the parent clips the overage at 1.35.
+                             */}
+                            <img
+                                src={leader.image}
+                                alt={leader.name}
+                                width="800"
+                                height="1067"
+                                loading={index < LEADERS.length ? 'eager' : 'lazy'}
+                                className="absolute inset-0 w-full h-full object-cover
+                                           scale-[1.35] group-hover/card:scale-100
+                                           transition-transform duration-700 ease-in-out"
+                                style={{ transformOrigin: 'center top', objectPosition: 'center top' }}
+                            />
+
+                            {/*
+                             * Gradient veil — keeps footer text readable over the image.
+                             * Deepens slightly on hover for a cinematic look.
+                             */}
+                            <div className="absolute inset-0 bg-gradient-to-t
+                                            from-black/55 via-black/10 to-transparent
+                                            transition-opacity duration-500
+                                            opacity-80 group-hover/card:opacity-100
+                                            pointer-events-none" />
+
+                            {/*
+                             * COMPACT FOOTER OVERLAY
+                             * Sits at the very bottom of the card (absolute).
+                             * ~35% smaller than previous design:
+                             *   • p-3 vs p-5  (12px vs 20px padding)
+                             *   • text-[17px] vs text-xl name
+                             *   • text-[11px] vs text-sm role
+                             *   • no divider bar
+                             *   • smaller capsule chips
+                             * On hover: slight frosted-glass effect.
+                             */}
+                            <div className="absolute bottom-0 left-0 right-0
+                                            bg-white/95 backdrop-blur-[2px]
+                                            group-hover/card:bg-white/88
+                                            transition-colors duration-500
+                                            px-4 pt-3 pb-3">
+
+                                {/* Name row */}
+                                <div className="flex items-start justify-between gap-2">
+                                    <div className="min-w-0">
+                                        <h3 className="text-[17px] font-bold font-display text-gray-900 leading-snug truncate">
+                                            {leader.name}
+                                        </h3>
+                                        <p className="text-[11px] font-semibold text-primary mt-0.5 leading-none">
+                                            {leader.role}
+                                        </p>
+                                    </div>
+                                    <button
+                                        aria-label={`View ${leader.name}'s LinkedIn profile`}
+                                        className="flex-shrink-0 text-gray-400 hover:text-[#0077b5] transition-colors p-0.5 mt-0.5"
+                                    >
+                                        <Linkedin size={17} />
+                                    </button>
                                 </div>
 
-                                {/* Footer Section */}
-                                <div className="bg-white flex-1 p-5 flex flex-col justify-between border-t border-gray-100 relative">
-                                    <div>
-                                        <div className="flex justify-between items-start mb-1">
-                                            <div>
-                                                <h3 className="text-xl font-bold font-display text-gray-900 tracking-tight">{leader.name}</h3>
-                                                <p className="text-sm font-medium text-primary mt-1">{leader.role}</p>
-                                            </div>
-                                            <button
-                                                aria-label={`View ${leader.name}'s LinkedIn profile`}
-                                                className="text-gray-400 hover:text-[#0077b5] transition-colors p-1"
-                                            >
-                                                <Linkedin size={20} />
-                                            </button>
-                                        </div>
-
-                                        <div className="w-12 h-0.5 bg-gray-100 my-4" />
-
-                                        <div className="flex flex-wrap gap-2">
-                                            {leader.capsules.map((cap, i) => (
-                                                <span
-                                                    key={i}
-                                                    className="px-2.5 py-1 bg-gray-50 text-[10px] font-bold uppercase tracking-wider text-text-muted rounded-md border border-gray-100"
-                                                >
-                                                    {cap}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
+                                {/* Skill capsules */}
+                                <div className="flex flex-wrap gap-1.5 mt-2.5">
+                                    {leader.capsules.map((cap, i) => (
+                                        <span
+                                            key={i}
+                                            className="px-2 py-[3px] bg-gray-50 text-[9px] font-bold uppercase
+                                                       tracking-wider text-text-muted rounded border border-gray-100
+                                                       leading-none"
+                                        >
+                                            {cap}
+                                        </span>
+                                    ))}
                                 </div>
                             </div>
                         </motion.div>
@@ -281,38 +288,37 @@ const LeadershipCarousel: React.FC = () => {
                 })}
             </div>
 
-            {/* Controls */}
+            {/* Prev / Next arrows */}
             <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 pointer-events-none flex justify-between px-4 md:px-8">
                 <button
                     aria-label="Previous team member"
                     onClick={scrollPrev}
-                    className={`
-            w-12 h-12 rounded-full bg-white/90 shadow-lg backdrop-blur-sm
-            flex items-center justify-center text-text-dark
-            pointer-events-auto transition-all duration-300
-            hover:scale-110 hover:text-primary border border-gray-100
-            ${!canScrollLeft ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-0 group-hover/carousel:opacity-100 translate-x-0'}
-          `}
+                    className={`w-12 h-12 rounded-full bg-white/90 shadow-lg backdrop-blur-sm
+                                flex items-center justify-center text-text-dark
+                                pointer-events-auto transition-all duration-300
+                                hover:scale-110 hover:text-primary border border-gray-100
+                                ${!canScrollLeft
+                                    ? 'opacity-0 translate-x-4 pointer-events-none'
+                                    : 'opacity-0 group-hover/carousel:opacity-100 translate-x-0'}`}
                 >
                     <ArrowLeft size={20} />
                 </button>
-
                 <button
                     aria-label="Next team member"
                     onClick={scrollNext}
-                    className={`
-            w-12 h-12 rounded-full bg-white/90 shadow-lg backdrop-blur-sm
-            flex items-center justify-center text-text-dark
-            pointer-events-auto transition-all duration-300
-            hover:scale-110 hover:text-primary border border-gray-100
-            ${!canScrollRight ? 'opacity-0 -translate-x-4 pointer-events-none' : 'opacity-0 group-hover/carousel:opacity-100 translate-x-0'}
-          `}
+                    className={`w-12 h-12 rounded-full bg-white/90 shadow-lg backdrop-blur-sm
+                                flex items-center justify-center text-text-dark
+                                pointer-events-auto transition-all duration-300
+                                hover:scale-110 hover:text-primary border border-gray-100
+                                ${!canScrollRight
+                                    ? 'opacity-0 -translate-x-4 pointer-events-none'
+                                    : 'opacity-0 group-hover/carousel:opacity-100 translate-x-0'}`}
                 >
                     <ArrowRight size={20} />
                 </button>
             </div>
 
-            {/* Progress dots — always 6, always reflect real index */}
+            {/* Progress dots */}
             <div className="flex items-center justify-center mt-8 gap-1">
                 <div className="h-[2px] w-24 bg-gray-200 rounded-full overflow-hidden mr-4 hidden md:block">
                     <motion.div
@@ -321,7 +327,6 @@ const LeadershipCarousel: React.FC = () => {
                         transition={{ duration: 0.3 }}
                     />
                 </div>
-
                 {LEADERS.map((leader, idx) => (
                     <button
                         key={idx}
@@ -332,10 +337,8 @@ const LeadershipCarousel: React.FC = () => {
                             scrollIdxRef.current = idx;
                             setActiveIndex(idx);
                         }}
-                        className={`
-              h-2 rounded-full transition-all duration-300
-              ${activeIndex === idx ? 'w-6 bg-primary' : 'w-2 bg-gray-300 hover:bg-gray-400'}
-            `}
+                        className={`h-2 rounded-full transition-all duration-300
+                            ${activeIndex === idx ? 'w-6 bg-primary' : 'w-2 bg-gray-300 hover:bg-gray-400'}`}
                     />
                 ))}
             </div>
