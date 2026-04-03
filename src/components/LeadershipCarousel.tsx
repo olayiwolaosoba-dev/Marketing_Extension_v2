@@ -8,6 +8,8 @@ import favourImg from '../assets/team/favour.png';
 import motilolaImg from '../assets/team/motilola.png';
 import temiladeImg from '../assets/team/temilade.png';
 import preciousImg from '../assets/team/precious.png';
+import stanleyImg from '../assets/team/stanley.png';
+import ladeImg from '../assets/team/lade.png';
 
 interface LeaderProfile {
     id: number;
@@ -65,14 +67,14 @@ const LEADERS: LeaderProfile[] = [
         id: 7,
         name: "Stanley Onwuka",
         role: "Director of Engineering & Technology",
-        image: undefined,     // Photo coming soon
+        image: stanleyImg,
         capsules: ["Engineering", "MarTech Stack", "AI Integration", "Platform Dev"],
     },
     {
         id: 8,
         name: "Lade Koleowo",
         role: "Design & Creative Lead",
-        image: undefined,     // Photo coming soon
+        image: ladeImg,
         capsules: ["Brand Design", "Creative Direction", "Visual Identity", "Content Design"],
     },
 ];
