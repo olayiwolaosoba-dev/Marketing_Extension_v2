@@ -235,23 +235,21 @@ const LeadershipCarousel: React.FC = () => {
                                             pointer-events-none" />
 
                             {/*
-                             * COMPACT FOOTER OVERLAY
-                             * Sits at the very bottom of the card (absolute).
-                             * ~35% smaller than previous design:
-                             *   • p-3 vs p-5  (12px vs 20px padding)
-                             *   • text-[17px] vs text-xl name
-                             *   • text-[11px] vs text-sm role
-                             *   • no divider bar
-                             *   • smaller capsule chips
-                             * On hover: slight frosted-glass effect.
+                             * FOOTER OVERLAY — fixed at h-[112px] so every single
+                             * card's white section starts at the identical position
+                             * from the bottom. flex-col + justify-between spaces the
+                             * name/role block and capsules to fill the fixed height.
+                             * Capsules use flex-wrap so they render naturally; the
+                             * fixed container height enforces pixel-perfect alignment
+                             * regardless of how many rows the capsules occupy.
                              */}
-                            <div className="absolute bottom-0 left-0 right-0
-                                            bg-white/95 backdrop-blur-[2px]
-                                            group-hover/card:bg-white/88
+                            <div className="absolute bottom-0 left-0 right-0 h-[112px]
+                                            bg-white overflow-hidden
+                                            group-hover/card:bg-white/92 group-hover/card:backdrop-blur-sm
                                             transition-colors duration-500
-                                            px-4 pt-3 pb-3">
+                                            px-4 pt-3.5 pb-3.5 flex flex-col justify-between">
 
-                                {/* Name row */}
+                                {/* Name + LinkedIn row */}
                                 <div className="flex items-start justify-between gap-2">
                                     <div className="min-w-0">
                                         <h3 className="text-[17px] font-bold font-display text-gray-900 leading-snug truncate">
@@ -269,14 +267,14 @@ const LeadershipCarousel: React.FC = () => {
                                     </button>
                                 </div>
 
-                                {/* Skill capsules */}
-                                <div className="flex flex-wrap gap-1.5 mt-2.5">
+                                {/* Skill capsules — wrap freely inside fixed height */}
+                                <div className="flex flex-wrap gap-1.5">
                                     {leader.capsules.map((cap, i) => (
                                         <span
                                             key={i}
-                                            className="px-2 py-[3px] bg-gray-50 text-[9px] font-bold uppercase
-                                                       tracking-wider text-text-muted rounded border border-gray-100
-                                                       leading-none"
+                                            className="px-2 py-[3px] bg-gray-50 text-[9px] font-bold
+                                                       uppercase tracking-wider text-text-muted rounded
+                                                       border border-gray-100 leading-none"
                                         >
                                             {cap}
                                         </span>
