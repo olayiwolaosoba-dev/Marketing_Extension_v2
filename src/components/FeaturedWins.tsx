@@ -153,7 +153,7 @@ const MobileWinCard: React.FC<WinData & { scrollContainerRef: React.RefObject<HT
   return (
     <div
       ref={cardRef}
-      className="relative flex-shrink-0 snap-start w-[88vw] max-w-[420px] aspect-[9/16] overflow-hidden cursor-pointer rounded-2xl"
+      className="relative w-[88vw] max-w-[420px] aspect-[9/16] overflow-hidden cursor-pointer rounded-2xl"
       onClick={() => setColourUnlocked(c => !c)}
     >
       {/* Image */}
@@ -250,11 +250,11 @@ const MobileCarouselRow: React.FC<{ cards: WinData[] }> = ({ cards }) => {
       {/* Horizontal scroll track */}
       <div
         ref={containerRef}
-        className="flex gap-3 overflow-x-auto snap-x snap-mandatory pl-5 pr-5 pb-1"
+        className="flex gap-3 overflow-x-auto snap-x snap-mandatory px-[6vw] pb-1"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {cards.map(card => (
-          <div key={card.name} data-mobile-card>
+          <div key={card.name} data-mobile-card className="flex-shrink-0 snap-center">
             <MobileWinCard {...card} scrollContainerRef={containerRef} />
           </div>
         ))}
