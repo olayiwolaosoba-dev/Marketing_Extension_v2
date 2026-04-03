@@ -13,7 +13,7 @@ interface LeaderProfile {
     id: number;
     name: string;
     role: string;
-    image: string;
+    image?: string;           // Optional — shows gradient placeholder when absent
     capsules: string[];
     linkedinUrl?: string;
 }
@@ -22,49 +22,69 @@ const LEADERS: LeaderProfile[] = [
     {
         id: 1,
         name: "Hugh Oshoba",
-        role: "Chief Executive Officer",
+        role: "Principal Marketing Consultant",
         image: oshobaImg,
-        capsules: ["Growth Strategy", "Corp Dev", "Brand Vision", "Leadership"],
+        capsules: ["Growth Advisory", "Brand Strategy", "Performance Mktg", "MarComms"],
     },
     {
         id: 2,
         name: "Adebola Olusunmade",
-        role: "Chief Technology Officer",
+        role: "Director of Operations & Engagement",
         image: adebolaImg,
-        capsules: ["AI Infrastructure", "MarTech", "Product Eng", "Scale"],
+        capsules: ["Operations", "Client Engagement", "Project Delivery", "Team Leadership"],
     },
     {
         id: 3,
-        name: "Favour",
-        role: "VP of Growth",
-        image: favourImg,
-        capsules: ["Demand Gen", "Paid Media", "Lifecycle", "Analytics"],
+        name: "Temilade Adedire",
+        role: "Business Operations Associate",
+        image: temiladeImg,
+        capsules: ["Business Ops", "Project Coordination", "Client Support", "Reporting"],
     },
     {
         id: 4,
-        name: "Motilola",
-        role: "Head of Strategy",
+        name: "Motilola Fabowale",
+        role: "Senior Manager, Accounts & Consulting",
         image: motilolaImg,
-        capsules: ["GTM", "Partnerships", "Market Research", "Ops"],
+        capsules: ["Account Strategy", "GTM Consulting", "Client Leadership", "Pipeline"],
     },
     {
         id: 5,
-        name: "Temilade",
-        role: "Creative Director",
-        image: temiladeImg,
-        capsules: ["Brand Design", "UX/UI", "Content Strategy", "Storytelling"],
+        name: "Favour Eze",
+        role: "Manager, Accounts & Consulting",
+        image: favourImg,
+        capsules: ["Account Mgmt", "Growth Campaigns", "Content Strategy", "Analytics"],
     },
     {
         id: 6,
-        name: "Precious",
-        role: "VP of Sales",
+        name: "Precious Atuonwu",
+        role: "Senior Associate, Accounts & Consulting",
         image: preciousImg,
-        capsules: ["Enterprise Sales", "RevOps", "Negotiation", "Team Building"],
+        capsules: ["Account Support", "Campaign Exec", "Content Creation", "Research"],
+    },
+    {
+        id: 7,
+        name: "Stanley Onwuka",
+        role: "Director of Engineering & Technology",
+        image: undefined,     // Photo coming soon
+        capsules: ["Engineering", "MarTech Stack", "AI Integration", "Platform Dev"],
+    },
+    {
+        id: 8,
+        name: "Lade Koleowo",
+        role: "Design & Creative Lead",
+        image: undefined,     // Photo coming soon
+        capsules: ["Brand Design", "Creative Direction", "Visual Identity", "Content Design"],
     },
 ];
 
-// Duplicate cards for seamless infinite loop: [L0..L5, L0'..L5']
+// Duplicate cards for seamless infinite loop: [L0..L7, L0'..L7']
 const LOOP_LEADERS = [...LEADERS, ...LEADERS];
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Extracts two-letter initials (first + last name first chars)
+────────────────────────────────────────────────────────────────────────────── */
+const getInitials = (name: string) =>
+    name.split(' ').slice(0, 2).map(n => n[0].toUpperCase()).join('');
 
 const LeadershipCarousel: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -183,6 +203,7 @@ const LeadershipCarousel: React.FC = () => {
             >
                 {LOOP_LEADERS.map((leader, index) => {
                     const realIdx = index % LEADERS.length;
+                    const hasImage = !!leader.image;
                     return (
                         <motion.div
                             key={`${leader.id}-${index}`}
@@ -202,46 +223,68 @@ const LeadershipCarousel: React.FC = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: (index < LEADERS.length ? index : 0) * 0.07 }}
                         >
-                            {/*
-                             * FULL-CARD IMAGE
-                             * Default: scale(1.35) from the top — clips to show face + chest only
-                             * Hover:   scale(1.0)  — smoothly zooms out to reveal the
-                             *          complete illustrated portrait
-                             *
-                             * object-cover + same portrait aspect-ratio → image fills
-                             * the card with near-zero cropping at scale 1.0.
-                             * overflow-hidden on the parent clips the overage at 1.35.
-                             */}
-                            <img
-                                src={leader.image}
-                                alt={leader.name}
-                                width="800"
-                                height="1067"
-                                loading={index < LEADERS.length ? 'eager' : 'lazy'}
-                                className="absolute inset-0 w-full h-full object-cover
-                                           scale-[1.35] group-hover/card:scale-100
-                                           transition-transform duration-700 ease-in-out"
-                                style={{ transformOrigin: 'center top', objectPosition: 'center top' }}
-                            />
+                            {/* ── Photo or gradient placeholder ─────────────────── */}
+                            {hasImage ? (
+                                /*
+                                 * FULL-CARD IMAGE
+                                 * Default: scale(1.35) from top — clips to show face + chest only
+                                 * Hover:   scale(1.0)  — zooms out to reveal full illustrated portrait
+                                 */
+                                <img
+                                    src={leader.image}
+                                    alt={leader.name}
+                                    width="800"
+                                    height="1067"
+                                    loading={index < LEADERS.length ? 'eager' : 'lazy'}
+                                    className="absolute inset-0 w-full h-full object-cover
+                                               scale-[1.35] group-hover/card:scale-100
+                                               transition-transform duration-700 ease-in-out"
+                                    style={{ transformOrigin: 'center top', objectPosition: 'center top' }}
+                                />
+                            ) : (
+                                /*
+                                 * PLACEHOLDER — shown while a photo hasn't been uploaded yet.
+                                 * Dark brand-tinted gradient with ghost initials.
+                                 */
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a2e] via-[#0f0f1a] to-[#05060A] flex items-center justify-center">
+                                    {/* Subtle grid texture */}
+                                    <div
+                                        className="absolute inset-0 opacity-[0.04]"
+                                        style={{
+                                            backgroundImage: 'linear-gradient(#FF6B3D 1px, transparent 1px), linear-gradient(90deg, #FF6B3D 1px, transparent 1px)',
+                                            backgroundSize: '40px 40px',
+                                        }}
+                                    />
+                                    {/* Ghost initials */}
+                                    <span className="relative text-white/10 font-display font-bold leading-none select-none"
+                                          style={{ fontSize: 'clamp(5rem, 18vw, 9rem)' }}>
+                                        {getInitials(leader.name)}
+                                    </span>
+                                    {/* "Photo coming soon" chip */}
+                                    <span className="absolute bottom-[128px] left-1/2 -translate-x-1/2 whitespace-nowrap
+                                                     px-3 py-1 rounded-full bg-white/5 border border-white/10
+                                                     text-[9px] font-bold uppercase tracking-[0.15em] text-white/30">
+                                        Photo coming soon
+                                    </span>
+                                </div>
+                            )}
 
                             {/*
-                             * Gradient veil — keeps footer text readable over the image.
-                             * Deepens slightly on hover for a cinematic look.
+                             * Gradient veil — keeps footer text readable.
+                             * Only rendered for photo cards (placeholder has its own dark bg).
                              */}
-                            <div className="absolute inset-0 bg-gradient-to-t
-                                            from-black/55 via-black/10 to-transparent
-                                            transition-opacity duration-500
-                                            opacity-80 group-hover/card:opacity-100
-                                            pointer-events-none" />
+                            {hasImage && (
+                                <div className="absolute inset-0 bg-gradient-to-t
+                                                from-black/55 via-black/10 to-transparent
+                                                transition-opacity duration-500
+                                                opacity-80 group-hover/card:opacity-100
+                                                pointer-events-none" />
+                            )}
 
                             {/*
-                             * FOOTER OVERLAY — fixed at h-[112px] so every single
-                             * card's white section starts at the identical position
-                             * from the bottom. flex-col + justify-between spaces the
-                             * name/role block and capsules to fill the fixed height.
-                             * Capsules use flex-wrap so they render naturally; the
-                             * fixed container height enforces pixel-perfect alignment
-                             * regardless of how many rows the capsules occupy.
+                             * FOOTER OVERLAY — fixed h-[112px] so every card's white
+                             * section starts at the identical position from the bottom,
+                             * regardless of capsule wrap behaviour.
                              */}
                             <div className="absolute bottom-0 left-0 right-0 h-[112px]
                                             bg-white overflow-hidden
@@ -267,7 +310,7 @@ const LeadershipCarousel: React.FC = () => {
                                     </button>
                                 </div>
 
-                                {/* Skill capsules — wrap freely inside fixed height */}
+                                {/* Skill capsules — wrap freely inside fixed-height container */}
                                 <div className="flex flex-wrap gap-1.5">
                                     {leader.capsules.map((cap, i) => (
                                         <span
