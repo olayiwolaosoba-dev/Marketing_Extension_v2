@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Series A Marketing Org Chart — Marketing Extension</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Albert+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #FF6B3D;
+    --dark: #05060A;
+    --gray: #6B7280;
+    --light: #F9F9F9;
+    --border: #E5E7EB;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Albert Sans', sans-serif; background: #F3F4F6; color: var(--dark); }
+
+  /* ── Download bar ── */
+  .topbar {
+    background: var(--dark);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-brand { display: flex; align-items: center; gap: 10px; }
+  .topbar-logo { width: 22px; height: 22px; background: var(--primary); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+  .topbar-logo svg { width: 14px; height: 14px; fill: white; }
+  .topbar-name { color: white; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: -0.3px; }
+  .topbar-name span { color: var(--primary); }
+  .topbar-meta { color: rgba(255,255,255,0.4); font-size: 12px; font-weight: 500; }
+  .btn-download {
+    background: var(--primary); color: white; border: none; cursor: pointer;
+    padding: 9px 20px; border-radius: 8px; font-family: 'Albert Sans', sans-serif;
+    font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;
+    transition: opacity 0.2s;
+  }
+  .btn-download:hover { opacity: 0.88; }
+
+  /* ── Document wrapper ── */
+  .doc { max-width: 900px; margin: 40px auto 60px; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 40px rgba(0,0,0,0.10); }
+
+  /* ── Cover ── */
+  .cover {
+    background: var(--dark);
+    padding: 64px 56px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 360px; height: 360px;
+    background: var(--primary);
+    border-radius: 50%;
+    opacity: 0.08;
+  }
+  .cover-tag {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+    max-width: 560px;
+    margin-bottom: 20px;
+  }
+  .cover h1 span { color: var(--primary); }
+  .cover-sub {
+    color: rgba(255,255,255,0.55);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 520px;
+    margin-bottom: 40px;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 32px;
+  }
+  .cover-meta-item { }
+  .cover-meta-item .label { color: rgba(255,255,255,0.35); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+  .cover-meta-item .value { color: white; font-weight: 600; font-size: 14px; }
+
+  /* ── Sections ── */
+  .section { padding: 56px; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+  .section h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 8px;
+    line-height: 1.15;
+  }
+  .section-intro {
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 680px;
+    margin-bottom: 36px;
+  }
+
+  /* ── Org Chart ── */
+  .org-tree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 8px 0;
+  }
+  .org-node {
+    background: var(--dark);
+    color: white;
+    border-radius: 10px;
+    padding: 14px 24px;
+    text-align: center;
+    position: relative;
+    min-width: 180px;
+  }
+  .org-node.primary { background: var(--primary); }
+  .org-node.secondary { background: #1a1a2e; border: 1px solid rgba(255,107,61,0.25); }
+  .org-node-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 13px; line-height: 1.3; }
+  .org-node-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 3px; }
+  .org-connector {
+    width: 2px;
+    height: 28px;
+    background: var(--border);
+    margin: 0 auto;
+  }
+  .org-row { display: flex; gap: 16px; justify-content: center; position: relative; }
+  .org-row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(50% - (var(--span) / 2));
+    width: var(--span);
+    height: 2px;
+    background: var(--border);
+  }
+  .org-col { display: flex; flex-direction: column; align-items: center; }
+  .org-col-connector { width: 2px; height: 28px; background: var(--border); }
+
+  /* ── Role Cards ── */
+  .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .role-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .role-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--primary);
+    border-radius: 4px 0 0 4px;
+  }
+  .role-card h4 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+    color: var(--dark);
+  }
+  .role-card .role-level {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+  .role-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .role-card ul li {
+    font-size: 13px;
+    color: var(--gray);
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .role-card ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-size: 11px;
+    top: 1px;
+  }
+  .role-card-kpi {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--dark);
+    font-weight: 600;
+  }
+  .role-card-kpi span { color: var(--primary); }
+
+  /* ── Timeline ── */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 140px 1px 1fr;
+    gap: 0 24px;
+    padding-bottom: 32px;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-phase {
+    text-align: right;
+    padding-top: 4px;
+  }
+  .timeline-phase .period {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .timeline-phase .milestone {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.4;
+  }
+  .timeline-line { background: var(--border); position: relative; }
+  .timeline-line::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+  .timeline-content { padding-top: 2px; }
+  .timeline-content h4 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+  .timeline-content p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  .timeline-content .hires {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .hire-chip {
+    background: #FFF3EE;
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,107,61,0.2);
+  }
+
+  /* ── Comp Table ── */
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .comp-table thead th {
+    background: var(--dark);
+    color: white;
+    font-weight: 700;
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .comp-table thead th:first-child { border-radius: 8px 0 0 0; }
+  .comp-table thead th:last-child { border-radius: 0 8px 0 0; }
+  .comp-table tbody tr { border-bottom: 1px solid var(--border); }
+  .comp-table tbody tr:hover { background: #FFF8F6; }
+  .comp-table tbody td { padding: 14px 16px; color: var(--dark); line-height: 1.4; }
+  .comp-table tbody td:first-child { font-weight: 600; }
+  .comp-range { color: var(--primary); font-weight: 700; }
+
+  /* ── Principles ── */
+  .principles-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .principle-card {
+    background: var(--light);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .principle-num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--primary);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .principle-card h4 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .principle-card p { font-size: 12px; color: var(--gray); line-height: 1.6; }
+
+  /* ── Footer ── */
+  .doc-footer {
+    background: var(--dark);
+    padding: 32px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .doc-footer-brand { color: white; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 14px; }
+  .doc-footer-brand span { color: var(--primary); }
+  .doc-footer-copy { color: rgba(255,255,255,0.3); font-size: 12px; }
+
+  /* ── Print ── */
+  @media print {
+    .topbar { display: none; }
+    body { background: white; }
+    .doc { margin: 0; border-radius: 0; box-shadow: none; }
+    @page { size: A4; margin: 0; }
+  }
+  @media (max-width: 700px) {
+    .cover { padding: 40px 28px; }
+    .cover h1 { font-size: 28px; }
+    .section { padding: 36px 28px; }
+    .role-grid { grid-template-columns: 1fr; }
+    .principles-grid { grid-template-columns: 1fr; }
+    .topbar { padding: 12px 20px; }
+    .topbar-meta { display: none; }
+    .doc-footer { padding: 24px 28px; flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-logo">
+      <svg viewBox="0 0 20 20"><path d="M2 4h16v2H2V4zm0 5h10v2H2V9zm0 5h13v2H2v-2z"/></svg>
+    </div>
+    <span class="topbar-name">Marketing <span>Extension.</span></span>
+  </div>
+  <span class="topbar-meta">Template · Series A Marketing</span>
+  <button class="btn-download" onclick="window.print()">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+    Save as PDF
+  </button>
+</div>
+
+<!-- Document -->
+<div class="doc">
+
+  <!-- Cover -->
+  <div class="cover">
+    <span class="cover-tag">Template · Org Design</span>
+    <h1>The Series A <span>Marketing</span> Org Chart</h1>
+    <p class="cover-sub">Complete role definitions, 18-month hiring sequence, and compensation benchmarks for Fintech &amp; B2B SaaS founders building their marketing function post-Series A.</p>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <div class="label">Stage</div>
+        <div class="value">Series A ($3M–$20M)</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="label">Team Size</div>
+        <div class="value">10–60 employees</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="label">Published</div>
+        <div class="value">Q1 2025</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="label">By</div>
+        <div class="value">Marketing Extension</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 1: Why Org Design Matters -->
+  <div class="section">
+    <div class="section-tag">01 · Context</div>
+    <h2>Why most Series A marketing teams are built wrong</h2>
+    <p class="section-intro">After working with 20+ Fintech and B2B SaaS companies across Africa and the UK, one pattern keeps repeating: founders hire for execution before strategy, and content before demand. The result is a marketing team that produces a lot but grows little. This template gives you the architecture to avoid that mistake.</p>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="principle-num">01</div>
+        <h4>Strategy First, Execution Second</h4>
+        <p>Your first marketing hire should own positioning and narrative — not just content production. Get the story right before you pour spend into it.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">02</div>
+        <h4>One Primary Channel at a Time</h4>
+        <p>Series A is too early to run six channels. Pick one, nail it to unit-economic proof, then expand. This dictates who you hire first.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">03</div>
+        <h4>Hire Generalists, Layer Specialists</h4>
+        <p>Months 0–6: hire people who can do multiple things. Months 6–18: layer in specialists once you know which disciplines matter most for your motion.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Org Chart -->
+  <div class="section">
+    <div class="section-tag">02 · Structure</div>
+    <h2>The recommended org structure</h2>
+    <p class="section-intro">This is the org chart we recommend for Series A companies with ARR between $1M–$5M, growing toward a Series B. It scales to 8 people without a reorg.</p>
+
+    <div class="org-tree">
+      <div class="org-node primary">
+        <div class="org-node-title">Head of Marketing / VP Marketing</div>
+        <div class="org-node-sub">Strategy · Brand · Board Reporting</div>
+      </div>
+      <div class="org-connector"></div>
+      <div class="org-row" style="--span: 600px;">
+        <div class="org-col">
+          <div class="org-col-connector"></div>
+          <div class="org-node secondary">
+            <div class="org-node-title">Growth & Demand Lead</div>
+            <div class="org-node-sub">Paid · SEO · Pipeline</div>
+          </div>
+        </div>
+        <div class="org-col">
+          <div class="org-col-connector"></div>
+          <div class="org-node secondary">
+            <div class="org-node-title">Content & Brand Lead</div>
+            <div class="org-node-sub">Thought Leadership · Social</div>
+          </div>
+        </div>
+        <div class="org-col">
+          <div class="org-col-connector"></div>
+          <div class="org-node secondary">
+            <div class="org-node-title">Marketing Operations</div>
+            <div class="org-node-sub">CRM · Attribution · Reporting</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Role Definitions -->
+  <div class="section">
+    <div class="section-tag">03 · Roles</div>
+    <h2>Role definitions &amp; success metrics</h2>
+    <p class="section-intro">Each role below is defined by outcomes, not activities. Use these definitions in JDs, performance reviews, and interviews.</p>
+
+    <div class="role-grid">
+      <div class="role-card">
+        <h4>Head of Marketing / VP Marketing</h4>
+        <div class="role-level">Strategic · Hire First</div>
+        <ul>
+          <li>Own the brand narrative and positioning</li>
+          <li>Set quarterly OKRs and marketing budget</li>
+          <li>Present pipeline contribution to board</li>
+          <li>Align marketing motion with sales and product</li>
+          <li>Build and manage the marketing team</li>
+        </ul>
+        <div class="role-card-kpi">Key Metric: <span>Pipeline Contribution % &amp; Brand Share of Voice</span></div>
+      </div>
+      <div class="role-card">
+        <h4>Growth &amp; Demand Generation Lead</h4>
+        <div class="role-level">Execution · Hire Second</div>
+        <ul>
+          <li>Own paid acquisition across Meta, Google, LinkedIn</li>
+          <li>Drive SEO strategy and topical authority</li>
+          <li>Run conversion rate optimisation on key pages</li>
+          <li>Manage lead nurture and MQL pipeline</li>
+          <li>Report weekly on CAC by channel</li>
+        </ul>
+        <div class="role-card-kpi">Key Metric: <span>Blended CAC, MQL Volume, Pipeline Generated</span></div>
+      </div>
+      <div class="role-card">
+        <h4>Content &amp; Brand Lead</h4>
+        <div class="role-level">Execution · Hire Third</div>
+        <ul>
+          <li>Produce thought leadership (articles, reports, POVs)</li>
+          <li>Manage social media presence and community</li>
+          <li>Brief and manage design for brand assets</li>
+          <li>Own PR and media relationships</li>
+          <li>Build the content calendar and editorial guidelines</li>
+        </ul>
+        <div class="role-card-kpi">Key Metric: <span>Organic Traffic, Share of Voice, Media Mentions</span></div>
+      </div>
+      <div class="role-card">
+        <h4>Marketing Operations Manager</h4>
+        <div class="role-level">Systems · Hire Fourth</div>
+        <ul>
+          <li>Own HubSpot / CRM setup and hygiene</li>
+          <li>Build and maintain attribution model</li>
+          <li>Create marketing dashboards for CEO and investors</li>
+          <li>Manage marketing tech stack and integrations</li>
+          <li>Run lead scoring and lifecycle workflows</li>
+        </ul>
+        <div class="role-card-kpi">Key Metric: <span>Data Accuracy %, Attribution Coverage, Reporting Velocity</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Hiring Timeline -->
+  <div class="section">
+    <div class="section-tag">04 · Sequence</div>
+    <h2>18-month hiring roadmap</h2>
+    <p class="section-intro">The sequence below is optimised for B2B Fintech and SaaS companies running a product-led or sales-assisted motion. Adjust based on your primary channel.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-phase">
+          <div class="period">Month 0–3</div>
+          <div class="milestone">Post-raise, pre-pipeline</div>
+        </div>
+        <div class="timeline-line"></div>
+        <div class="timeline-content">
+          <h4>Establish the Strategy Layer</h4>
+          <p>Bring on your Head of Marketing or a fractional VP. Their first 90 days: audit the brand, define the ICP, set the narrative, and build the marketing plan.</p>
+          <div class="hires"><span class="hire-chip">Head of Marketing</span><span class="hire-chip">Fractional CMO (if budget-constrained)</span></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">
+          <div class="period">Month 3–6</div>
+          <div class="milestone">Pipeline engine on</div>
+        </div>
+        <div class="timeline-line"></div>
+        <div class="timeline-content">
+          <h4>Activate Demand Generation</h4>
+          <p>Once positioning is set, hire the person who will own demand — whether paid, SEO, or partnerships. Don't hire before the narrative is locked.</p>
+          <div class="hires"><span class="hire-chip">Growth Lead</span><span class="hire-chip">Demand Gen Specialist</span></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">
+          <div class="period">Month 6–9</div>
+          <div class="milestone">Brand compound starts</div>
+        </div>
+        <div class="timeline-line"></div>
+        <div class="timeline-content">
+          <h4>Build the Content &amp; Brand Function</h4>
+          <p>Now that you have pipeline activity, add the brand layer. A content lead who can write and brief design will compound your demand efforts over time.</p>
+          <div class="hires"><span class="hire-chip">Content Lead</span><span class="hire-chip">Part-time Designer</span></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">
+          <div class="period">Month 9–18</div>
+          <div class="milestone">Pre-Series B clarity</div>
+        </div>
+        <div class="timeline-line"></div>
+        <div class="timeline-content">
+          <h4>Layer in Operations &amp; Specialists</h4>
+          <p>As volume grows, attribution breaks down. Hire Marketing Ops to build the reporting infrastructure investors will scrutinise at Series B diligence.</p>
+          <div class="hires"><span class="hire-chip">Marketing Operations</span><span class="hire-chip">PR / Comms (optional)</span><span class="hire-chip">Performance Specialist</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Compensation -->
+  <div class="section">
+    <div class="section-tag">05 · Compensation</div>
+    <h2>Compensation benchmarks</h2>
+    <p class="section-intro">Ranges below are based on our experience placing marketing talent across Africa, the UK, and international remote roles. Adjust for your market, experience level, and equity component.</p>
+
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Nigeria (₦/mo)</th>
+          <th>Africa (USD/mo)</th>
+          <th>UK (£/yr)</th>
+          <th>Remote Global</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Head of Marketing / VP</td>
+          <td class="comp-range">₦1.8M – ₦4.5M</td>
+          <td class="comp-range">$3,500 – $8,000</td>
+          <td class="comp-range">£65K – £100K</td>
+          <td class="comp-range">$60K – $120K</td>
+        </tr>
+        <tr>
+          <td>Growth / Demand Gen Lead</td>
+          <td class="comp-range">₦900K – ₦2.2M</td>
+          <td class="comp-range">$2,000 – $4,500</td>
+          <td class="comp-range">£45K – £70K</td>
+          <td class="comp-range">$40K – $80K</td>
+        </tr>
+        <tr>
+          <td>Content &amp; Brand Lead</td>
+          <td class="comp-range">₦700K – ₦1.8M</td>
+          <td class="comp-range">$1,500 – $3,500</td>
+          <td class="comp-range">£40K – £60K</td>
+          <td class="comp-range">$36K – $65K</td>
+        </tr>
+        <tr>
+          <td>Marketing Operations</td>
+          <td class="comp-range">₦800K – ₦2.0M</td>
+          <td class="comp-range">$1,800 – $4,000</td>
+          <td class="comp-range">£42K – £65K</td>
+          <td class="comp-range">$38K – $70K</td>
+        </tr>
+        <tr>
+          <td>Performance Specialist</td>
+          <td class="comp-range">₦600K – ₦1.5M</td>
+          <td class="comp-range">$1,200 – $3,000</td>
+          <td class="comp-range">£35K – £55K</td>
+          <td class="comp-range">$30K – $55K</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:16px; font-size:12px; color:var(--gray);">* Ranges reflect base salary only. Add 10–15% for equity-poor roles. Nigeria figures use current market benchmarks (Q1 2025). Senior hires with 5+ years and a track record of revenue attribution command the upper end.</p>
+  </div>
+
+  <!-- Section 6: Signals to Hire -->
+  <div class="section">
+    <div class="section-tag">06 · Signals</div>
+    <h2>Signals it's time to hire</h2>
+    <p class="section-intro">Don't hire on a calendar. Hire when these thresholds are triggered.</p>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="principle-num">→</div>
+        <h4>Head of Marketing</h4>
+        <p>Founder is spending 30%+ of time on marketing decisions. Pipeline is stalling because there's no marketing strategy. You've raised Series A.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">→</div>
+        <h4>Growth Lead</h4>
+        <p>You have product-market fit signals, a clear ICP, and a positioning document. Now you need someone to build and run the acquisition engine.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">→</div>
+        <h4>Marketing Ops</h4>
+        <p>You're generating 100+ MQLs/month, attribution is murky, and your CRM is a mess. Investors are asking about marketing ROI and you don't have a clean answer.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="doc-footer">
+    <span class="doc-footer-brand">Marketing <span>Extension.</span></span>
+    <span class="doc-footer-copy">© 2025 Marketing Extension · For client use only · Not for redistribution</span>
+  </div>
+
+</div>
+
+</body>
+</html>
