@@ -299,10 +299,99 @@ const MobileCarouselRow: React.FC<{ cards: WinData[] }> = ({ cards }) => {
 };
 
 /* ─────────────────────────────────────────────────────────────
+   DESKTOP CAROUSEL  (lg+)
+   One full-width row — 4 cards visible at a time.
+   Subtle prev/next arrows fade in on hover; hidden when at limits.
+   Mobile is completely untouched.
+───────────────────────────────────────────────────────────── */
+const DesktopCarousel: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [canLeft, setCanLeft]   = useState(false);
+  const [canRight, setCanRight] = useState(true);
+
+  const syncState = useCallback(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 4);
+    setCanRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', syncState, { passive: true });
+    syncState();
+    return () => el.removeEventListener('scroll', syncState);
+  }, [syncState]);
+
+  const scrollBy = (dir: 1 | -1) => {
+    const el = containerRef.current;
+    if (!el) return;
+    // Scroll exactly one card width (each card = 25% of container)
+    const cardW = el.querySelector('[data-desk-card]')?.clientWidth ?? el.clientWidth / 4;
+    el.scrollBy({ left: dir * cardW, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="relative group/desk-carousel">
+      {/* Scroll track — no gap, flush cards exactly like the original grid */}
+      <div
+        ref={containerRef}
+        className="flex overflow-x-auto snap-x snap-mandatory"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {WINS.map(win => (
+          <div key={win.name} data-desk-card className="flex-shrink-0 snap-start w-1/4">
+            <DesktopWinCard {...win} />
+          </div>
+        ))}
+      </div>
+
+      {/* ── Prev arrow ── */}
+      <button
+        aria-label="Previous case study"
+        onClick={() => scrollBy(-1)}
+        className={[
+          'absolute left-3 top-1/2 -translate-y-1/2 z-20',
+          'w-9 h-9 rounded-full flex items-center justify-center',
+          'bg-black/30 backdrop-blur-md border border-white/12',
+          'text-white/65 hover:text-white hover:bg-black/50',
+          'transition-all duration-300',
+          // fade in on hover of parent; disappear when nothing to scroll
+          canLeft
+            ? 'opacity-0 group-hover/desk-carousel:opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none',
+        ].join(' ')}
+      >
+        <ChevronLeft size={15} />
+      </button>
+
+      {/* ── Next arrow ── */}
+      <button
+        aria-label="Next case study"
+        onClick={() => scrollBy(1)}
+        className={[
+          'absolute right-3 top-1/2 -translate-y-1/2 z-20',
+          'w-9 h-9 rounded-full flex items-center justify-center',
+          'bg-black/30 backdrop-blur-md border border-white/12',
+          'text-white/65 hover:text-white hover:bg-black/50',
+          'transition-all duration-300',
+          canRight
+            ? 'opacity-0 group-hover/desk-carousel:opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none',
+        ].join(' ')}
+      >
+        <ChevronRight size={15} />
+      </button>
+    </div>
+  );
+};
+
+/* ─────────────────────────────────────────────────────────────
    FEATURED WINS  (main export)
 
-   Mobile  (<lg):  header + 2 horizontal carousel rows
-   Desktop (≥lg):  header + 4-column tall-card grid (no arrows)
+   Mobile  (<lg):  header + single horizontal snap carousel
+   Desktop (≥lg):  header + single-row carousel with subtle arrows
 ───────────────────────────────────────────────────────────── */
 const FeaturedWins: React.FC = () => {
   // Single row — all 8 wins scroll horizontally on mobile
@@ -328,11 +417,9 @@ const FeaturedWins: React.FC = () => {
         <MobileCarouselRow cards={WINS} />
       </div>
 
-      {/* ── DESKTOP: 4-column full-height grid (no arrows) ─────── */}
-      <div className="hidden lg:grid lg:grid-cols-4">
-        {WINS.map(win => (
-          <DesktopWinCard key={win.name} {...win} />
-        ))}
+      {/* ── DESKTOP: single-row carousel with subtle prev/next arrows ── */}
+      <div className="hidden lg:block">
+        <DesktopCarousel />
       </div>
     </section>
   );
