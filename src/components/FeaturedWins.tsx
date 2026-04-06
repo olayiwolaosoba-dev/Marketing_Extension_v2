@@ -337,7 +337,7 @@ const DesktopCarousel: React.FC = () => {
       {/* Scroll track — no gap, flush cards exactly like the original grid */}
       <div
         ref={containerRef}
-        className="flex overflow-x-auto snap-x snap-mandatory"
+        className="flex overflow-x-auto overflow-y-hidden overscroll-x-contain snap-x snap-mandatory"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {WINS.map(win => (
