@@ -9,6 +9,7 @@ import { getCourseBySlug } from '../../../lib/academyCourseData';
 import type { Lesson } from '../../../lib/academyCourseData';
 import { academyData } from '../../../lib/academyData';
 import { useAcademyProgress } from '../../../stores/academyProgress';
+import { useAcademyAuth } from '../../../lib/academyAuth';
 import QuizEngine from '../../../components/Academy/QuizEngine';
 import {
   XpEarnedToast,
@@ -34,7 +35,9 @@ const CoursePlayer: React.FC = () => {
     markLessonComplete, isLessonComplete, saveNote, getNote,
     setLastActive, addXp, addBadge, hasBadge, recordActivity,
     toggleBookmark, isBookmarked, getLevel, enrollCourse,
+    addCertificate, certificates, quizResults,
   } = useAcademyProgress();
+  const { student } = useAcademyAuth();
 
   const [activeLessonId, setActiveLessonId] = useState('');
   const [tab, setTab] = useState<Tab>('Overview');
@@ -103,6 +106,24 @@ const CoursePlayer: React.FC = () => {
     }
   }, [hasBadge, addBadge, celebration]);
 
+  // Compute final score across all quizzes in this course (0-100)
+  const computeFinalScore = useCallback((): number => {
+    if (!course) return 100;
+    const quizLessons = course.modules.flatMap((m) =>
+      m.lessons.filter((l) => l.type === 'quiz')
+    );
+    if (!quizLessons.length) return 100; // No quizzes → full marks for finishing all lessons
+    const scores = quizLessons
+      .map((l) => {
+        const r = quizResults[l.id];
+        if (!r || r.totalQuestions === 0) return null;
+        return Math.round((r.score / r.totalQuestions) * 100);
+      })
+      .filter((s): s is number => s !== null);
+    if (!scores.length) return 100;
+    return Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+  }, [course, quizResults]);
+
   const handleComplete = useCallback(() => {
     if (!cur || isLessonComplete(cur.id)) return;
     markLessonComplete(cur.id);
@@ -127,12 +148,26 @@ const CoursePlayer: React.FC = () => {
 
     // Course complete check
     const newDone = lessons.filter((l) => isLessonComplete(l.id)).length + 1;
-    if (newDone === lessons.length) {
+    if (newDone === lessons.length && course && slug) {
       grantXp(200);
       grantBadge({ id: 'course_champion', title: 'Course Champion', description: 'Completed an entire course!', icon: '🎓', earnedAt: new Date().toISOString() });
+
+      // ── Award certificate (only if not already earned for this course) ──
+      const alreadyEarned = certificates.some((c) => c.courseSlug === slug);
+      if (!alreadyEarned) {
+        addCertificate({
+          id: (crypto.randomUUID?.() ?? `${slug}-${Date.now()}`).replace(/-/g, '').slice(0, 8).toUpperCase(),
+          courseSlug: slug,
+          courseTitle: course.title,
+          studentName: student?.name || 'MExt Student',
+          earnedAt: new Date().toISOString(),
+          finalScore: computeFinalScore(),
+        });
+      }
+
       setTimeout(() => setShowCourseComplete(true), 600);
     }
-  }, [cur, course, lessons, isLessonComplete, markLessonComplete, grantXp, grantBadge, hasBadge]);
+  }, [cur, course, slug, lessons, isLessonComplete, markLessonComplete, grantXp, grantBadge, hasBadge, addCertificate, certificates, student, computeFinalScore]);
 
   const toggleMod = (id: string) => setExpanded((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const modPct = (id: string) => { const m = course?.modules.find((x) => x.id === id); if (!m) return 0; return Math.round((m.lessons.filter((l) => isLessonComplete(l.id)).length / m.lessons.length) * 100); };
@@ -157,7 +192,7 @@ const CoursePlayer: React.FC = () => {
         show={showCourseComplete}
         courseTitle={course.title}
         onClose={() => setShowCourseComplete(false)}
-        onGoToCertificate={() => { setShowCourseComplete(false); navigate(`/academy/app/courses/${slug}/assessment`); }}
+        onGoToCertificate={() => { setShowCourseComplete(false); navigate(`/academy/app/certificates`); }}
       />
 
       <div className="flex flex-col lg:flex-row -mx-4 md:-mx-8 -mt-4 md:-mt-8 min-h-[calc(100vh-4rem)]">

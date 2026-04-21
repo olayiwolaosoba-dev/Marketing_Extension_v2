@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { academyData } from '../../lib/academyData';
 import { getCourseBySlug } from '../../lib/academyCourseData';
 import { useAcademyProgress } from '../../stores/academyProgress';
 import { useAcademyAuth } from '../../lib/academyAuth';
-import { ArrowLeft, Clock, CheckCircle, BarChart, Users, Star, Lock, PlayCircle, Shield, Calendar, BookOpen, FileText } from 'lucide-react';
+import { ArrowLeft, Clock, CheckCircle, BarChart, Users, Star, Lock, PlayCircle, Shield, Calendar, BookOpen, FileText, XCircle, Award, Share2 } from 'lucide-react';
 
 // --- SHARED COMPONENTS ---
 const AcademyHero = ({ title, subtitle, image, pill }: any) => (
@@ -372,16 +372,149 @@ export const AcademyCourseDetail: React.FC = () => {
 };
 
 // --- UTILITY PAGES ---
-export const AcademyVerify: React.FC = () => (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-20">
-        <div className="container mx-auto px-6 max-w-md text-center">
-            <Shield size={64} className="text-text-dark mx-auto mb-6" />
-            <h1 className="text-3xl font-display font-bold text-text-dark mb-2">Verify Credential</h1>
-            <p className="text-text-muted mb-8">Enter the unique 8-character ID found on the certificate.</p>
-            <div className="bg-white p-8 rounded-3xl shadow-xl">
-                <input className="w-full px-4 py-4 text-center text-2xl font-mono tracking-[0.5em] border border-gray-200 rounded-xl mb-4 focus:outline-none focus:border-primary uppercase" placeholder="XXXXXXXX" maxLength={8} />
-                <button className="w-full py-4 bg-primary text-white font-bold rounded-xl hover:bg-primary-dark transition-colors">Verify Now</button>
+export const AcademyVerify: React.FC = () => {
+    const [params, setParams] = useSearchParams();
+    const { getCertificateByCode } = useAcademyProgress();
+
+    const urlId = params.get('id') || '';
+    const [inputId, setInputId] = useState(urlId);
+    const [submitted, setSubmitted] = useState<boolean>(!!urlId);
+
+    // If the URL already has an id, treat it as auto-submitted
+    useEffect(() => {
+        if (urlId) setSubmitted(true);
+    }, [urlId]);
+
+    const lookupId = submitted ? inputId.toUpperCase().trim() : '';
+    const cert = lookupId ? getCertificateByCode(lookupId) : undefined;
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const id = inputId.toUpperCase().trim();
+        if (!id) return;
+        setParams({ id });
+        setSubmitted(true);
+    };
+
+    const reset = () => {
+        setInputId('');
+        setSubmitted(false);
+        setParams({});
+    };
+
+    const earnedDate = cert
+        ? new Date(cert.earnedAt).toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' })
+        : '';
+
+    return (
+        <div className="min-h-screen bg-gray-50 py-20">
+            <div className="container mx-auto px-6 max-w-2xl">
+                {/* Header */}
+                <div className="text-center mb-10">
+                    <Shield size={48} className="text-text-dark mx-auto mb-5" />
+                    <h1 className="text-3xl md:text-4xl font-display font-bold text-text-dark mb-2">Verify Credential</h1>
+                    <p className="text-text-muted">Enter the certificate ID to verify its authenticity.</p>
+                </div>
+
+                {/* Input form (shown when not submitted or no cert found) */}
+                {(!submitted || !cert) && (
+                    <form onSubmit={handleSubmit} className="bg-white p-8 rounded-3xl shadow-xl mb-6">
+                        <label className="block text-xs font-bold text-text-muted uppercase tracking-widest mb-3 text-center">Certificate ID</label>
+                        <input
+                            value={inputId}
+                            onChange={(e) => setInputId(e.target.value)}
+                            className="w-full px-4 py-4 text-center text-xl font-mono tracking-[0.35em] border border-gray-200 rounded-xl mb-4 focus:outline-none focus:border-primary uppercase"
+                            placeholder="XXXXXXXX"
+                            maxLength={12}
+                            autoComplete="off"
+                        />
+                        <button type="submit" className="w-full py-4 bg-primary text-white font-bold rounded-xl hover:bg-orange-600 transition-colors">Verify Now</button>
+                    </form>
+                )}
+
+                {/* Verification Result */}
+                {submitted && !cert && (
+                    <div className="bg-white rounded-3xl border border-red-100 shadow-xl p-8 text-center">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-50 mb-5">
+                            <XCircle size={36} className="text-red-500" />
+                        </div>
+                        <h2 className="text-xl font-display font-bold text-text-dark mb-2">Certificate Not Found</h2>
+                        <p className="text-sm text-text-muted mb-6">
+                            We couldn't find a certificate with the ID <span className="font-bold font-mono text-text-dark">{lookupId}</span>.
+                            Please double-check the ID and try again.
+                        </p>
+                        <button onClick={reset} className="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-200 text-text-dark rounded-xl font-bold text-sm hover:bg-gray-50 transition-colors">
+                            <ArrowLeft size={14} /> Try another ID
+                        </button>
+                    </div>
+                )}
+
+                {submitted && cert && (
+                    <div className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden">
+                        {/* Success header */}
+                        <div className="bg-gradient-to-br from-[#05060A] to-gray-800 p-8 text-white relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/20 rounded-full blur-[80px]" />
+                            <div className="relative z-10 flex items-center gap-4">
+                                <div className="w-14 h-14 rounded-2xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                                    <CheckCircle size={28} className="text-green-400" />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-green-400 mb-1">Verified Credential</p>
+                                    <h2 className="text-xl font-display font-bold">This certificate is authentic.</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Details */}
+                        <div className="p-8 space-y-5">
+                            <div>
+                                <p className="text-xs font-bold text-text-muted uppercase tracking-widest mb-1">Awarded to</p>
+                                <p className="text-2xl font-display font-bold text-text-dark">{cert.studentName}</p>
+                            </div>
+                            <div className="border-t border-gray-100" />
+                            <div className="grid grid-cols-2 gap-5">
+                                <div>
+                                    <p className="text-xs font-bold text-text-muted uppercase tracking-widest mb-1">Course</p>
+                                    <p className="text-base font-bold text-text-dark leading-snug">{cert.courseTitle}</p>
+                                </div>
+                                <div>
+                                    <p className="text-xs font-bold text-text-muted uppercase tracking-widest mb-1">Issued</p>
+                                    <p className="text-base font-bold text-text-dark">{earnedDate}</p>
+                                </div>
+                                <div>
+                                    <p className="text-xs font-bold text-text-muted uppercase tracking-widest mb-1">Final Score</p>
+                                    <p className="text-base font-bold text-text-dark">{cert.finalScore}%</p>
+                                </div>
+                                <div>
+                                    <p className="text-xs font-bold text-text-muted uppercase tracking-widest mb-1">Certificate ID</p>
+                                    <p className="text-xs font-mono font-bold text-text-dark truncate">{cert.id}</p>
+                                </div>
+                            </div>
+                            <div className="border-t border-gray-100" />
+                            <div className="flex items-center gap-3 text-xs text-text-muted">
+                                <Award size={14} className="text-primary flex-shrink-0" />
+                                <span>Issued by MExt Academy · Marketing Extension</span>
+                            </div>
+                            <div className="flex gap-3 pt-2">
+                                <button onClick={reset} className="flex-1 py-3 border border-gray-200 text-text-dark rounded-xl font-bold text-sm hover:bg-gray-50 transition-colors">
+                                    Verify Another
+                                </button>
+                                <Link to="/academy" className="flex-1 py-3 bg-primary text-white rounded-xl font-bold text-sm hover:bg-orange-600 transition-colors text-center">
+                                    Explore Academy
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Help text */}
+                {!submitted && (
+                    <p className="text-center text-xs text-text-muted mt-8 max-w-sm mx-auto">
+                        MExt Academy certificates are tamper-proof and uniquely identifiable.
+                        If you received this link from a candidate, the details above confirm their credential.
+                    </p>
+                )}
             </div>
         </div>
-    </div>
-);
+    );
+};

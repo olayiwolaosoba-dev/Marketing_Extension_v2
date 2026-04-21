@@ -95,8 +95,8 @@ const AcademyBrand: React.FC = () => (
 // ─── StudentSignIn ─────────────────────────────────────────────────────────────
 
 export const StudentSignIn: React.FC = () => {
-  const [email, setEmail] = useState('student@mext.africa');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<SignInErrors>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -243,10 +243,10 @@ export const StudentSignIn: React.FC = () => {
           </div>
         </div>
 
-        {/* Demo credentials hint */}
+        {/* Beta hint */}
         <p className="text-center text-xs text-text-muted mt-4">
-          Demo credentials pre-filled above. Just click{' '}
-          <span className="font-bold text-text-dark">Sign In</span>.
+          MExt Academy is in open beta. Use any valid email and a password of 6+
+          characters to sign in — your progress is saved locally in your browser.
         </p>
       </div>
     </div>

@@ -214,7 +214,7 @@ export const CourseCompleteModal: React.FC<CourseCompleteProps> = ({
                 <p className="text-white/70 text-sm mb-6">
                   Congratulations! You've completed{' '}
                   <span className="text-white font-bold">{courseTitle}</span>.
-                  Take the final assessment to earn your certificate.
+                  Your certificate has been added to your profile.
                 </p>
                 <div className="flex flex-col gap-3">
                   {onGoToCertificate && (
@@ -222,14 +222,14 @@ export const CourseCompleteModal: React.FC<CourseCompleteProps> = ({
                       onClick={onGoToCertificate}
                       className="w-full py-3 bg-[#FF6B3D] text-white rounded-xl font-bold hover:bg-orange-600 transition-colors"
                     >
-                      Take Final Assessment
+                      View My Certificate
                     </button>
                   )}
                   <button
                     onClick={onClose}
                     className="w-full py-2.5 border border-white/20 text-white/70 rounded-xl font-bold text-sm hover:bg-white/5 transition-colors"
                   >
-                    Continue Exploring
+                    Keep Learning
                   </button>
                 </div>
               </div>
