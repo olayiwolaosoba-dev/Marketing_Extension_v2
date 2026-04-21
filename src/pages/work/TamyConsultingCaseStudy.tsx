@@ -16,8 +16,8 @@ const TamyConsultingCaseStudy: React.FC = () => {
             <SEO
                 title="Tamy Consulting Case Study — Growth Engine Build | Marketing Extension"
                 description="How Marketing Extension built and activated Tamy Consulting's growth engine, driving inbound pipeline through positioning, content strategy, and demand generation."
-                canonical="https://marketingextension.com/work/tamy-consulting-growth-engine"
-                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://marketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "Tamy Consulting", "item": "https://marketingextension.com/work/tamy-consulting-growth-engine" }] }]}
+                canonical="https://themarketingextension.com/work/tamy-consulting-growth-engine"
+                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://themarketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "Tamy Consulting", "item": "https://themarketingextension.com/work/tamy-consulting-growth-engine" }] }]}
             />
             <CaseStudyHero
                 client="Tamy Consulting"

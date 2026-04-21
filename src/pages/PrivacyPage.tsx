@@ -19,7 +19,7 @@ const PrivacyPage: React.FC = () => {
                             Marketing Extension Ltd ("Marketing Extension", "we", "us", or "our") is a fractional growth marketing firm
                             serving African B2B technology companies. We are registered in the United Kingdom. Our registered address is
                             available upon request. For privacy-related queries, contact us at{' '}
-                            <a href="mailto:privacy@marketingextension.com" className="text-primary hover:underline">privacy@marketingextension.com</a>.
+                            <a href="mailto:privacy@themarketingextension.com" className="text-primary hover:underline">privacy@themarketingextension.com</a>.
                         </p>
                     </section>
 
@@ -84,7 +84,7 @@ const PrivacyPage: React.FC = () => {
                             <li>Withdraw consent at any time</li>
                         </ul>
                         <p className="text-text-muted mt-4">
-                            To exercise any right, email <a href="mailto:privacy@marketingextension.com" className="text-primary hover:underline">privacy@marketingextension.com</a>.
+                            To exercise any right, email <a href="mailto:privacy@themarketingextension.com" className="text-primary hover:underline">privacy@themarketingextension.com</a>.
                         </p>
                     </section>
 

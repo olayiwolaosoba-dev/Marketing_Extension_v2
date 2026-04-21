@@ -64,7 +64,7 @@ const CookiePage: React.FC = () => {
                     <section>
                         <h2 className="text-2xl font-display font-bold text-text-dark mb-4">Contact</h2>
                         <p className="text-text-muted leading-relaxed">
-                            For cookie-related questions, email <a href="mailto:privacy@marketingextension.com" className="text-primary hover:underline">privacy@marketingextension.com</a>.
+                            For cookie-related questions, email <a href="mailto:privacy@themarketingextension.com" className="text-primary hover:underline">privacy@themarketingextension.com</a>.
                         </p>
                     </section>
                 </div>

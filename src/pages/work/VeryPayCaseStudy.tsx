@@ -16,8 +16,8 @@ const VeryPayCaseStudy: React.FC = () => {
             <SEO
                 title="VeryPay Case Study — Multi-Country Marketing Bench | Marketing Extension"
                 description="How Marketing Extension built and embedded a multi-country marketing bench for VeryPay, driving brand awareness and demand across Africa's payments landscape."
-                canonical="https://marketingextension.com/work/verypay-multi-country-marketing-bench"
-                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://marketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "VeryPay", "item": "https://marketingextension.com/work/verypay-multi-country-marketing-bench" }] }]}
+                canonical="https://themarketingextension.com/work/verypay-multi-country-marketing-bench"
+                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://themarketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "VeryPay", "item": "https://themarketingextension.com/work/verypay-multi-country-marketing-bench" }] }]}
             />
             <CaseStudyHero
                 client="VERYPAY"

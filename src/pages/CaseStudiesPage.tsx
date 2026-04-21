@@ -24,13 +24,13 @@ const CaseStudiesPage: React.FC = () => {
             <SEO
                 title="Growth Marketing Case Studies — Real Results | Marketing Extension"
                 description="See how Marketing Extension drove $100M+ in pipeline influence across fintech, regtech, B2B SaaS, and payments infrastructure. Real case studies, real outcomes."
-                canonical="https://marketingextension.com/case-studies"
+                canonical="https://themarketingextension.com/case-studies"
                 structuredData={[{
                     "@context": "https://schema.org",
                     "@type": "BreadcrumbList",
                     "itemListElement": [
-                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
-                        { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://marketingextension.com/case-studies" }
+                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" },
+                        { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://themarketingextension.com/case-studies" }
                     ]
                 }]}
             />

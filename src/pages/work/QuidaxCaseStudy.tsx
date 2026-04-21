@@ -16,8 +16,8 @@ const QuidaxCaseStudy: React.FC = () => {
             <SEO
                 title="Quidax Case Study — Don Jazzy Crypto Education Campaign | Marketing Extension"
                 description="How Marketing Extension partnered with Quidax to launch a mass-market crypto education campaign with Don Jazzy, driving millions of impressions and user acquisition."
-                canonical="https://marketingextension.com/work/quidax-don-jazzy-crypto-education"
-                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://marketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "Quidax", "item": "https://marketingextension.com/work/quidax-don-jazzy-crypto-education" }] }]}
+                canonical="https://themarketingextension.com/work/quidax-don-jazzy-crypto-education"
+                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://themarketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "Quidax", "item": "https://themarketingextension.com/work/quidax-don-jazzy-crypto-education" }] }]}
             />
             <CaseStudyHero
                 client="Quidax"

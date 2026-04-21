@@ -17,13 +17,13 @@ const CareersPage: React.FC = () => {
             <SEO
                 title="Careers — Join the Embedded Growth Team | Marketing Extension"
                 description="Work with a distributed team of growth operators across 7 countries. We're hiring marketers, strategists, and content creators who want to own outcomes, not just tasks."
-                canonical="https://marketingextension.com/careers"
+                canonical="https://themarketingextension.com/careers"
                 structuredData={[{
                     "@context": "https://schema.org",
                     "@type": "BreadcrumbList",
                     "itemListElement": [
-                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
-                        { "@type": "ListItem", "position": 2, "name": "Careers", "item": "https://marketingextension.com/careers" }
+                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" },
+                        { "@type": "ListItem", "position": 2, "name": "Careers", "item": "https://themarketingextension.com/careers" }
                     ]
                 }]}
             />

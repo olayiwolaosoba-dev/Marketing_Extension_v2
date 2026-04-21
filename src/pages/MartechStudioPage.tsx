@@ -26,7 +26,7 @@ const MartechStudioPage: React.FC = () => {
             <SEO
                 title="MarTech Studio — AI-Powered Marketing Infrastructure | Marketing Extension"
                 description="Build your marketing technology stack with AI at the core. MarTech audits, stack builds, automation, RevOps, and managed support for fintech and B2B SaaS teams."
-                canonical="https://marketingextension.com/services/martech"
+                canonical="https://themarketingextension.com/services/martech"
                 structuredData={[
                     {
                         "@context": "https://schema.org",
@@ -41,8 +41,8 @@ const MartechStudioPage: React.FC = () => {
                         "@context": "https://schema.org",
                         "@type": "BreadcrumbList",
                         "itemListElement": [
-                            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
-                            { "@type": "ListItem", "position": 2, "name": "MarTech Studio", "item": "https://marketingextension.com/services/martech" }
+                            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" },
+                            { "@type": "ListItem", "position": 2, "name": "MarTech Studio", "item": "https://themarketingextension.com/services/martech" }
                         ]
                     }
                 ]}

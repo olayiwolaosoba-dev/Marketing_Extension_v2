@@ -16,8 +16,8 @@ const MercurieCaseStudy: React.FC = () => {
             <SEO
                 title="Mercurie Case Study — Launch PR & Brand Narrative | Marketing Extension"
                 description="How Marketing Extension shaped Mercurie's brand narrative and launch PR strategy, building positioning and media presence to establish them as a category leader."
-                canonical="https://marketingextension.com/work/mercurie-launch-pr-narrative"
-                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://marketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "Mercurie", "item": "https://marketingextension.com/work/mercurie-launch-pr-narrative" }] }]}
+                canonical="https://themarketingextension.com/work/mercurie-launch-pr-narrative"
+                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://themarketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "Mercurie", "item": "https://themarketingextension.com/work/mercurie-launch-pr-narrative" }] }]}
             />
             <CaseStudyHero
                 client="Mercurie"

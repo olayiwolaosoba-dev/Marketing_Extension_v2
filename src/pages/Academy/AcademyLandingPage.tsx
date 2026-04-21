@@ -23,7 +23,7 @@ const AcademyLandingPage: React.FC = () => {
             <SEO
                 title="Marketing Extension Academy — Growth Marketing Education"
                 description="Africa's marketing academy built like a modern product. Practical, social, and career-linked courses for growth marketers, strategists, and content creators."
-                canonical="https://marketingextension.com/academy"
+                canonical="https://themarketingextension.com/academy"
                 noIndex={true}
             />
             {/* HER0 SECTION */}

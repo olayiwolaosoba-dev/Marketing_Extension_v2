@@ -151,7 +151,7 @@ export const AuditPDF: React.FC<AuditPDFProps> = ({ result }) => (
 
             <View style={{ marginTop: 40, borderTop: '1 solid #ccc', paddingTop: 20 }}>
                 <Text style={{ fontSize: 10, color: '#999' }}>
-                    marketingextension.com | Growth Marketing & Demand Generation Partner
+                    themarketingextension.com | Growth Marketing & Demand Generation Partner
                 </Text>
             </View>
         </Page>

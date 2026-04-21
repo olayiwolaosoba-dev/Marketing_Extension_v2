@@ -10,13 +10,13 @@ const StrategyCall: React.FC = () => {
             <SEO
                 title="Book a Strategy Call — Free 30-Min GTM Session | Marketing Extension"
                 description="Book a free 30-minute strategy call with a Marketing Extension growth consultant. We'll audit your current GTM motion and identify your biggest growth levers."
-                canonical="https://marketingextension.com/strategy-call"
+                canonical="https://themarketingextension.com/strategy-call"
                 structuredData={[{
                     "@context": "https://schema.org",
                     "@type": "BreadcrumbList",
                     "itemListElement": [
-                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
-                        { "@type": "ListItem", "position": 2, "name": "Strategy Call", "item": "https://marketingextension.com/strategy-call" }
+                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" },
+                        { "@type": "ListItem", "position": 2, "name": "Strategy Call", "item": "https://themarketingextension.com/strategy-call" }
                     ]
                 }]}
             />

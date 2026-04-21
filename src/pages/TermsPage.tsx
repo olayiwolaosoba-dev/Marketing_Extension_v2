@@ -15,7 +15,7 @@ const TermsPage: React.FC = () => {
                     <section>
                         <h2 className="text-2xl font-display font-bold text-text-dark mb-4">1. Acceptance of Terms</h2>
                         <p className="text-text-muted leading-relaxed">
-                            By accessing or using the Marketing Extension website (marketingextension.com) and associated services, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.
+                            By accessing or using the Marketing Extension website (themarketingextension.com) and associated services, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.
                         </p>
                     </section>
 
@@ -75,7 +75,7 @@ const TermsPage: React.FC = () => {
                     <section>
                         <h2 className="text-2xl font-display font-bold text-text-dark mb-4">9. Contact</h2>
                         <p className="text-text-muted leading-relaxed">
-                            For questions about these terms, contact us at <a href="mailto:legal@marketingextension.com" className="text-primary hover:underline">legal@marketingextension.com</a>.
+                            For questions about these terms, contact us at <a href="mailto:legal@themarketingextension.com" className="text-primary hover:underline">legal@themarketingextension.com</a>.
                         </p>
                     </section>
                 </div>

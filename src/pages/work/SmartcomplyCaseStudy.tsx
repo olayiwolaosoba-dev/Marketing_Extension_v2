@@ -16,8 +16,8 @@ const SmartcomplyCaseStudy: React.FC = () => {
             <SEO
                 title="Smartcomply Case Study — Full-Funnel Growth Engine | Marketing Extension"
                 description="How Marketing Extension built Smartcomply's full-funnel growth engine, combining content, demand generation, and MarTech to drive pipeline for their compliance SaaS platform."
-                canonical="https://marketingextension.com/work/smartcomply-full-funnel-growth-engine"
-                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://marketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "Smartcomply", "item": "https://marketingextension.com/work/smartcomply-full-funnel-growth-engine" }] }]}
+                canonical="https://themarketingextension.com/work/smartcomply-full-funnel-growth-engine"
+                structuredData={[{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" }, { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://themarketingextension.com/case-studies" }, { "@type": "ListItem", "position": 3, "name": "Smartcomply", "item": "https://themarketingextension.com/work/smartcomply-full-funnel-growth-engine" }] }]}
             />
             <CaseStudyHero
                 client="Smartcomply"

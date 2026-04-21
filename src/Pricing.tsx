@@ -22,13 +22,13 @@ const Pricing: React.FC<PricingProps> = ({ onNavigate }) => {
             <SEO
                 title="Transparent Pricing — Growth Marketing Plans | Marketing Extension"
                 description="Flat monthly pricing for embedded growth marketing. Essential from $3,900/mo, Growth at $7,900/mo, Enterprise custom. No hidden fees. No surprise overages."
-                canonical="https://marketingextension.com/pricing"
+                canonical="https://themarketingextension.com/pricing"
                 structuredData={[{
                     "@context": "https://schema.org",
                     "@type": "BreadcrumbList",
                     "itemListElement": [
-                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
-                        { "@type": "ListItem", "position": 2, "name": "Pricing", "item": "https://marketingextension.com/pricing" }
+                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" },
+                        { "@type": "ListItem", "position": 2, "name": "Pricing", "item": "https://themarketingextension.com/pricing" }
                     ]
                 }]}
             />

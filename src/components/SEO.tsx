@@ -16,7 +16,7 @@ interface SEOProps {
 }
 
 const SITE_NAME = 'Marketing Extension';
-const DEFAULT_OG_IMAGE = 'https://marketingextension.com/og-default.jpg';
+const DEFAULT_OG_IMAGE = 'https://themarketingextension.com/og-default.jpg';
 const TWITTER_HANDLE = '@mktgextension';
 
 const SEO: React.FC<SEOProps> = ({

@@ -126,7 +126,7 @@ const AuditWizard: React.FC = () => {
             <SEO
                 title="Free Marketing Stack & AI Readiness Audit | Marketing Extension"
                 description="Take our free 12-question audit to assess your marketing stack, AI readiness, and growth gaps. Get a personalised scorecard and recommendations."
-                canonical="https://marketingextension.com/audit"
+                canonical="https://themarketingextension.com/audit"
             />
 
             {/* Close Button */}

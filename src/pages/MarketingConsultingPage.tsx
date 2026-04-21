@@ -27,7 +27,7 @@ const MarketingConsultingPage: React.FC = () => {
             <SEO
                 title="Growth Marketing Consulting — Strategy & GTM Execution | Marketing Extension"
                 description="Embedded marketing consulting for fintech and B2B SaaS. ICP research, positioning, messaging, channel strategy, GTM planning, and weekly decision support."
-                canonical="https://marketingextension.com/services/marketing-consulting"
+                canonical="https://themarketingextension.com/services/marketing-consulting"
                 structuredData={[
                     {
                         "@context": "https://schema.org",
@@ -42,9 +42,9 @@ const MarketingConsultingPage: React.FC = () => {
                         "@context": "https://schema.org",
                         "@type": "BreadcrumbList",
                         "itemListElement": [
-                            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
-                            { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://marketingextension.com/services/marketing-consulting" },
-                            { "@type": "ListItem", "position": 3, "name": "Marketing Consulting", "item": "https://marketingextension.com/services/marketing-consulting" }
+                            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" },
+                            { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://themarketingextension.com/services/marketing-consulting" },
+                            { "@type": "ListItem", "position": 3, "name": "Marketing Consulting", "item": "https://themarketingextension.com/services/marketing-consulting" }
                         ]
                     }
                 ]}

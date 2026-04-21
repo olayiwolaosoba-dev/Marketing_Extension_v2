@@ -172,14 +172,14 @@ const AppContent: React.FC = () => {
                 <SEO
                   title="Plug-In Growth Marketing for Fintech & B2B SaaS Teams | Marketing Extension"
                   description="Marketing Extension embeds into your team as a dedicated growth marketing partner. We drive pipeline, demand generation, and GTM execution for fintech, regtech, and B2B SaaS companies across Africa and the UK."
-                  canonical="https://marketingextension.com/"
+                  canonical="https://themarketingextension.com/"
                   structuredData={[
                     {
                       "@context": "https://schema.org",
                       "@type": "Organization",
                       "name": "Marketing Extension",
-                      "url": "https://marketingextension.com",
-                      "logo": "https://marketingextension.com/logo.png",
+                      "url": "https://themarketingextension.com",
+                      "logo": "https://themarketingextension.com/logo.png",
                       "description": "Embedded growth marketing partner for fintech, regtech, and B2B SaaS teams across Africa and the UK.",
                       "foundingDate": "2022",
                       "areaServed": ["Nigeria", "Ghana", "Kenya", "Rwanda", "Senegal", "United Kingdom"],
@@ -198,12 +198,12 @@ const AppContent: React.FC = () => {
                       "@context": "https://schema.org",
                       "@type": "WebSite",
                       "name": "Marketing Extension",
-                      "url": "https://marketingextension.com",
+                      "url": "https://themarketingextension.com",
                       "potentialAction": {
                         "@type": "SearchAction",
                         "target": {
                           "@type": "EntryPoint",
-                          "urlTemplate": "https://marketingextension.com/case-studies?q={search_term_string}"
+                          "urlTemplate": "https://themarketingextension.com/case-studies?q={search_term_string}"
                         },
                         "query-input": "required name=search_term_string"
                       }

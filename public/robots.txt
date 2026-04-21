@@ -14,4 +14,4 @@ Disallow: /academy/certifications
 Disallow: /academy/community
 
 # Sitemap
-Sitemap: https://marketingextension.com/sitemap.xml
+Sitemap: https://themarketingextension.com/sitemap.xml

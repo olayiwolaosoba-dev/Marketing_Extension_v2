@@ -62,13 +62,13 @@ const AboutPage: React.FC = () => {
             <SEO
                 title="About Us — The Embedded Marketing Engine | Marketing Extension"
                 description="We're a distributed team of growth operators, strategists, and content marketers across 7 countries. We plug into your team, own the outcomes, and operate like an in-house squad."
-                canonical="https://marketingextension.com/about"
+                canonical="https://themarketingextension.com/about"
                 structuredData={[{
                     "@context": "https://schema.org",
                     "@type": "BreadcrumbList",
                     "itemListElement": [
-                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://marketingextension.com" },
-                        { "@type": "ListItem", "position": 2, "name": "About", "item": "https://marketingextension.com/about" }
+                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://themarketingextension.com" },
+                        { "@type": "ListItem", "position": 2, "name": "About", "item": "https://themarketingextension.com/about" }
                     ]
                 }]}
             />
